@@ -25,9 +25,9 @@ class App extends Component {
       "pages/cart/cart",
       "pages/user/user",
       "pages/user-login/user-login",
-      "pages/user-login-email/user-login-email",
       "pages/item/item",
       "pages/webview/webview",
+      "pages/publish/publish",
     ],
     window: {
       backgroundTextStyle: "light",
@@ -48,7 +48,7 @@ class App extends Component {
           text: "首页",
         },
         {
-          pagePath: "pages/cart/cart",
+          pagePath: "pages/publish/publish",
           iconPath: "./assets/tab-bar/cart.png",
           selectedIconPath: "./assets/tab-bar/cart-active.png",
           text: "发布",

@@ -1,0 +1,18 @@
+@import "@styles/theme.scss";
+
+.publish {
+  position: relative;
+  .publishForm {
+    padding: 20px;
+    .formItem {
+      margin-bottom: 20px;
+      .formTitle {
+        padding: 20px 0px;
+      }
+    }
+  }
+}
+
+.publish__empty {
+  height: 20px;
+}

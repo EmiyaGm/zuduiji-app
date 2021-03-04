@@ -3,12 +3,11 @@ import { View, Text, ScrollView } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import { AtButton, AtCard } from "taro-ui";
 import * as actions from "@actions/user";
-import { dispatchCartNum } from "@actions/cart";
 import { getWindowHeight } from "@utils/style";
 import Profile from "./profile";
 import "./user.scss";
 
-@connect((state) => state.user, { ...actions, dispatchCartNum })
+@connect((state) => state.user, { ...actions })
 class User extends Component {
   config = {
     navigationBarTitleText: "个人中心",
@@ -16,7 +15,6 @@ class User extends Component {
 
   componentDidShow() {
     this.props.dispatchUser();
-    this.props.dispatchCartNum();
   }
 
   handleLogin = () => {

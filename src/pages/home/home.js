@@ -1,150 +1,95 @@
-import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Image, ScrollView } from '@tarojs/components'
-import { Loading } from '@components'
-import { connect } from '@tarojs/redux'
-import * as actions from '@actions/home'
-import { dispatchCartNum } from '@actions/cart'
-import { getWindowHeight } from '@utils/style'
-import Banner from './banner'
-import Policy from './policy'
-import Pin from './pin'
-import Operation from './operation'
-import Manufactory from './manufactory'
-import FlashSale from './flash-sale'
-import Popular from './popular'
-import Category from './category'
-import Recommend from './recommend'
-import searchIcon from './assets/search.png'
-import './home.scss'
+import Taro, { Component } from "@tarojs/taro";
+import { View, Text, Image, ScrollView } from "@tarojs/components";
+import { Loading } from "@components";
+import { connect } from "@tarojs/redux";
+import * as actions from "@actions/home";
+import { AtGrid } from "taro-ui";
+import { dispatchCartNum } from "@actions/cart";
+import { getWindowHeight } from "@utils/style";
+import Banner from "./banner";
+import Policy from "./policy";
+import searchIcon from "./assets/search.png";
+import "./home.scss";
 
-const RECOMMEND_SIZE = 20
+const RECOMMEND_SIZE = 20;
 
-@connect(state => state.home, { ...actions, dispatchCartNum })
+@connect((state) => state.home, { ...actions, dispatchCartNum })
 class Home extends Component {
   config = {
-    navigationBarTitleText: '组队机'
-  }
+    navigationBarTitleText: "组队机",
+  };
 
   state = {
     loaded: false,
-    loading: false,
-    lastItemId: 0,
-    hasMore: true
-  }
+  };
 
   componentDidMount() {
     // NOTE 暂时去掉不适配的内容
-
     this.props.dispatchHome().then(() => {
       this.setState({ loaded: true })
-    })
-    this.props.dispatchCartNum()
-    this.props.dispatchSearchCount()
-    this.props.dispatchPin({ orderType: 4, size: 12 })
-    this.loadRecommend()
-  }
-
-  loadRecommend = () => {
-    if (!this.state.hasMore || this.state.loading) {
-      return
-    }
-
-    const payload = {
-      lastItemId: this.state.lastItemId,
-      size: RECOMMEND_SIZE
-    }
-    this.setState({ loading: true })
-    this.props.dispatchRecommend(payload).then((res) => {
-      const lastItem = res.rcmdItemList[res.rcmdItemList.length - 1]
-      this.setState({
-        loading: false,
-        hasMore: res.hasMore,
-        lastItemId: lastItem && lastItem.id
-      })
-    }).catch(() => {
-      this.setState({ loading: false })
     })
   }
 
   handlePrevent = () => {
     // XXX 时间关系，首页只实现底部推荐商品的点击
     Taro.showToast({
-      title: '目前只可点击底部推荐商品',
-      icon: 'none'
-    })
-  }
+      title: "目前只可点击底部推荐商品",
+      icon: "none",
+    });
+  };
 
-  render () {
+  render() {
     if (!this.state.loaded) {
-      return <Loading />
+      return <Loading />;
     }
 
-    const { homeInfo, searchCount, recommend, pin } = this.props
+    const { homeInfo, searchCount, recommend, pin } = this.props;
     return (
-      <View className='home'>
-        <View className='home__search'>
-          <View className='home__search-wrap' onClick={this.handlePrevent}>
-            <Image className='home__search-img' src={searchIcon} />
-            <Text className='home__search-txt'>
-              {`搜索商品，共${searchCount}款好物`}
-            </Text>
+      <View className="home">
+        <View className="home__search">
+          <View className="home__search-wrap" onClick={this.handlePrevent}>
+            <Image className="home__search-img" src={searchIcon} />
+            <Text className="home__search-txt">{"搜索卡片、卡包"}</Text>
           </View>
         </View>
         <ScrollView
           scrollY
-          className='home__wrap'
-          onScrollToLower={this.loadRecommend}
+          className="home__wrap"
+          onScrollToLower={() => {}}
           style={{ height: getWindowHeight() }}
         >
           <View onClick={this.handlePrevent}>
             <Banner list={homeInfo.focus} />
-            <Policy list={homeInfo.policyDesc} />
-
-            {/* 免费拼团 */}
-            <Pin
-              banner={homeInfo.newUserExclusive}
-              list={pin}
+            <AtGrid
+              columnNum="2"
+              data={[
+                {
+                  image:
+                    "https://img12.360buyimg.com/jdphoto/s72x72_jfs/t6160/14/2008729947/2754/7d512a86/595c3aeeNa89ddf71.png",
+                  value: "在线组队",
+                },
+                {
+                  image:
+                    "https://img20.360buyimg.com/jdphoto/s72x72_jfs/t15151/308/1012305375/2300/536ee6ef/5a411466N040a074b.png",
+                  value: "卡价查询",
+                },
+                {
+                  image:
+                    "https://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png",
+                  value: "店家列表",
+                },
+                {
+                  image:
+                    "https://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png",
+                  value: "直播列表",
+                },
+              ]}
             />
-
-            {/* 不知道叫啥 */}
-            {/* <Operation
-              list={homeInfo.operationCfg}
-              sale={homeInfo.saleCenter}
-            /> */}
-
-            {/* 品牌制造 */}
-            {/* <Manufactory
-              data={homeInfo.manufactory}
-              boss={homeInfo.dingBossRcmd}
-            /> */}
-
-            {/* 限时购 */}
-            {/* <FlashSale data={homeInfo.flashSale} /> */}
-
-            {/* 人气推荐 */}
-            {/* <Popular data={homeInfo.popularItems} /> */}
-
-            {/* 类目热销榜 */}
-            {/* <Category data={homeInfo.hotCategory} /> */}
           </View>
-
-          {/* 为你推荐 */}
-          <Recommend list={recommend} />
-
-          {this.state.loading &&
-            <View className='home__loading'>
-              <Text className='home__loading-txt'>正在加载中...</Text>
-            </View>
-          }
-          {!this.state.hasMore &&
-            <View className='home__loading home__loading--not-more'>
-              <Text className='home__loading-txt'>更多内容，敬请期待</Text>
-            </View>
-          }
         </ScrollView>
       </View>
-    )
+    );
   }
 }
 
-export default Home
+export default Home;
