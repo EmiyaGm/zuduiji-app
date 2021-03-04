@@ -21,6 +21,10 @@ class User extends Component {
     });
   };
 
+  handleLogout = () => {
+    this.dispatchLogout();
+  }
+
   render() {
     const { userInfo, loginInfo } = this.props;
 
@@ -33,8 +37,8 @@ class User extends Component {
         >
           <Profile userInfo={userInfo} loginInfo={loginInfo} />
           {loginInfo.token && (
-            <View className="user__logout" onClick={this.handleLogin}>
-              <Text className="user__logout-txt">切换账号</Text>
+            <View className="user__logout" onClick={this.handleLogout}>
+              <Text className="user__logout-txt">退出登录</Text>
             </View>
           )}
           <View className="user__empty" />
