@@ -1,29 +1,34 @@
-import { USER_INFO, USER_LOGIN, USER_LOGOUT } from '@constants/user'
+import { USER_INFO, USER_LOGIN, USER_LOGOUT } from "@constants/user";
 
 const INITIAL_STATE = {
-  userInfo: {}
-}
+  userInfo: {},
+  loginInfo: {},
+};
 
 export default function user(state = INITIAL_STATE, action) {
-  switch(action.type) {
+  switch (action.type) {
     case USER_INFO: {
       return {
         ...state,
         userInfo: {
           ...action.payload,
-          login: true
-        }
-      }
+        },
+      };
     }
     case USER_LOGIN: {
-      return { ...state }
+      return {
+        ...state,
+        loginInfo: {
+          ...action.payload,
+        },
+      };
     }
     case USER_LOGOUT: {
       return {
-        ...INITIAL_STATE
-      }
+        ...INITIAL_STATE,
+      };
     }
     default:
-      return state
+      return state;
   }
 }

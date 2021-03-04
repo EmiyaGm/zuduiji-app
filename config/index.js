@@ -1,65 +1,67 @@
-const path = require('path')
+const path = require("path");
 
 // NOTE 在 sass 中通过别名（@ 或 ~）引用需要指定路径
 const sassImporter = function(url) {
-  if (url[0] === '~' && url[1] !== '/') {
+  if (url[0] === "~" && url[1] !== "/") {
     return {
-      file: path.resolve(__dirname, '..', 'node_modules', url.substr(1))
-    }
+      file: path.resolve(__dirname, "..", "node_modules", url.substr(1)),
+    };
   }
 
-  const reg = /^@styles\/(.*)/
+  const reg = /^@styles\/(.*)/;
   return {
-    file: reg.test(url) ? path.resolve(__dirname, '..', 'src/styles', url.match(reg)[1]) : url
-  }
-}
+    file: reg.test(url)
+      ? path.resolve(__dirname, "..", "src/styles", url.match(reg)[1])
+      : url,
+  };
+};
 
 const config = {
-  projectName: 'zuduiji-weapp',
-  date: '2021-3-4',
+  projectName: "zuduiji-weapp",
+  date: "2021-3-4",
   designWidth: 750,
   deviceRatio: {
-    '640': 2.34 / 2,
-    '750': 1,
-    '828': 1.81 / 2
+    "640": 2.34 / 2,
+    "750": 1,
+    "828": 1.81 / 2,
   },
-  sourceRoot: 'src',
-  outputRoot: 'dist',
+  sourceRoot: "src",
+  outputRoot: "dist",
   plugins: {
     babel: {
       sourceMap: true,
       presets: [
-        ['env', {
-          modules: false
-        }]
+        [
+          "env",
+          {
+            modules: false,
+          },
+        ],
       ],
       plugins: [
-        'transform-decorators-legacy',
-        'transform-class-properties',
-        'transform-object-rest-spread'
-      ]
+        "transform-decorators-legacy",
+        "transform-class-properties",
+        "transform-object-rest-spread",
+      ],
     },
     sass: {
-      importer: sassImporter
-    }
+      importer: sassImporter,
+    },
   },
-  esnextModules: ['taro-ui'],
-  defineConstants: {
-  },
+  esnextModules: ["taro-ui"],
+  defineConstants: {},
   alias: {
-    '@actions': path.resolve(__dirname, '..', 'src/actions'),
-    '@assets': path.resolve(__dirname, '..', 'src/assets'),
-    '@components': path.resolve(__dirname, '..', 'src/components'),
-    '@constants': path.resolve(__dirname, '..', 'src/constants'),
-    '@reducers': path.resolve(__dirname, '..', 'src/reducers'),
-    '@styles': path.resolve(__dirname, '..', 'src/styles'),
-    '@utils': path.resolve(__dirname, '..', 'src/utils')
+    "@actions": path.resolve(__dirname, "..", "src/actions"),
+    "@assets": path.resolve(__dirname, "..", "src/assets"),
+    "@components": path.resolve(__dirname, "..", "src/components"),
+    "@constants": path.resolve(__dirname, "..", "src/constants"),
+    "@reducers": path.resolve(__dirname, "..", "src/reducers"),
+    "@styles": path.resolve(__dirname, "..", "src/styles"),
+    "@utils": path.resolve(__dirname, "..", "src/utils"),
   },
   copy: {
-    patterns: [
-    ],
-    options: {
-    }
+    patterns: [],
+    options: {},
   },
   weapp: {
     module: {
@@ -67,87 +69,77 @@ const config = {
         autoprefixer: {
           enable: true,
           config: {
-            browsers: [
-              'last 3 versions',
-              'Android >= 4.1',
-              'ios >= 8'
-            ]
-          }
+            browsers: ["last 3 versions", "Android >= 4.1", "ios >= 8"],
+          },
         },
         pxtransform: {
           enable: true,
-          config: {
-
-          }
+          config: {},
         },
         url: {
           enable: true,
           config: {
-            limit: 10240 // 设定转换尺寸上限
-          }
+            limit: 10240, // 设定转换尺寸上限
+          },
         },
         cssModules: {
           enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
           config: {
-            namingPattern: 'module', // 转换模式，取值为 global/module
-            generateScopedName: '[name]__[local]___[hash:base64:5]'
-          }
-        }
-      }
-    }
+            namingPattern: "module", // 转换模式，取值为 global/module
+            generateScopedName: "[name]__[local]___[hash:base64:5]",
+          },
+        },
+      },
+    },
   },
   h5: {
     // NOTE H5 打包静态资源时带 hash 值，方便缓存、版本管理
-    publicPath: '/',
-    staticDirectory: 'static',
+    publicPath: "/",
+    staticDirectory: "static",
     output: {
-      filename: 'js/[name].[hash].js',
-      chunkFilename: 'js/[name].[chunkhash].js'
+      filename: "js/[name].[hash].js",
+      chunkFilename: "js/[name].[chunkhash].js",
     },
     imageUrlLoaderOption: {
       limit: 5000,
-      name: 'static/images/[name].[hash].[ext]'
+      name: "static/images/[name].[hash].[ext]",
     },
     miniCssExtractPluginOption: {
-      filename: 'css/[name].[hash].css',
-      chunkFilename: 'css/[name].[chunkhash].css',
+      filename: "css/[name].[hash].css",
+      chunkFilename: "css/[name].[chunkhash].css",
     },
     module: {
       postcss: {
         autoprefixer: {
           enable: true,
           config: {
-            browsers: [
-              'last 3 versions',
-              'Android >= 4.1',
-              'ios >= 8'
-            ]
-          }
+            browsers: ["last 3 versions", "Android >= 4.1", "ios >= 8"],
+          },
         },
         cssModules: {
           enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
           config: {
-            namingPattern: 'module', // 转换模式，取值为 global/module
-            generateScopedName: '[name]__[local]___[hash:base64:5]'
-          }
-        }
-      }
+            namingPattern: "module", // 转换模式，取值为 global/module
+            generateScopedName: "[name]__[local]___[hash:base64:5]",
+          },
+        },
+      },
     },
     sassLoaderOption: {
-      importer: sassImporter
-    }
+      importer: sassImporter,
+    },
   },
   rn: {
     appJson: {
       // NOTE taro-native-shell 中默认用的是 taroDemo
-      name: 'taroDemo'
-    }
-  }
-}
+      name: "taroDemo",
+    },
+  },
+};
 
-module.exports = function (merge) {
-  if (process.env.NODE_ENV === 'development') {
-    return merge({}, config, require('./dev'))
+module.exports = function(merge) {
+  if (process.env.NODE_ENV === "development") {
+    return merge({}, config, require("./dev"));
   }
-  return merge({}, config, require('./prod'))
-}
+  return merge({}, config, require("./prod"));
+};

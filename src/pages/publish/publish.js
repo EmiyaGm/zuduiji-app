@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, ScrollView, Picker } from "@tarojs/components";
+import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import {
   AtForm,
@@ -64,6 +64,17 @@ class Publish extends Component {
     });
   };
 
+  chooseMessageFile = (e) => {
+    Taro.chooseMessageFile({
+      count: 10,
+      type: "pdf",
+      success: function(res) {
+        // tempFilePath可以作为img标签的src属性显示图片
+        const tempFilePaths = res.tempFilePaths;
+      },
+    });
+  };
+
   render() {
     return (
       <View className="publish">
@@ -123,6 +134,14 @@ class Publish extends Component {
               value={this.state.number}
               onChange={this.handleChange.bind(this, "number")}
             />
+            <AtInput
+              name="file"
+              title="序号总表"
+              editable={false}
+              type="text"
+              placeholder="上传"
+              onClick={this.chooseMessageFile.bind(this)}
+            />
           </View>
           <View className="formItem">
             <View className="formTitle">
@@ -151,7 +170,9 @@ class Publish extends Component {
             </View>
           </View>
 
-          <AtButton formType="submit" type="primary">提交</AtButton>
+          <AtButton formType="submit" type="primary">
+            提交
+          </AtButton>
           <View className="publish__empty" />
           <AtButton formType="reset">重置</AtButton>
         </AtForm>

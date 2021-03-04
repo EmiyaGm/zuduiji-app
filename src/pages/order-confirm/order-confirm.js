@@ -11,29 +11,29 @@ import {
   AtTextarea,
 } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
-import "./publish-detail.scss";
+import "./order-confirm.scss";
 
-class PublishDetail extends component {
+class OrderConfirm extends component {
   config = {
-    navigationBarTitleText: "组队详情",
+    navigationBarTitleText: "订单确认",
   };
 
   state = {};
 
   render() {
     return (
-      <View className="publish-detail">
-        <View className="imagesArea"></View>
-        <View className="priceArea">
+      <View className="order-confirm">
+        <View className="addressArea"></View>
+        <View className="goodsArea">
           <View className="price"></View>
           <View className="name"></View>
         </View>
         <View className="infoArea">
           <AtList>
-            <AtListItem title="组队进度" extraText="详细信息" />
-            <AtListItem title="分配规则" extraText="详细信息" />
-            <AtListItem title="开卡时间" extraText="详细信息" />
-            <AtListItem title="序号总表" extraText="详细信息" />
+            <AtListItem title="数量" extraText="详细信息" />
+            <AtListItem title="邮费" extraText="详细信息" />
+            <AtListItem title="留言" extraText="详细信息" />
+            <AtListItem title="合计" extraText="详细信息" />
           </AtList>
         </View>
         <View className="descArea"></View>
@@ -42,5 +42,4 @@ class PublishDetail extends component {
   }
 }
 
-export default PublishDetail;
-
+export default OrderConfirm;

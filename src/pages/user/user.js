@@ -13,9 +13,7 @@ class User extends Component {
     navigationBarTitleText: "个人中心",
   };
 
-  componentDidShow() {
-    this.props.dispatchUser();
-  }
+  componentDidShow() {}
 
   handleLogin = () => {
     Taro.navigateTo({
@@ -24,7 +22,7 @@ class User extends Component {
   };
 
   render() {
-    const { userInfo } = this.props;
+    const { userInfo, loginInfo } = this.props;
 
     return (
       <View className="user">
@@ -33,8 +31,8 @@ class User extends Component {
           className="user__wrap"
           style={{ height: getWindowHeight() }}
         >
-          <Profile userInfo={userInfo} />
-          {userInfo.login && (
+          <Profile userInfo={userInfo} loginInfo={loginInfo} />
+          {loginInfo.token && (
             <View className="user__logout" onClick={this.handleLogin}>
               <Text className="user__logout-txt">切换账号</Text>
             </View>
