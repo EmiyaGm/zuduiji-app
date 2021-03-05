@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { API_USER, API_USER_LOGIN } from "@constants/api";
+import { API_USER_LOGIN } from "@constants/api";
 
 const CODE_SUCCESS = "200";
 const CODE_AUTH_EXPIRED = "600";
@@ -30,9 +30,7 @@ export default async function fetch(options) {
     autoLogin = true,
   } = options;
   const token = await getStorage("token");
-  const header = token
-    ? { "Authorization": token }
-    : {};
+  const header = token ? { Authorization: token } : {};
   if (method === "POST") {
     header["content-type"] = "application/json";
   }
@@ -45,7 +43,12 @@ export default async function fetch(options) {
   })
     .then(async (res) => {
       if (res.data && res.data.length !== 2) {
-        await updateStorage({});
+        if (res.data.length === 4) {
+          Taro.showToast({
+            title: res.data[3][2],
+            icon: "none",
+          });
+        }
         return Promise.reject(res.data);
       }
 

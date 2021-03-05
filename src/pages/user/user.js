@@ -22,8 +22,8 @@ class User extends Component {
   };
 
   handleLogout = () => {
-    this.dispatchLogout();
-  }
+    this.props.dispatchLogout();
+  };
 
   render() {
     const { userInfo, loginInfo } = this.props;

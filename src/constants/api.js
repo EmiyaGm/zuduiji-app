@@ -37,3 +37,10 @@ export const API_CHECK_LOGIN = `${host}/xhr/u/checkLogin.json`
 // item
 export const API_ITEM = `${host}/xhr/item/detail.json`
 export const API_ITEM_RECOMMEND = `${host}/xhr/rcmd/itemDetail.json`
+
+// business
+export const API_BUSINESS_APPLY = `${host}/business/apply`
+
+// activity
+export const API_ACTIVITY_UPLOAD = `${host}/activity/upload`
+export const API_ACTIVITY_ADD = `${host}/activity/add`

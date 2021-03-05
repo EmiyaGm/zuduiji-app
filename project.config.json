@@ -2,7 +2,7 @@
 	"miniprogramRoot": "dist/",
 	"projectname": "zuduiji-weapp",
 	"description": "组队机（微信小程序 + H5 + React Native）",
-	"appid": "wx5339bac74ea02fb6",
+	"appid": "wx37e93bd126499263",
 	"setting": {
 		"urlCheck": false,
 		"es6": false,
