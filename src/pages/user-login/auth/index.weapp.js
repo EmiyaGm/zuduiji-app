@@ -14,21 +14,12 @@ export default class AUth extends Component {
       Taro.login({
         success: function(res) {
           if (res.code) {
-            //发起网络请求
-            Taro.request({
-              url: "http://zuduiji.simoncode.top/wx/login",
-              method: "POST",
-              data: [res.code],
-              success: (res) => {
-                if (res.data && res.data.length === 2) {
-                  self.props.dispatchLogin(res.data[1]);
-                  Taro.showToast({
-                    title: "登录成功！",
-                    icon: "none",
-                  });
-                  Taro.navigateBack({ delta: 2 });
-                }
-              },
+            self.props.dispatchLogin([res.code]).then(() => {
+              Taro.showToast({
+                title: "登录成功！",
+                icon: "none",
+              });
+              Taro.navigateBack({ delta: 2 });
             });
           } else {
             console.log("登录失败！" + res.errMsg);

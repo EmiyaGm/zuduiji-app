@@ -25,9 +25,7 @@ class Home extends Component {
 
   componentDidMount() {
     // NOTE 暂时去掉不适配的内容
-    this.props.dispatchHome().then(() => {
-      this.setState({ loaded: true })
-    })
+    this.setState({ loaded: true });
   }
 
   handlePrevent = () => {

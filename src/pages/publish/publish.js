@@ -29,7 +29,9 @@ class Publish extends Component {
     fare: "",
   };
 
-  componentDidShow() {}
+  componentDidShow() {
+    console.log(HOST);
+  }
 
   handleChange = (value) => {
     this.setState({
@@ -167,6 +169,31 @@ class Publish extends Component {
           <View className="formItem">
             <View className="formTitle">
               <Text>开卡设置</Text>
+            </View>
+            <Text>开卡时间</Text>
+            <View className="page-section">
+              <View>
+                <Picker mode="time" onChange={this.onTimeChange}>
+                  <AtList>
+                    <AtListItem
+                      title="请选择时间"
+                      extraText={this.state.timeSel}
+                    />
+                  </AtList>
+                </Picker>
+              </View>
+            </View>
+            <View className="page-section">
+              <View>
+                <Picker mode="date" onChange={this.onDateChange}>
+                  <AtList>
+                    <AtListItem
+                      title="请选择日期"
+                      extraText={this.state.dateSel}
+                    />
+                  </AtList>
+                </Picker>
+              </View>
             </View>
           </View>
 

@@ -4,7 +4,7 @@
  */
 /* eslint-disable */
 export const host = HOST
-export const hostM = HOST_M
+export const hostM = HOST
 /* eslint-enable */
 
 // pic
@@ -31,7 +31,7 @@ export const API_CART_UPDATE_CHECK = `${host}/xhr/promotionCart/updateCheck.json
 
 // user
 export const API_USER = `${host}/xhr/user/getDetail.json`
-export const API_USER_LOGIN = `${host}/xhr/u/mailLogin.json`
+export const API_USER_LOGIN = `${host}/wx/login`
 export const API_CHECK_LOGIN = `${host}/xhr/u/checkLogin.json`
 
 // item
