@@ -57,7 +57,7 @@ class Home extends Component {
           style={{ height: getWindowHeight() }}
         >
           <View onClick={this.handlePrevent}>
-            <Banner list={homeInfo.focus} />
+            {/* <Banner list={homeInfo.focus} /> */}
             <AtGrid
               columnNum="2"
               data={[

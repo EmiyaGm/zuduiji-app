@@ -25,6 +25,12 @@ class User extends Component {
     this.props.dispatchLogout();
   };
 
+  myPublish() {
+    Taro.navigateTo({
+      url: "/pages/my-publish/my-publish",
+    });
+  }
+
   render() {
     const { userInfo, loginInfo } = this.props;
 
@@ -42,11 +48,11 @@ class User extends Component {
             </View>
           )}
           <View className="user__empty" />
-          <AtCard extra="全部订单" title="我买的">
+          <AtCard extra="全部订单" title="我参与的">
             这也是内容区 可以随意定义功能
           </AtCard>
           <View className="user__empty" />
-          <AtCard extra="全部订单" title="我卖的">
+          <AtCard extra="全部订单" title="我发起的" onClick={this.myPublish}>
             这也是内容区 可以随意定义功能
           </AtCard>
         </ScrollView>

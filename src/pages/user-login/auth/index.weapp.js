@@ -2,6 +2,8 @@ import Taro, { Component } from "@tarojs/taro";
 import { connect } from "@tarojs/redux";
 import * as actions from "@actions/user";
 import { ButtonItem } from "@components";
+import fetch from "@utils/request";
+import { API_USER_INFO } from "@constants/api";
 
 // XXX 仅仅作为多端组件示例，实际只实现了邮箱登录
 @connect((state) => state.user, actions)
@@ -14,10 +16,29 @@ export default class AUth extends Component {
       Taro.login({
         success: function(res) {
           if (res.code) {
-            self.props.dispatchLogin([res.code]).then(() => {
-              Taro.showToast({
-                title: "登录成功！",
-                icon: "none",
+            Taro.showLoading({
+              title: "正在登录",
+            });
+            self.props.dispatchLogin([res.code]).then((rep) => {
+              fetch({
+                url: API_USER_INFO,
+                payload: [
+                  {
+                    ...e.detail,
+                    sessionKey: rep.account.sessionKey,
+                  },
+                ],
+                method: "POST",
+                showToast: false,
+                autoLogin: false,
+              }).then((result) => {
+                if (result) {
+                  Taro.hideLoading();
+                  Taro.showToast({
+                    title: "登录成功！",
+                    icon: "none",
+                  });
+                }
               });
               Taro.navigateBack({ delta: 2 });
             });

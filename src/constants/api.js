@@ -32,6 +32,7 @@ export const API_CART_UPDATE_CHECK = `${host}/xhr/promotionCart/updateCheck.json
 // user
 export const API_USER = `${host}/xhr/user/getDetail.json`
 export const API_USER_LOGIN = `${host}/wx/login`
+export const API_USER_INFO = `${host}/wx/info`
 export const API_CHECK_LOGIN = `${host}/xhr/u/checkLogin.json`
 
 // item
@@ -44,3 +45,5 @@ export const API_BUSINESS_APPLY = `${host}/business/apply`
 // activity
 export const API_ACTIVITY_UPLOAD = `${host}/activity/upload`
 export const API_ACTIVITY_ADD = `${host}/activity/add`
+export const API_MY_ACTIVITY = `${host}/activity/makeList`
+export const API_ACTIVITY_DETIL = `${host}/activity/details`

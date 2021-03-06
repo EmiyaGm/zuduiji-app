@@ -1,0 +1,29 @@
+.publish-detail {
+  .publish-detail__wrap {
+    .priceArea {
+      font-size: 40px;
+      padding: 24px;
+      .price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 24px;
+        .fare {
+          font-size: 32px;
+          color: #999999;
+        }
+      }
+    }
+    .bottomArea {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .share {
+        padding: 12px;
+      }
+      .buy {
+        padding: 12px;
+      }
+    }
+  }
+}

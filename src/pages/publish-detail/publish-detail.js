@@ -1,4 +1,4 @@
-import Taro, { Component } from "@tarojs/taro";
+import Taro, { Component, getCurrentInstance } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import {
@@ -10,37 +10,161 @@ import {
   AtListItem,
   AtTextarea,
 } from "taro-ui";
+import moment from "moment";
 import { getWindowHeight } from "@utils/style";
+import fetch from "@utils/request";
+import { API_ACTIVITY_DETIL } from "@constants/api";
+import Banner from "./banner";
 import "./publish-detail.scss";
 
-class PublishDetail extends component {
+class PublishDetail extends Component {
   config = {
     navigationBarTitleText: "组队详情",
   };
 
-  state = {};
+  state = {
+    id: "",
+    publishtDetail: {},
+    orders: [],
+    images: [],
+  };
+
+  componentDidMount() {
+    const params = this.$router.params;
+    if (params.id) {
+      this.setState({
+        id: params.id,
+      });
+      this.getDetail(params.id);
+    }
+  }
+
+  getDetail(id) {
+    const self = this;
+    fetch({
+      url: API_ACTIVITY_DETIL,
+      payload: [id],
+      method: "POST",
+      showToast: false,
+      autoLogin: false,
+    }).then((res) => {
+      if (res && res.activity) {
+        let images = [];
+        if (res.activity.images) {
+          images = res.activity.images.map((item, index) => {
+            return {
+              image: HOST_UPLOAD + item,
+              rank: index,
+            };
+          });
+        }
+        self.setState({
+          publishtDetail: res.activity,
+          orders: res.orders,
+          images,
+        });
+      }
+    });
+  }
+
+  openFile(file) {
+    Taro.downloadFile({
+      url: HOST_UPLOAD + file,
+      success: function(res) {
+        var filePath = res.tempFilePath;
+        Taro.openDocument({
+          filePath: filePath,
+          success: (res) => {
+            console.log("打开文档成功");
+          },
+        });
+      },
+    });
+  }
+
+  confirmOrder(id) {
+    Taro.navigateTo({
+      url: `/pages/order-confirm/order-confirm?id=${id}`,
+    });
+  }
 
   render() {
     return (
       <View className="publish-detail">
-        <View className="imagesArea"></View>
-        <View className="priceArea">
-          <View className="price"></View>
-          <View className="name"></View>
-        </View>
-        <View className="infoArea">
-          <AtList>
-            <AtListItem title="组队进度" extraText="详细信息" />
-            <AtListItem title="分配规则" extraText="详细信息" />
-            <AtListItem title="开卡时间" extraText="详细信息" />
-            <AtListItem title="序号总表" extraText="详细信息" />
-          </AtList>
-        </View>
-        <View className="descArea"></View>
+        <ScrollView
+          scrollY
+          className="publish-detail__wrap"
+          style={{ height: getWindowHeight() }}
+        >
+          <View className="imagesArea">
+            <Banner list={this.state.images} />
+          </View>
+          <View className="priceArea">
+            <View className="price">
+              <View style={{ color: "red" }}>
+                {this.state.publishtDetail.price / 100}
+              </View>
+              <View className="fare">
+                {this.state.publishtDetail.fare
+                  ? this.state.publishtDetail.fare / 100
+                  : "免运费"}
+              </View>
+            </View>
+            <View className="name">{this.state.publishtDetail.name}</View>
+          </View>
+          <View className="infoArea">
+            <AtList>
+              <AtListItem
+                title="组队进度"
+                extraText={`${
+                  this.state.publishtDetail.joinNum
+                    ? this.state.publishtDetail.joinNum
+                    : 0
+                }/${
+                  this.state.publishtDetail.num
+                    ? this.state.publishtDetail.num
+                    : 0
+                }`}
+              />
+              <AtListItem
+                title="分配规则"
+                extraText={this.state.publishtDetail.groupRule}
+              />
+              <AtListItem
+                title="开卡时间"
+                extraText="人齐就开"
+                note={moment(this.state.publishtDetail.openTime * 1000).format(
+                  "YYYY-MM-DD HH:mm:ss",
+                )}
+              />
+              <AtListItem
+                title="序号总表"
+                extraText="查看"
+                onClick={this.openFile.bind(
+                  this,
+                  this.state.publishtDetail.numsFile,
+                )}
+              />
+            </AtList>
+          </View>
+          <View className="descArea"></View>
+          <View className="bottomArea at-row">
+            <View className="share at-col at-col-4">
+              <AtButton type="primary">分享</AtButton>
+            </View>
+            <View className="buy at-col at-col-8">
+              <AtButton
+                type="primary"
+                onClick={this.confirmOrder.bind(this, this.state.id)}
+              >
+                报名参加
+              </AtButton>
+            </View>
+          </View>
+        </ScrollView>
       </View>
     );
   }
 }
 
 export default PublishDetail;
-

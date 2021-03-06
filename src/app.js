@@ -28,6 +28,9 @@ class App extends Component {
       "pages/item/item",
       "pages/webview/webview",
       "pages/publish/publish",
+      "pages/my-publish/my-publish",
+      "pages/publish-detail/publish-detail",
+      "pages/order-confirm/order-confirm",
     ],
     window: {
       backgroundTextStyle: "light",
