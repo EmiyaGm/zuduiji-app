@@ -1,0 +1,53 @@
+.order-detail {
+  .order-detail__wrap {
+    .statusArea {
+      padding: 24px;
+      text-align: center;
+      .status {
+        font-size: 36px;
+        padding-bottom: 24px;
+      }
+      .statusTip1 {
+        font-size: 28px;
+      }
+      .statusTip2 {
+        font-size: 24px;
+        color: #999999;
+      }
+    }
+    .addressArea {
+      display: flex;
+      align-items: center;
+      font-size: 32px;
+      padding: 24px;
+      .addressTitle {
+        text-align: center;
+        margin-right: 24px;
+      }
+    }
+    .goodsArea {
+      display: flex;
+      align-items: center;
+      padding: 24px;
+      font-size: 32px;
+      .content {
+        margin-left: 24px;
+        flex-grow: 1;
+        .price {
+          font-size: 28px;
+          .number {
+            float: right;
+          }
+        }
+      }
+    }
+    .codeArea {
+      padding: 24px;
+      font-size: 32px;
+      .title {
+        font-size: 28px;
+        padding-bottom: 24px;
+      }
+    }
+  }
+}

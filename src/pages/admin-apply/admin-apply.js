@@ -1,17 +1,16 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtActivityIndicator, AtTabs, AtTabsPane } from "taro-ui";
+import { AtActivityIndicator } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
-import { API_ACTIVITY_ORDERLIST } from "@constants/api";
-import OrderItem from "./order-item";
-import "./my-order.scss";
+import { API_BUSINESS_REVIEW, API_BUSINESS_LIST } from "@constants/api";
+import "./admin-apply.scss";
 
 let i = 1;
-class MyOrder extends Component {
+class AdminApply extends Component {
   config = {
-    navigationBarTitleText: "我参与的",
+    navigationBarTitleText: "商家审核",
     enablePullDownRefresh: true,
     onReachBottomDistance: 50,
   };
@@ -24,13 +23,15 @@ class MyOrder extends Component {
     dataList: [],
     tabList: [
       { title: "全部", type: "" },
-      { title: "待支付", type: "wait_pay" },
-      { title: "待发货", type: "bingo" },
-      { title: "待收货", type: "send" },
-      { title: "已完成", type: "unbingo" },
-      { title: "已关闭", type: "cancel" },
+      { title: "未审核", type: "never" },
+      { title: "审核通过", type: "pass" },
+      { title: "审核拒绝", type: "fail" },
     ],
   };
+
+  componentDidMount() {
+    this.onLoad();
+  }
 
   handleClick(value) {
     this.setState(
@@ -41,26 +42,6 @@ class MyOrder extends Component {
         this.onRefresh();
       },
     );
-  }
-
-  componentDidMount() {
-    const params = this.$router.params;
-    if (params.type) {
-      this.state.tabList.map((item, index) => {
-        if (item.type === params.type) {
-          this.setState(
-            {
-              current: index,
-            },
-            () => {
-              this.onLoad();
-            },
-          );
-        }
-      });
-    } else {
-      this.onLoad();
-    }
   }
 
   // 监听下拉刷新
@@ -79,9 +60,9 @@ class MyOrder extends Component {
   onLoad = () => {
     const self = this;
     fetch({
-      url: API_ACTIVITY_ORDERLIST,
+      url: API_BUSINESS_LIST,
       payload: [
-        self.state.tabList[self.state.current].type,
+        this.state.tabList[this.state.current].type,
         self.state.page * self.state.pagesize,
         self.state.pagesize,
       ],
@@ -111,21 +92,17 @@ class MyOrder extends Component {
 
   onRefresh() {
     i = 1;
-    this.setState(
-      {
-        dataList: [],
-        page: 0,
-      },
-      () => {
-        this.onLoad();
-      },
-    );
+    this.setState({
+      dataList: [],
+      page: 0,
+    });
+    this.onLoad();
   }
 
   render() {
     const { dataList } = this.state;
     return (
-      <View className="my-order">
+      <View className="admin-apply">
         <AtTabs
           current={this.state.current}
           tabList={this.state.tabList}
@@ -135,14 +112,10 @@ class MyOrder extends Component {
           {this.state.tabList.map((item, index) => {
             return (
               <AtTabsPane current={this.state.current} index={index}>
-                <View className="orderList">
-                  {dataList.map((order, index) => {
+                <View className="publishList">
+                  {dataList.map((item, index) => {
                     return (
-                      <OrderItem
-                        key={`${order.orders[0].order.id}`}
-                        orderData={order.orders[0].order}
-                        activityData={order.activity}
-                      />
+                      <View>1231231</View>
                     );
                   })}
                 </View>
@@ -167,4 +140,4 @@ class MyOrder extends Component {
   }
 }
 
-export default MyOrder;
+export default AdminApply;

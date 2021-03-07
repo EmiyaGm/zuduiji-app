@@ -41,6 +41,8 @@ export const API_ITEM_RECOMMEND = `${host}/xhr/rcmd/itemDetail.json`;
 
 // business
 export const API_BUSINESS_APPLY = `${host}/business/apply`;
+export const API_BUSINESS_LIST = `${host}/business/list`;
+export const API_BUSINESS_REVIEW = `${host}/business/review`;
 
 // activity
 export const API_ACTIVITY_UPLOAD = `${host}/activity/upload`;
@@ -50,3 +52,8 @@ export const API_ACTIVITY_DETIL = `${host}/activity/details`;
 export const API_ACTIVITY_ORDER = `${host}/activity/order`;
 export const API_ACTIVITY_NOTICE = `${host}/activity/notice`;
 export const API_ACTIVITY_ORDERLIST = `${host}/activity/orderList`;
+export const API_ACTIVITY_ORDERDETAIL = `${host}/activity/orderDetails`;
+export const API_ACTIVITY_ADMIMACTIVITYLIST = `${host}/activity/adminActivityList`;
+
+// account
+export const API_ACCOUNT_ACCOUNTS = `${host}/account/accounts`;

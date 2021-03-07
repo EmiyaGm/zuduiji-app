@@ -47,7 +47,10 @@ export default class OrderItem extends Component {
         <View className="statusContent">
           {this.getStatus(orderData.status)}
         </View>
-        <View className="headContent">
+        <View
+          className="headContent"
+          onClick={this.goDetail.bind(this, orderData.id)}
+        >
           <View className="coverArea">
             <AtAvatar
               image={

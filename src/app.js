@@ -33,6 +33,10 @@ class App extends Component {
       "pages/order-confirm/order-confirm",
       "pages/apply-success/apply-success",
       "pages/my-order/my-order",
+      "pages/order-detail/order-detail",
+      "pages/admin-publish/admin-publish",
+      "pages/admin-user/admin-user",
+      "pages/admin-apply/admin-apply",
     ],
     window: {
       backgroundTextStyle: "light",
