@@ -46,7 +46,7 @@ export default async function fetch(options) {
         if (res.data.length === 4) {
           Taro.showToast({
             title: res.data[3][2],
-            icon: "none",
+            icon: "error",
           });
         }
         return Promise.reject(res.data);

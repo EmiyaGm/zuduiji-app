@@ -1,0 +1,28 @@
+.apply-success {
+  .apply-success__wrap {
+    .successArea {
+      padding: 24px;
+      .imageArea {
+        text-align: center;
+        .successIcon {
+          width: 120px;
+          height: 120px;
+        }
+      }
+      .title {
+        text-align: center;
+        font-size: 36px;
+        font-weight: 700;
+      }
+      .tip {
+        padding: 24px;
+        font-size: 28px;
+      }
+    }
+    .tipArea {
+      font-size: 24px;
+      color: #999999;
+      padding: 24px;
+    }
+  }
+}

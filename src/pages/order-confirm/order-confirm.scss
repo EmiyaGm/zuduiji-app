@@ -1,0 +1,57 @@
+.order-confirm {
+  .order-confirm__wrap {
+    .addressArea {
+      display: flex;
+      align-items: center;
+      font-size: 32px;
+      padding: 24px;
+      .addressTitle {
+        text-align: center;
+        margin-right: 24px;
+      }
+    }
+    .goodsArea {
+      display: flex;
+      align-items: center;
+      padding: 24px;
+      font-size: 32px;
+      .content {
+        margin-left: 24px;
+        flex-grow: 1;
+        .price {
+          font-size: 28px;
+          .number {
+            float: right;
+          }
+        }
+      }
+    }
+    .infoArea {
+      .infos {
+        .infoItem {
+          padding: 24px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 32px;
+        }
+      }
+    }
+    .orderTip {
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+    .descArea {
+      font-size: 24px;
+      color: #999999;
+      padding: 24px;
+    }
+    .payArea {
+      position: absolute;
+      bottom: 0;
+      padding: 24px;
+      font-size: 32px;
+      align-items: center;
+    }
+  }
+}

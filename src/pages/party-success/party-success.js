@@ -13,7 +13,7 @@ import {
 import { getWindowHeight } from "@utils/style";
 import "./party-success.scss";
 
-class PartySuccess extends component {
+class PartySuccess extends Component {
   config = {
     navigationBarTitleText: "组队成功",
   };
