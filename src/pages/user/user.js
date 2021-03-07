@@ -31,6 +31,12 @@ class User extends Component {
     });
   }
 
+  myOrder() {
+    Taro.navigateTo({
+      url: "/pages/my-order/my-order",
+    });
+  }
+
   render() {
     const { userInfo, loginInfo } = this.props;
 
@@ -48,7 +54,7 @@ class User extends Component {
             </View>
           )}
           <View className="user__empty" />
-          <AtCard extra="全部订单" title="我参与的">
+          <AtCard extra="全部订单" title="我参与的" onClick={this.myOrder}>
             这也是内容区 可以随意定义功能
           </AtCard>
           <View className="user__empty" />

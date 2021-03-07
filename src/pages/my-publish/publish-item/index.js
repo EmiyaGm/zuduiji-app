@@ -34,7 +34,7 @@ export default class PublishItem extends Component {
           </View>
           <View className="nameArea">
             <View className="name">{publishData.name}</View>
-            <View className="price">{publishData.price / 100}</View>
+            <View className="price">￥ {publishData.price / 100}</View>
           </View>
         </View>
         <View className="middleContent">

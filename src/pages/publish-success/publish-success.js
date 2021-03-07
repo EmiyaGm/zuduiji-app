@@ -13,7 +13,7 @@ import {
 import { getWindowHeight } from "@utils/style";
 import "./publish-success.scss";
 
-class PublishSuccess extends component {
+class PublishSuccess extends Component {
   config = {
     navigationBarTitleText: "报名成功",
   };
@@ -23,9 +23,15 @@ class PublishSuccess extends component {
   render() {
     return (
       <View className="publish-success">
-        <View className="successArea"></View>
-        <View className="orderTip"></View>
-        <View className="tipArea"></View>
+        <ScrollView
+          scrollY
+          className="publish-success__wrap"
+          style={{ height: getWindowHeight() }}
+        >
+          <View className="successArea"></View>
+          <View className="orderTip"></View>
+          <View className="tipArea"></View>
+        </ScrollView>
       </View>
     );
   }

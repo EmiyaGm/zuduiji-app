@@ -32,6 +32,7 @@ class App extends Component {
       "pages/publish-detail/publish-detail",
       "pages/order-confirm/order-confirm",
       "pages/apply-success/apply-success",
+      "pages/my-order/my-order",
     ],
     window: {
       backgroundTextStyle: "light",

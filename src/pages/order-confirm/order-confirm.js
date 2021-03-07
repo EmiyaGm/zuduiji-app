@@ -10,7 +10,10 @@ import {
   AtAvatar,
 } from "taro-ui";
 import fetch from "@utils/request";
-import { API_ACTIVITY_DETIL, API_ACTIVITY_ORDER } from "@constants/api";
+import {
+  API_ACTIVITY_DETIL,
+  API_ACTIVITY_ORDER,
+} from "@constants/api";
 import { getWindowHeight } from "@utils/style";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./order-confirm.scss";
@@ -92,6 +95,37 @@ class OrderConfirm extends Component {
     });
   };
 
+  notice = () => {
+    wx.requestSubscribeMessage({
+      tmplIds: [
+        "ltd0x1AtVHBlIiuF5S46Ed2osQCITRIJM98Y0uUbnnk",
+        "IRbJ73aUzQGQt18XxrmkJZC0kWbcWqAEIXvNZ5lxwHg",
+      ],
+      success: (rep) => {
+        if (
+          rep["ltd0x1AtVHBlIiuF5S46Ed2osQCITRIJM98Y0uUbnnk"] === "accept" ||
+          rep["IRbJ73aUzQGQt18XxrmkJZC0kWbcWqAEIXvNZ5lxwHg"] === "accept"
+        ) {
+          Taro.showToast({
+            title: "订阅成功",
+            icon: "success",
+          });
+        } else {
+          Taro.showToast({
+            title: "订阅失败",
+            icon: "error",
+          });
+        }
+      },
+      fail: () => {
+        Taro.showToast({
+          title: "订阅失败",
+          icon: "error",
+        });
+      },
+    });
+  };
+
   render() {
     return (
       <View className="order-confirm">
@@ -168,6 +202,7 @@ class OrderConfirm extends Component {
                 title="订阅提醒"
                 extraText="立即订阅"
                 hasBorder={false}
+                onClick={this.notice.bind(this)}
               />
             </AtList>
           </View>

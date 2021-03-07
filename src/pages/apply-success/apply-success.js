@@ -1,17 +1,10 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
+import { View, ScrollView } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import {
-  AtForm,
-  AtInput,
-  AtButton,
-  AtImagePicker,
   AtList,
   AtListItem,
-  AtTextarea,
 } from "taro-ui";
-import fetch from "@utils/request";
-import { API_ACTIVITY_NOTICE } from "@constants/api";
 import { getWindowHeight } from "@utils/style";
 import successIcon from "@assets/success-icon.png";
 import "./apply-success.scss";
@@ -35,36 +28,30 @@ class ApplySuccess extends Component {
   }
 
   notice = () => {
-    const self = this;
-    Taro.requestSubscribeMessage({
+    wx.requestSubscribeMessage({
       tmplIds: [
         "ltd0x1AtVHBlIiuF5S46Ed2osQCITRIJM98Y0uUbnnk",
         "IRbJ73aUzQGQt18XxrmkJZC0kWbcWqAEIXvNZ5lxwHg",
       ],
-      success: () => {
-        fetch({
-          url: API_ACTIVITY_NOTICE,
-          payload: [self.state.id, "马上开奖", 10],
-          method: "POST",
-          showToast: false,
-          autoLogin: false,
-        }).then((res) => {
-          if (res) {
-            Taro.showToast({
-              title: "订阅成功",
-              icon: "success",
-            });
-          } else {
-            Taro.showToast({
-              title: "订阅失败",
-              icon: "error",
-            });
-          }
-        });
+      success: (rep) => {
+        if (
+          rep["ltd0x1AtVHBlIiuF5S46Ed2osQCITRIJM98Y0uUbnnk"] === "accept" ||
+          rep["IRbJ73aUzQGQt18XxrmkJZC0kWbcWqAEIXvNZ5lxwHg"] === "accept"
+        ) {
+          Taro.showToast({
+            title: "订阅成功",
+            icon: "success",
+          });
+        } else {
+          Taro.showToast({
+            title: "订阅失败",
+            icon: "error",
+          });
+        }
       },
       fail: () => {
         Taro.showToast({
-          title: "授权失败",
+          title: "订阅失败",
           icon: "error",
         });
       },

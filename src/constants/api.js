@@ -49,3 +49,4 @@ export const API_MY_ACTIVITY = `${host}/activity/makeList`;
 export const API_ACTIVITY_DETIL = `${host}/activity/details`;
 export const API_ACTIVITY_ORDER = `${host}/activity/order`;
 export const API_ACTIVITY_NOTICE = `${host}/activity/notice`;
+export const API_ACTIVITY_ORDERLIST = `${host}/activity/orderList`;
