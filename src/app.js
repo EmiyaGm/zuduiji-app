@@ -37,6 +37,8 @@ class App extends Component {
       "pages/admin-publish/admin-publish",
       "pages/admin-user/admin-user",
       "pages/admin-apply/admin-apply",
+      "pages/publish-order-list/publish-order-list",
+      "pages/publish-list/publish-list",
     ],
     window: {
       backgroundTextStyle: "light",

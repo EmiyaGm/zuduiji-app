@@ -6,12 +6,8 @@ import * as actions from "@actions/home";
 import { AtGrid } from "taro-ui";
 import { dispatchCartNum } from "@actions/cart";
 import { getWindowHeight } from "@utils/style";
-import Banner from "./banner";
-import Policy from "./policy";
 import searchIcon from "./assets/search.png";
 import "./home.scss";
-
-const RECOMMEND_SIZE = 20;
 
 @connect((state) => state.home, { ...actions, dispatchCartNum })
 class Home extends Component {
@@ -29,11 +25,23 @@ class Home extends Component {
   }
 
   handlePrevent = () => {
-    // XXX 时间关系，首页只实现底部推荐商品的点击
     Taro.showToast({
-      title: "目前只可点击底部推荐商品",
+      title: "暂不可用",
       icon: "none",
     });
+  };
+
+  handleGrid = (item, index) => {
+    if (index === 0) {
+      Taro.navigateTo({
+        url: "/pages/publish-list/publish-list",
+      });
+    } else {
+      Taro.showToast({
+        title: "暂不可用",
+        icon: "none",
+      });
+    }
   };
 
   render() {
@@ -41,13 +49,12 @@ class Home extends Component {
       return <Loading />;
     }
 
-    const { homeInfo, searchCount, recommend, pin } = this.props;
     return (
       <View className="home">
         <View className="home__search">
           <View className="home__search-wrap" onClick={this.handlePrevent}>
             <Image className="home__search-img" src={searchIcon} />
-            <Text className="home__search-txt">{"搜索卡片、卡包"}</Text>
+            <Text className="home__search-txt">{"搜索卡片、卡包、活动"}</Text>
           </View>
         </View>
         <ScrollView
@@ -56,10 +63,10 @@ class Home extends Component {
           onScrollToLower={() => {}}
           style={{ height: getWindowHeight() }}
         >
-          <View onClick={this.handlePrevent}>
-            {/* <Banner list={homeInfo.focus} /> */}
+          <View>
             <AtGrid
               columnNum="2"
+              onClick={this.handleGrid}
               data={[
                 {
                   image:

@@ -10,12 +10,14 @@ import {
   AtListItem,
   AtTextarea,
 } from "taro-ui";
+import * as actions from "@actions/user";
 import upload from "@utils/upload";
 import fetch from "@utils/request";
 import { API_ACTIVITY_ADD } from "@constants/api";
 import { getWindowHeight } from "@utils/style";
 import "./publish.scss";
 
+@connect((state) => state.user, { ...actions })
 class Publish extends Component {
   config = {
     navigationBarTitleText: "发布组队",
@@ -26,11 +28,12 @@ class Publish extends Component {
     files: [],
     introduce: "",
     groupRule: [
-      { name: "随机分配", data: "random" },
-      { name: "指定分配", data: "order" },
+      { name: "随机分组", data: "random_group" },
+      { name: "随机编号", data: "random_num" },
+      { name: "随机序号", data: "random_list" },
     ],
-    selectorChecked: "随机分配",
-    groupRuleChecked: "random",
+    selectorChecked: "随机分组",
+    groupRuleChecked: "random_group",
     num: "",
     price: "",
     fare: "",
@@ -39,11 +42,11 @@ class Publish extends Component {
     numsFileName: "",
     dateSel: "",
     timeSel: "",
+    numMin: "",
+    numMax: "",
   };
 
-  componentDidShow() {
-    console.log(HOST);
-  }
+  componentDidShow() {}
 
   handleChange = (key, value) => {
     this.setState({
@@ -65,6 +68,20 @@ class Publish extends Component {
 
   onSubmit = () => {
     const self = this;
+    const { userInfo, loginInfo } = this.props;
+    if (!loginInfo.token) {
+      Taro.showToast({
+        title: "请先登录",
+        icon: "none",
+      });
+      return;
+    } else if (loginInfo.account.role === "USER") {
+      Taro.showToast({
+        title: "只有商家才可以发布组队信息",
+        icon: "none",
+      });
+      return;
+    }
     if (
       !this.state.name ||
       !this.state.introduce ||
@@ -105,6 +122,23 @@ class Publish extends Component {
       });
       return;
     }
+    if (this.state.groupRuleChecked === "random_num") {
+      if (!this.state.numMin || !this.state.numMax) {
+        Taro.showToast({
+          title: "请填写最大最小编号",
+          icon: "none",
+        });
+        return;
+      }
+    } else if (this.state.groupRuleChecked === "random_list") {
+      if (!this.state.numMax) {
+        Taro.showToast({
+          title: "请填写最大编号",
+          icon: "none",
+        });
+        return;
+      }
+    }
     const sendValues = {
       name: this.state.name,
       introduce: this.state.introduce,
@@ -117,6 +151,8 @@ class Publish extends Component {
         new Date(this.state.dateSel + " " + this.state.timeSel).getTime() /
         1000,
       numsFile: this.state.numsFile,
+      numMax: this.state.numMax,
+      numMin: this.state.numMin,
     };
     fetch({
       url: API_ACTIVITY_ADD,
@@ -142,8 +178,8 @@ class Publish extends Component {
       name: "",
       files: [],
       introduce: "",
-      selectorChecked: "随机分配",
-      groupRuleChecked: "random",
+      selectorChecked: "随机分组",
+      groupRuleChecked: "random_group",
       num: "",
       price: "",
       fare: 0,
@@ -152,6 +188,8 @@ class Publish extends Component {
       numsFileName: "",
       dateSel: "",
       timeSel: "",
+      numMax: "",
+      numMin: "",
     });
   };
   onChange = (files, operationType, index) => {
@@ -196,6 +234,8 @@ class Publish extends Component {
     this.setState({
       selectorChecked: this.state.groupRule[e.detail.value].name,
       groupRuleChecked: this.state.groupRule[e.detail.value].data,
+      numMax: "",
+      numMin: "",
     });
   };
 
@@ -305,6 +345,36 @@ class Publish extends Component {
                 </AtList>
               </Picker>
             </View>
+            {this.state.selectorChecked === "随机编号" && (
+              <View>
+                <AtInput
+                  name="numMin"
+                  title="最小编号"
+                  type="number"
+                  placeholder="最小编号"
+                  value={this.state.numMin}
+                  onChange={this.handleChange.bind(this, "numMin")}
+                />
+                <AtInput
+                  name="numMax"
+                  title="最大编号"
+                  type="number"
+                  placeholder="最大编号"
+                  value={this.state.numMax}
+                  onChange={this.handleChange.bind(this, "numMax")}
+                />
+              </View>
+            )}
+            {this.state.selectorChecked === "随机序号" && (
+              <AtInput
+                name="numMax"
+                title="最大编号"
+                type="number"
+                placeholder="最大编号"
+                value={this.state.numMax}
+                onChange={this.handleChange.bind(this, "numMax")}
+              />
+            )}
             <AtInput
               name="num"
               title="组队数量"

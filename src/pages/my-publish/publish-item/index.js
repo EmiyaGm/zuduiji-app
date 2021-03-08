@@ -16,6 +16,12 @@ export default class PublishItem extends Component {
     });
   };
 
+  goOrderList = (id) => {
+    Taro.navigateTo({
+      url: `/pages/publish-order-list/publish-order-list?id=${id}`,
+    });
+  };
+
   render() {
     const { publishData } = this.props;
 
@@ -39,13 +45,16 @@ export default class PublishItem extends Component {
         </View>
         <View className="middleContent">
           <View className="at-row">
-            <View className="at-col">
+            <View
+              className="at-col"
+              onClick={this.goOrderList.bind(this, publishData.id)}
+            >
               <View
                 style={{
                   color: "lightblue",
                 }}
               >
-                0
+                {publishData.orderNums ? publishData.orderNums : 0}
               </View>
               <View>订单数</View>
             </View>
@@ -71,13 +80,17 @@ export default class PublishItem extends Component {
         </View>
         <View className="footContent">
           <View className="actionArea">
-            <Text className="actionItem">编辑</Text>
-            <Text className="actionItem" onClick={this.goDetail.bind(this, publishData.id)}>
+            <Text
+              className="actionItem"
+              onClick={this.goDetail.bind(this, publishData.id)}
+            >
               详情
             </Text>
             <Text>分享</Text>
           </View>
-          <View className="statuArea">去开播</View>
+          {publishData.status === "wait_open" && (
+            <View className="statuArea">去开播</View>
+          )}
         </View>
       </View>
     );

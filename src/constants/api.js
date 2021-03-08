@@ -55,6 +55,9 @@ export const API_ACTIVITY_ORDERLIST = `${host}/activity/orderList`;
 export const API_ACTIVITY_ORDERDETAIL = `${host}/activity/orderDetails`;
 export const API_ACTIVITY_ADMIMACTIVITYLIST = `${host}/activity/adminActivityList`;
 export const API_ACTIVITY_ADMINREVIEWACTIVITY = `${host}/activity/adminReviewActivity`;
+export const API_ACTIVITY_LUCKORDERLIST = `${host}/activity/luckOrderList`;
+export const API_ACTIVITY_USERACTIVITYLIST = `${host}/activity/userActivityList`;
+export const API_ACTIVITY_CANCELORDER = `${host}/activity/cancelOrder`;
 
 // account
 export const API_ACCOUNT_ACCOUNTS = `${host}/account/accounts`;
