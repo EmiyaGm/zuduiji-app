@@ -5,13 +5,13 @@ import { AtActivityIndicator } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
 import { API_MY_ACTIVITY } from "@constants/api";
-import "./my-publish.scss";
-import PublishItem from "./publish-item";
+import "./address-list.scss";
+import AddressItem from "./address-item";
 
 let i = 1;
-class MyPublish extends Component {
+class AddressList extends Component {
   config = {
-    navigationBarTitleText: "我发起的组队",
+    navigationBarTitleText: "地址管理",
     enablePullDownRefresh: true,
     onReachBottomDistance: 50,
   };
@@ -80,15 +80,15 @@ class MyPublish extends Component {
 
   render() {
     return (
-      <View className="my-publish">
+      <View className="address-list">
         <ScrollView
           scrollY
-          className="my-publish__wrap"
+          className="address-list__wrap"
           style={{ height: getWindowHeight() }}
         >
-          <View className="publishList">
+          <View className="addressList">
             {this.state.dataList.map((item, index) => {
-              return <PublishItem key={`${item.id}`} publishData={item} />;
+              return <AddressItem key={`${item.id}`} publishData={item} />;
             })}
           </View>
           {this.state.showActivity && (
@@ -109,4 +109,4 @@ class MyPublish extends Component {
   }
 }
 
-export default MyPublish;
+export default AddressList;
