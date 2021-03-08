@@ -11,7 +11,7 @@ import PublishItem from "./publish-item";
 let i = 1;
 class PublishList extends Component {
   config = {
-    navigationBarTitleText: "我发起的组队",
+    navigationBarTitleText: "寻找组队",
     enablePullDownRefresh: true,
     onReachBottomDistance: 50,
   };

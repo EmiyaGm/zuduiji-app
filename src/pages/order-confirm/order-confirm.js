@@ -5,15 +5,12 @@ import {
   AtButton,
   AtList,
   AtListItem,
-  AtTextarea,
+  AtInput,
   AtInputNumber,
   AtAvatar,
 } from "taro-ui";
 import fetch from "@utils/request";
-import {
-  API_ACTIVITY_DETIL,
-  API_ACTIVITY_ORDER,
-} from "@constants/api";
+import { API_ACTIVITY_DETIL, API_ACTIVITY_ORDER } from "@constants/api";
 import { getWindowHeight } from "@utils/style";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./order-confirm.scss";
@@ -28,6 +25,7 @@ class OrderConfirm extends Component {
     publishtDetail: {},
     num: 1,
     totalAmount: 0,
+    remark: "",
   };
 
   componentDidMount() {
@@ -38,6 +36,14 @@ class OrderConfirm extends Component {
       });
       this.getDetail(params.id);
     }
+  }
+
+  handleRemarkChange(value) {
+    this.setState({
+      remark: value,
+    });
+    // 在小程序中，如果想改变 value 的值，需要 `return value` 从而改变输入框的当前值
+    return value;
   }
 
   getDetail(id) {
@@ -79,6 +85,7 @@ class OrderConfirm extends Component {
         {
           activityId: this.state.id,
           num: this.state.num,
+          remark: this.state.remark,
         },
       ],
       method: "POST",
@@ -87,7 +94,7 @@ class OrderConfirm extends Component {
     }).then((res) => {
       if (res) {
         if (res.activityId) {
-          Taro.navigateTo({
+          Taro.redirectTo({
             url: `/pages/apply-success/apply-success?id=${res.activityId}`,
           });
         }
@@ -160,7 +167,7 @@ class OrderConfirm extends Component {
             <View className="content">
               <View className="name">{this.state.publishtDetail.name}</View>
               <View className="price">
-                {this.state.publishtDetail.price / 100}
+                ￥ {this.state.publishtDetail.price / 100}
                 <Text className="number">x1</Text>
               </View>
             </View>
@@ -189,7 +196,14 @@ class OrderConfirm extends Component {
                     : "免运费"
                 }
               />
-              <AtListItem title="留言" extraText="点击填写" />
+              <AtInput
+                name="remark"
+                title="留言"
+                type="text"
+                placeholder="填写留言"
+                value={this.state.remark}
+                onChange={this.handleRemarkChange.bind(this)}
+              />
               <AtListItem
                 title="合计"
                 extraText={`￥ ${this.state.totalAmount / 100}`}

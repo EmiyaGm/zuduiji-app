@@ -1,7 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtList, AtListItem, AtAvatar } from "taro-ui";
+import { AtList, AtListItem, AtAvatar, AtCountdown, AtButton } from "taro-ui";
 import fetch from "@utils/request";
 import { API_ACTIVITY_ORDERDETAIL, API_ACTIVITY_ORDER } from "@constants/api";
 import { getWindowHeight } from "@utils/style";
@@ -18,6 +18,8 @@ class OrderDetail extends Component {
     orderDetail: {},
     publishtDetail: {},
     activityItems: [],
+    minutes: 0,
+    seconds: 0,
   };
 
   componentDidMount() {
@@ -41,11 +43,16 @@ class OrderDetail extends Component {
     }).then((res) => {
       if (res && res.activity) {
         if (res.orders && Array.isArray(res.orders) && res.orders.length > 0) {
-          self.setState({
-            orderDetail: res.orders[0].order,
-            publishtDetail: res.activity,
-            activityItems: res.orders[0].activityItems,
-          });
+          self.setState(
+            {
+              orderDetail: res.orders[0].order,
+              publishtDetail: res.activity,
+              activityItems: res.orders[0].activityItems,
+            },
+            () => {
+              this.getCountDown(res.orders[0].order.payTimeOut);
+            },
+          );
         }
       }
     });
@@ -78,23 +85,110 @@ class OrderDetail extends Component {
     switch (status) {
       case "wait_pay":
         return "待支付";
-        break;
       case "bingo":
         return "待发货";
-        break;
       case "send":
         return "待收货";
-        break;
       case "unbingo":
         return "已完成";
-        break;
       case "cancel":
         return "已关闭";
-        break;
       default:
         return "";
     }
   }
+
+  getStatusTip(status) {
+    let tip1 = "";
+    switch (status) {
+      case "wait_pay":
+        tip1 = "请在15分钟内完成付款，否则将自动取消订单";
+        break;
+      case "bingo":
+        tip1 = "恭喜您已中奖，等待商家发货";
+        break;
+      case "send":
+        tip1 = "商家已发货，请在收到您的货品后确认收货";
+        break;
+      case "unbingo":
+        tip1 = "该订单已完成，期待您的下一次参与";
+        break;
+      case "cancel":
+        tip1 = "该订单关闭，期待您的下一次参与";
+        break;
+      default:
+        return "";
+    }
+    return tip1;
+  }
+
+  getCountDown(payTimeOut) {
+    const minusTime = payTimeOut * 1000 - new Date().getTime();
+    const HOUR = 1000 * 60 * 60;
+    const m = parseInt((minusTime % HOUR) / (1000 * 60));
+    const s = parseInt((minusTime % (1000 * 60)) / 1000);
+    this.setState({
+      minutes: m,
+      seconds: s,
+    });
+  }
+
+  payOrder = (id, num) => {
+    const self = this;
+    fetch({
+      url: API_ACTIVITY_ORDER,
+      payload: [
+        {
+          activityId: id,
+          num: num,
+        },
+      ],
+      method: "POST",
+      showToast: false,
+      autoLogin: false,
+    }).then((res) => {
+      if (res) {
+        if (res.activityId) {
+          Taro.navigateTo({
+            url: `/pages/apply-success/apply-success?id=${res.activityId}`,
+          });
+        }
+      }
+    });
+  };
+
+  // 需要删除的测试流程接口
+
+
+  cancelOrder = () => {
+    const self = this;
+    Taro.showModal({
+      title: "取消订单",
+      content: "确认取消该订单？",
+    }).then((res) => {
+      if (res.confirm) {
+        fetch({
+          url: API_ACTIVITY_CANCELORDER,
+          payload: [this.state.orderDetail.id],
+          method: "POST",
+          showToast: false,
+          autoLogin: false,
+        }).then((res) => {
+          if (res) {
+            Taro.showToast({
+              title: "取消成功",
+              icon: "success",
+            });
+          } else {
+            Taro.showToast({
+              title: "取消失败",
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
+  };
 
   render() {
     return (
@@ -108,8 +202,45 @@ class OrderDetail extends Component {
             <View className="status">
               {this.getStatus(this.state.orderDetail.status)}
             </View>
-            <View className="statusTip1">状态说明文案1</View>
-            <View className="statusTip2">状态说明文案2</View>
+            <View className="statusTip1">
+              {this.getStatusTip(this.state.orderDetail.status)}
+            </View>
+            <View className="statusTip2">
+              {this.state.orderDetail.status === "wait_pay" && (
+                <AtCountdown
+                  minutes={this.state.minutes}
+                  seconds={this.state.seconds}
+                />
+              )}
+            </View>
+            {this.state.orderDetail.status === "wait_pay" && (
+              <View className="buttonArea">
+                <View className="actionButton">
+                  <AtButton
+                    type="secondary"
+                    circle={true}
+                    size="small"
+                    onClick={this.cancelOrder.bind(this)}
+                  >
+                    取消订单
+                  </AtButton>
+                </View>
+                <View className="actionButton">
+                  <AtButton
+                    type="primary"
+                    circle={true}
+                    size="small"
+                    onClick={this.payOrder.bind(
+                      this,
+                      this.state.orderDetail.id,
+                      this.state.orderDetail.num,
+                    )}
+                  >
+                    确认支付
+                  </AtButton>
+                </View>
+              </View>
+            )}
           </View>
           <View className="addressArea">
             <View className="addressTitle">
@@ -144,7 +275,7 @@ class OrderDetail extends Component {
           </View>
           <View className="infoArea">
             <AtList>
-              <AtListItem title="数量" extraText={this.state.orderDetail.num} />
+              <AtListItem title="数量" extraText={`${this.state.orderDetail.num}`} />
               <AtListItem
                 title="邮费"
                 extraText={
@@ -153,7 +284,14 @@ class OrderDetail extends Component {
                     : "免运费"
                 }
               />
-              <AtListItem title="留言" extraText="123123" />
+              <AtListItem
+                title="留言"
+                extraText={
+                  this.state.orderDetail.remark
+                    ? this.state.orderDetail.remark
+                    : ""
+                }
+              />
               <AtListItem
                 title="合计"
                 extraText={`￥ ${this.state.orderDetail.amount / 100}`}

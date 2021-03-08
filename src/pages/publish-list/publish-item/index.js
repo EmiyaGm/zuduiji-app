@@ -16,12 +16,6 @@ export default class PublishItem extends Component {
     });
   };
 
-  goOrderList = (id) => {
-    Taro.navigateTo({
-      url: `/pages/publish-order-list/publish-order-list?id=${id}`,
-    });
-  };
-
   render() {
     const { publishData } = this.props;
 
@@ -47,7 +41,6 @@ export default class PublishItem extends Component {
           <View className="at-row">
             <View
               className="at-col"
-              onClick={this.goOrderList.bind(this, publishData.id)}
             >
               <View
                 style={{

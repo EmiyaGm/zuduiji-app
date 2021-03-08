@@ -102,7 +102,7 @@ class PublishDetail extends Component {
           <View className="priceArea">
             <View className="price">
               <View style={{ color: "red" }}>
-                {this.state.publishtDetail.price / 100}
+                ￥ {this.state.publishtDetail.price / 100}
               </View>
               <View className="fare">
                 {this.state.publishtDetail.fare
