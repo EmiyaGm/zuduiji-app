@@ -1,0 +1,28 @@
+.party-success {
+  padding: 24px;
+  .successArea {
+    padding: 24px;
+    .title {
+      font-size: 32px;
+      text-align: center;
+      padding-bottom: 24px;
+    }
+    .numTitle {
+      font-size: 24px;
+      padding-bottom: 24px;
+    }
+    .numArea {
+      display: flex;
+      align-items: center;
+      .numItem {
+        margin-right: 20px;
+        margin-bottom: 20px;
+        font-size: 32px;
+      }
+    }
+  }
+  .orderTip {
+    margin-top: 20px;
+    padding: 24px;
+  }
+}

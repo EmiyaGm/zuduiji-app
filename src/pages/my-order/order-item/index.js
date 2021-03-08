@@ -22,19 +22,16 @@ export default class OrderItem extends Component {
     switch (status) {
       case "wait_pay":
         return "待支付";
-        break;
+      case "wait_open":
+        return "待开奖";
       case "bingo":
         return "待发货";
-        break;
       case "send":
         return "待收货";
-        break;
       case "unbingo":
         return "已完成";
-        break;
       case "cancel":
         return "已关闭";
-        break;
       default:
         return "";
     }

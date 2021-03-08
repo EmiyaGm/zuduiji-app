@@ -85,6 +85,8 @@ class OrderDetail extends Component {
     switch (status) {
       case "wait_pay":
         return "待支付";
+      case "wait_open":
+        return "待开奖";
       case "bingo":
         return "待发货";
       case "send":
@@ -103,6 +105,9 @@ class OrderDetail extends Component {
     switch (status) {
       case "wait_pay":
         tip1 = "请在15分钟内完成付款，否则将自动取消订单";
+        break;
+      case "wait_open":
+        tip1 = "您已付款，等待商家开奖";
         break;
       case "bingo":
         tip1 = "恭喜您已中奖，等待商家发货";
@@ -158,7 +163,6 @@ class OrderDetail extends Component {
   };
 
   // 需要删除的测试流程接口
-
 
   cancelOrder = () => {
     const self = this;
@@ -275,7 +279,10 @@ class OrderDetail extends Component {
           </View>
           <View className="infoArea">
             <AtList>
-              <AtListItem title="数量" extraText={`${this.state.orderDetail.num}`} />
+              <AtListItem
+                title="数量"
+                extraText={`${this.state.orderDetail.num}`}
+              />
               <AtListItem
                 title="邮费"
                 extraText={
@@ -300,7 +307,15 @@ class OrderDetail extends Component {
           </View>
           <View className="codeArea">
             <View className="title">已为您分配序号：</View>
-            <View className="myCode"></View>
+            <View className="myCode">
+              {
+                this.state.activityItems.map((item, index) => {
+                  return (
+                    <View className="codeItem">{item.luckNum}</View>
+                  )
+                })
+              }
+            </View>
             <View className="title">中奖序号：</View>
             <View className="luckCode"></View>
           </View>

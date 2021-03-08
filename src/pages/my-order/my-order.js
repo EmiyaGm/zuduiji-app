@@ -25,6 +25,7 @@ class MyOrder extends Component {
     tabList: [
       { title: "全部", type: "" },
       { title: "待支付", type: "wait_pay" },
+      { title: "待开奖", type: "wait_open" },
       { title: "待发货", type: "bingo" },
       { title: "待收货", type: "send" },
       { title: "已完成", type: "unbingo" },

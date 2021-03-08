@@ -57,6 +57,14 @@
         font-size: 28px;
         padding-bottom: 24px;
       }
+      .myCode {
+        display: flex;
+        align-items: center;
+        .codeItem {
+          margin-right: 20px;
+          margin-bottom: 20px;
+        }
+      }
     }
   }
 }

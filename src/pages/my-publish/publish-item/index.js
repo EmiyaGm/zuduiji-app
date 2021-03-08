@@ -2,6 +2,7 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import { AtAvatar } from "taro-ui";
 import fetch from "@utils/request";
+import { API_ACTIVITY_NOTICE } from "@constants/api";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./index.scss";
 
@@ -19,6 +20,36 @@ export default class PublishItem extends Component {
   goOrderList = (id) => {
     Taro.navigateTo({
       url: `/pages/publish-order-list/publish-order-list?id=${id}`,
+    });
+  };
+
+  notice = (id) => {
+    const self = this;
+    Taro.showModal({
+      title: "发送开奖提醒",
+      content: "确认发送开奖提醒？",
+    }).then((res) => {
+      if (res.confirm) {
+        fetch({
+          url: API_ACTIVITY_NOTICE,
+          payload: [id, "您参与的活动马上就要开奖了，请前往直播间观看", 10],
+          method: "POST",
+          showToast: false,
+          autoLogin: false,
+        }).then((res) => {
+          if (res) {
+            Taro.showToast({
+              title: "发送成功",
+              icon: "success",
+            });
+          } else {
+            Taro.showToast({
+              title: "发送失败",
+              icon: "error",
+            });
+          }
+        });
+      }
     });
   };
 
@@ -89,7 +120,12 @@ export default class PublishItem extends Component {
             <Text>分享</Text>
           </View>
           {publishData.status === "wait_open" && (
-            <View className="statuArea">去开播</View>
+            <View
+              className="statuArea"
+              onClick={this.notice.bind(this, publishData.id)}
+            >
+              去开播
+            </View>
           )}
         </View>
       </View>
