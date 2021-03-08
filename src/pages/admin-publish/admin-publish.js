@@ -1,7 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtActivityIndicator } from "taro-ui";
+import { AtActivityIndicator, AtTabs, AtTabsPane } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
 import { API_ACTIVITY_ADMIMACTIVITYLIST } from "@constants/api";
@@ -117,9 +117,9 @@ class AdminPublish extends Component {
             return (
               <AtTabsPane current={this.state.current} index={index}>
                 <View className="publishList">
-                  {dataList.map((item, index) => {
+                  {dataList.map((publish, index) => {
                     return (
-                      <PublishItem key={`${item.id}`} publishData={item} />
+                      <PublishItem key={`${publish.id}`} publishData={publish} />
                     );
                   })}
                 </View>

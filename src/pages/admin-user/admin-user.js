@@ -1,10 +1,11 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtActivityIndicator } from "taro-ui";
+import { AtActivityIndicator, AtTabs, AtTabsPane } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
 import { API_ACCOUNT_ACCOUNTS } from "@constants/api";
+import UserItem from "./user-item";
 import "./admin-user.scss";
 
 let i = 1;
@@ -113,10 +114,8 @@ class AdminUser extends Component {
             return (
               <AtTabsPane current={this.state.current} index={index}>
                 <View className="userList">
-                  {dataList.map((item, index) => {
-                    return (
-                      <View>123123123123</View>
-                    );
+                  {dataList.map((user, index) => {
+                    return <UserItem userData={user} key={`${user.id}`} />;
                   })}
                 </View>
                 {this.state.showActivity && (

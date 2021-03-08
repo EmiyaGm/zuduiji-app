@@ -1,10 +1,11 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtActivityIndicator } from "taro-ui";
+import { AtActivityIndicator, AtTabs, AtTabsPane } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
 import { API_BUSINESS_REVIEW, API_BUSINESS_LIST } from "@constants/api";
+import ApplyItem from "./apply-item";
 import "./admin-apply.scss";
 
 let i = 1;
@@ -92,11 +93,15 @@ class AdminApply extends Component {
 
   onRefresh() {
     i = 1;
-    this.setState({
-      dataList: [],
-      page: 0,
-    });
-    this.onLoad();
+    this.setState(
+      {
+        dataList: [],
+        page: 0,
+      },
+      () => {
+        this.onLoad();
+      },
+    );
   }
 
   render() {
@@ -112,10 +117,10 @@ class AdminApply extends Component {
           {this.state.tabList.map((item, index) => {
             return (
               <AtTabsPane current={this.state.current} index={index}>
-                <View className="publishList">
-                  {dataList.map((item, index) => {
+                <View className="applyList">
+                  {dataList.map((apply, index2) => {
                     return (
-                      <View>1231231</View>
+                      <ApplyItem applyData={apply} key={`${apply.userId + index2}`} />
                     );
                   })}
                 </View>

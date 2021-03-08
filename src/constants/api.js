@@ -54,6 +54,9 @@ export const API_ACTIVITY_NOTICE = `${host}/activity/notice`;
 export const API_ACTIVITY_ORDERLIST = `${host}/activity/orderList`;
 export const API_ACTIVITY_ORDERDETAIL = `${host}/activity/orderDetails`;
 export const API_ACTIVITY_ADMIMACTIVITYLIST = `${host}/activity/adminActivityList`;
+export const API_ACTIVITY_ADMINREVIEWACTIVITY = `${host}/activity/adminReviewActivity`;
 
 // account
 export const API_ACCOUNT_ACCOUNTS = `${host}/account/accounts`;
+export const API_ACCOUNT_SETADMIN = `${host}/account/setAdmin`;
+export const API_ACCOUNT_SETBUSINESS = `${host}/account/setBusiness`;

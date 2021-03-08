@@ -2,6 +2,7 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import { AtAvatar } from "taro-ui";
 import fetch from "@utils/request";
+import { API_ACTIVITY_ADMINREVIEWACTIVITY } from "@constants/api";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./index.scss";
 
@@ -13,6 +14,36 @@ export default class PublishItem extends Component {
   goDetail = (id) => {
     Taro.navigateTo({
       url: `/pages/publish-detail/publish-detail?id=${id}`,
+    });
+  };
+
+  review = (status, id) => {
+    const self = this;
+    Taro.showModal({
+      title: "活动申请",
+      content: status === "pass" ? "确认通过？" : "确认拒绝",
+    }).then((res) => {
+      if (res.confirm) {
+        fetch({
+          url: API_ACTIVITY_ADMINREVIEWACTIVITY,
+          payload: [id, status, ""],
+          method: "POST",
+          showToast: false,
+          autoLogin: false,
+        }).then((res) => {
+          if (res) {
+            Taro.showToast({
+              title: "操作成功",
+              icon: "success",
+            });
+          } else {
+            Taro.showToast({
+              title: "操作失败",
+              icon: "error",
+            });
+          }
+        });
+      }
     });
   };
 
@@ -70,14 +101,22 @@ export default class PublishItem extends Component {
           </View>
         </View>
         <View className="footContent">
-          <View className="actionArea">
-            <Text className="actionItem">编辑</Text>
-            <Text className="actionItem" onClick={this.goDetail.bind(this, publishData.id)}>
-              详情
-            </Text>
-            <Text>分享</Text>
-          </View>
-          <View className="statuArea">去开播</View>
+          {publishData.status === "wait_review" && (
+            <View className="actionArea">
+              <Text
+                className="actionItem"
+                onClick={this.review.bind(this, "pass", publishData.id)}
+              >
+                审核通过
+              </Text>
+              <Text
+                className="actionItem"
+                onClick={this.review.bind(this, "fail", publishData.id)}
+              >
+                审核拒绝
+              </Text>
+            </View>
+          )}
         </View>
       </View>
     );
