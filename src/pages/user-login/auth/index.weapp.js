@@ -33,6 +33,7 @@ export default class AUth extends Component {
                 autoLogin: false,
               }).then((result) => {
                 if (result) {
+                  self.props.dispatchUser(result);
                   Taro.hideLoading();
                   Taro.showToast({
                     title: "登录成功！",

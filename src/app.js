@@ -38,6 +38,7 @@ class App extends Component {
       "pages/publish-list/publish-list",
       "pages/address-list/address-list",
       "pages/edit-address/edit-address",
+      "pages/publish-order-detail/publish-order-detail",
     ],
     window: {
       backgroundTextStyle: "light",

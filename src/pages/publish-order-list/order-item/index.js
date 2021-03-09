@@ -13,7 +13,7 @@ export default class OrderItem extends Component {
 
   goDetail = (id) => {
     Taro.navigateTo({
-      url: `/pages/order-detail/order-detail?id=${id}`,
+      url: `/pages/publish-order-detail/publish-order-detail?id=${id}`,
     });
   };
 

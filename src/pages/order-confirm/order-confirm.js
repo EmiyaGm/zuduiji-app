@@ -10,7 +10,11 @@ import {
   AtAvatar,
 } from "taro-ui";
 import fetch from "@utils/request";
-import { API_ACTIVITY_DETIL, API_ACTIVITY_ORDER } from "@constants/api";
+import {
+  API_ACTIVITY_DETIL,
+  API_ACTIVITY_ORDER,
+  API_ADDRESS_LIST,
+} from "@constants/api";
 import { getWindowHeight } from "@utils/style";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./order-confirm.scss";
@@ -26,6 +30,7 @@ class OrderConfirm extends Component {
     num: 1,
     totalAmount: 0,
     remark: "",
+    addressInfo: {},
   };
 
   componentDidMount() {
@@ -67,6 +72,28 @@ class OrderConfirm extends Component {
     });
   }
 
+  getAddress = () => {
+    const self = this;
+    fetch({
+      url: API_ADDRESS_LIST,
+      payload: [],
+      method: "POST",
+      showToast: false,
+      autoLogin: false,
+    }).then((res) => {
+      if (res) {
+        self.setState({
+          addressInfo: res,
+        });
+      } else {
+        Taro.showToast({
+          title: "暂无数据",
+          icon: "none",
+        });
+      }
+    });
+  };
+
   handleChange = (num) => {
     const totalAmount =
       num * this.state.publishtDetail.price +
@@ -79,27 +106,40 @@ class OrderConfirm extends Component {
 
   payOrder = () => {
     const self = this;
-    fetch({
-      url: API_ACTIVITY_ORDER,
-      payload: [
-        {
-          activityId: this.state.id,
-          num: this.state.num,
-          remark: this.state.remark,
-        },
-      ],
-      method: "POST",
-      showToast: false,
-      autoLogin: false,
-    }).then((res) => {
-      if (res) {
-        if (res.activityId) {
-          Taro.redirectTo({
-            url: `/pages/apply-success/apply-success?id=${res.activityId}`,
+    if (this.state.addressInfo.address) {
+      fetch({
+        url: API_ACTIVITY_ORDER,
+        payload: [
+          {
+            activityId: this.state.id,
+            num: this.state.num,
+            remark: this.state.remark,
+          },
+        ],
+        method: "POST",
+        showToast: false,
+        autoLogin: false,
+      }).then((res) => {
+        if (res) {
+          if (res.activityId) {
+            Taro.redirectTo({
+              url: `/pages/apply-success/apply-success?id=${res.activityId}`,
+            });
+          }
+        }
+      });
+    } else {
+      Taro.showModal({
+        title: "设置收货地址",
+        content: "请先设置自己的收货地址",
+      }).then((res) => {
+        if (res.confirm) {
+          Taro.navigateTo({
+            url: "/pages/edit-address/edit-address",
           });
         }
-      }
-    });
+      });
+    }
   };
 
   notice = () => {
@@ -146,11 +186,13 @@ class OrderConfirm extends Component {
               <View>
                 <View className="at-icon at-icon-map-pin"></View>
               </View>
-              <View>收货地址</View>
+              <View>{this.state.addressInfo.address}</View>
             </View>
             <View className="addressContent">
-              <View>姓名 电话</View>
-              <View>这里是具体地址</View>
+              <View>
+                {this.state.addressInfo.name} {this.state.addressInfo.phone}
+              </View>
+              <View>{this.state.addressInfo.address}</View>
             </View>
           </View>
           <View className="goodsArea">

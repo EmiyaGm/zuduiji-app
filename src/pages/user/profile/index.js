@@ -1,13 +1,14 @@
 import Taro, { Component } from "@tarojs/taro";
+import { connect } from "@tarojs/redux";
+import * as actions from "@actions/user";
 import { View, Text, Image } from "@tarojs/components";
-import fetch from "@utils/request";
-import { API_BUSINESS_APPLY } from "@constants/api";
+import { AtButton } from "taro-ui";
 import defaultAvatar from "@assets/default-avatar.png";
 import bg from "./assets/bg.png";
-import qrCode from "./assets/qr-code.png";
-import level01 from "./assets/level-01.png";
+import fetch from "@utils/request";
+import { API_USER_PHONE } from "@constants/api";
 import "./index.scss";
-
+@connect((state) => state.user, actions)
 export default class Profile extends Component {
   static defaultProps = {
     userInfo: {},
@@ -22,32 +23,36 @@ export default class Profile extends Component {
     }
   };
 
-  handleApply = () => {
-    fetch({ url: API_BUSINESS_APPLY, showToast: false, autoLogin: false }).then(
-      (res) => {
+  getPhoneNumber = (e) => {
+    const self = this;
+    const { errMsg } = e.detail ? e.detail : {};
+    if (errMsg === "getPhoneNumber:ok") {
+      fetch({
+        url: API_USER_PHONE,
+        payload: [
+          {
+            ...e.detail,
+            sessionKey: self.props.loginInfo.account.sessionKey,
+          },
+        ],
+        method: "POST",
+        showToast: false,
+        autoLogin: false,
+      }).then((res) => {
         if (res) {
+          self.props.dispatchUser(res);
           Taro.showToast({
-            title: "申请成功！",
-            icon: "none",
+            title: "获取成功",
+            icon: "success",
           });
         } else {
           Taro.showToast({
-            title: "申请失败，请稍后再试",
-            icon: "none",
+            title: "获取失败",
+            icon: "error",
           });
         }
-      },
-    );
-  };
-
-  getUid = (uid) => {
-    if (!uid || !/@/.test(uid)) {
-      return "";
+      });
     }
-    const [username, suffix] = uid.split("@");
-    const firstLetter = username[0];
-    const lastLetter = username[username.length - 1];
-    return `${firstLetter}****${lastLetter}@${suffix}`;
   };
 
   render() {
@@ -72,13 +77,18 @@ export default class Profile extends Component {
               {loginInfo.token ? userInfo.nickName : "未登录"}
             </Text>
             {loginInfo.token ? (
-              loginInfo.account && loginInfo.account.role === "USER" ? (
-                <Text
-                  className="user-profile__info-tip"
-                  onClick={this.handleApply}
-                >
-                  申请成为商家
-                </Text>
+              !userInfo.phone ? (
+                <View className="getPhoneButton">
+                  <AtButton
+                    type="primary"
+                    openType="getPhoneNumber"
+                    onGetPhoneNumber={this.getPhoneNumber}
+                    size="small"
+                    round
+                  >
+                    获取手机号
+                  </AtButton>
+                </View>
               ) : (
                 ""
               )

@@ -2,13 +2,24 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import { AtAvatar } from "taro-ui";
 import fetch from "@utils/request";
-import { API_ACTIVITY_NOTICE } from "@constants/api";
+import { API_ACTIVITY_NOTICE, API_ACTIVITY_SETLUCKNUMS } from "@constants/api";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./index.scss";
 
 export default class PublishItem extends Component {
   static defaultProps = {
     publishData: {},
+  };
+
+  state = {
+    isOpenShow: false,
+    luckNums: "",
+  };
+
+  handleChange = (key, value) => {
+    this.setState({
+      [key]: value,
+    });
   };
 
   goDetail = (id) => {
@@ -53,8 +64,54 @@ export default class PublishItem extends Component {
     });
   };
 
+  setLuckNums = () => {
+    const self = this;
+    if (this.state.luckNums) {
+      const luckNums = this.state.luckNums.split(",");
+      if (luckNums.length > 0) {
+        fetch({
+          url: API_ACTIVITY_SETLUCKNUMS,
+          payload: [this.props.publishData.id, luckNums],
+          method: "POST",
+          showToast: false,
+          autoLogin: false,
+        }).then((res) => {
+          if (res) {
+            Taro.showToast({
+              title: "设置成功",
+              icon: "success",
+            });
+            self.setState({
+              isOpenShow: false,
+            })
+          } else {
+            Taro.showToast({
+              title: "设置失败",
+              icon: "error",
+            });
+          }
+        });
+      } else {
+        Taro.showToast({
+          title: "中奖号码不合法",
+        });
+      }
+    } else {
+      Taro.showToast({
+        title: "请填写中奖号码",
+      });
+    }
+  };
+
+  openShow = (isShow) => {
+    this.setState({
+      isOpenShow: isShow,
+    });
+  };
+
   render() {
     const { publishData } = this.props;
+    const { isOpenShow } = this.state;
 
     return (
       <View className="publish-item">
@@ -124,9 +181,35 @@ export default class PublishItem extends Component {
               className="statuArea"
               onClick={this.notice.bind(this, publishData.id)}
             >
-              去开播
+              发送开播提醒
             </View>
           )}
+          {publishData.status === "wait_open" && (
+            <View
+              className="statuArea"
+              onClick={this.openShow.bind(this, true)}
+            >
+              开奖
+            </View>
+          )}
+          <AtModal isOpened={isOpenShow}>
+            <AtModalHeader>请输入开奖号码</AtModalHeader>
+            <AtModalContent>
+              <View>请输入开奖号码，并用英文逗号 ',' 做分隔</View>
+              <AtInput
+                name="luckNums"
+                title="开奖号码"
+                type="text"
+                placeholder="开奖号码"
+                value={this.state.luckNums}
+                onChange={this.handleChange.bind(this, "luckNums")}
+              />
+            </AtModalContent>
+            <AtModalAction>
+              <Button onClick={this.openShow.bind(this, false)}>取消</Button>{" "}
+              <Button onClick={this.setLuckNums.bind(this)}>确定</Button>
+            </AtModalAction>
+          </AtModal>
         </View>
       </View>
     );

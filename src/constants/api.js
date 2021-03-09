@@ -33,6 +33,7 @@ export const API_CART_UPDATE_CHECK = `${host}/xhr/promotionCart/updateCheck.json
 export const API_USER = `${host}/xhr/user/getDetail.json`;
 export const API_USER_LOGIN = `${host}/wx/login`;
 export const API_USER_INFO = `${host}/wx/info`;
+export const API_USER_PHONE = `${host}/wx/phone`
 export const API_CHECK_LOGIN = `${host}/xhr/u/checkLogin.json`;
 
 // item
@@ -58,7 +59,8 @@ export const API_ACTIVITY_ADMINREVIEWACTIVITY = `${host}/activity/adminReviewAct
 export const API_ACTIVITY_LUCKORDERLIST = `${host}/activity/luckOrderList`;
 export const API_ACTIVITY_USERACTIVITYLIST = `${host}/activity/userActivityList`;
 export const API_ACTIVITY_CANCELORDER = `${host}/activity/cancelOrder`;
-
+export const API_ACTIVITY_SETLUCKNUMS = `${host}/activity/setLuckNums`;
+export const API_ACTIVITY_LOGISTICS = `${host}/activity/logistics`;
 // account
 export const API_ACCOUNT_ACCOUNTS = `${host}/account/accounts`;
 export const API_ACCOUNT_SETADMIN = `${host}/account/setAdmin`;
