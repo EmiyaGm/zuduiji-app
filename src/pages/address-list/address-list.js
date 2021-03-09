@@ -1,10 +1,10 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtActivityIndicator } from "taro-ui";
+import { AtActivityIndicator, AtButton } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
-import { API_MY_ACTIVITY } from "@constants/api";
+import { API_ADDRESS_LIST } from "@constants/api";
 import "./address-list.scss";
 import AddressItem from "./address-item";
 
@@ -12,8 +12,6 @@ let i = 1;
 class AddressList extends Component {
   config = {
     navigationBarTitleText: "地址管理",
-    enablePullDownRefresh: true,
-    onReachBottomDistance: 50,
   };
 
   state = {
@@ -27,39 +25,19 @@ class AddressList extends Component {
     this.onLoad();
   }
 
-  // 监听下拉刷新
-  onPullDownRefresh() {
-    this.onRefresh();
-  }
-  // 监听上拉触底
-  onReachBottom() {
-    i++;
-    this.setState({
-      showActivity: true,
-    });
-    this.onLoad();
-  }
-
   onLoad = () => {
     const self = this;
     fetch({
-      url: API_MY_ACTIVITY,
-      payload: [self.state.page * self.state.pagesize, self.state.pagesize],
+      url: API_ADDRESS_LIST,
+      payload: [],
       method: "POST",
       showToast: false,
       autoLogin: false,
     }).then((res) => {
       if (res) {
-        if (Array.isArray(res) && res.length > 0) {
-          self.setState({
-            dataList: [...self.state.dataList, ...res],
-            page: self.state.page + 1,
-          });
-        } else {
-          self.setState({
-            showActivity: false,
-          });
-        }
+        self.setState({
+          dataList: [res],
+        });
       } else {
         Taro.showToast({
           title: "暂无数据",
@@ -78,6 +56,12 @@ class AddressList extends Component {
     this.onLoad();
   }
 
+  addAddress = () => {
+    Taro.navigateTo({
+      url: "/pages/edit-address/edit-address",
+    });
+  };
+
   render() {
     return (
       <View className="address-list">
@@ -88,9 +72,14 @@ class AddressList extends Component {
         >
           <View className="addressList">
             {this.state.dataList.map((item, index) => {
-              return <AddressItem key={`${item.id}`} publishData={item} />;
+              return <AddressItem key={`${item.id}`} addressData={item} />;
             })}
           </View>
+          {this.state.dataList.length === 0 && (
+            <AtButton type="primary" onClick={this.addAddress.bind(this)}>
+              新增地址
+            </AtButton>
+          )}
           {this.state.showActivity && (
             <View
               style={{

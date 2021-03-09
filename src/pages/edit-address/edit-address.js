@@ -1,10 +1,10 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtForm, AtInput } from "taro-ui";
+import { AtForm, AtInput, AtButton } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
-import { API_MY_ACTIVITY } from "@constants/api";
+import { API_ADDRESS_ADDRESS, API_ADDRESS_LIST } from "@constants/api";
 import "./edit-address.scss";
 
 class EditAddress extends Component {
@@ -13,18 +13,97 @@ class EditAddress extends Component {
   };
 
   state = {
+    id: "",
     name: "",
     phone: "",
     address: "",
-    detail: "",
   };
 
-  handleChange(value) {
-    this.setState({
-      value,
-    });
+  componentDidMount() {
+    const params = this.$router.params;
+    if (params.id) {
+      this.setState(
+        {
+          id: params.id,
+        },
+        () => {
+          this.getAddress();
+        },
+      );
+    }
   }
-  onSubmit(event) {}
+
+  getAddress = () => {
+    const self = this;
+    fetch({
+      url: API_ADDRESS_LIST,
+      payload: [],
+      method: "POST",
+      showToast: false,
+      autoLogin: false,
+    }).then((res) => {
+      if (res) {
+        self.setState({
+          name: res.name,
+          phone: res.phone,
+          address: res.address,
+        });
+      } else {
+        Taro.showToast({
+          title: "暂无数据",
+          icon: "none",
+        });
+      }
+    });
+  };
+
+  handleChange = (key, value) => {
+    this.setState({
+      [key]: value,
+    });
+  };
+
+  onSubmit(event) {
+    const { name, phone, address } = this.state;
+    if (name && phone && address) {
+      let sendValues = {
+        name,
+        phone,
+        address,
+      };
+      if (this.state.id) {
+        sendValues = {
+          ...sendValues,
+          id: this.state.id,
+        };
+      }
+      fetch({
+        url: API_ADDRESS_ADDRESS,
+        payload: [sendValues],
+        method: "POST",
+        showToast: false,
+        autoLogin: false,
+      }).then((res) => {
+        if (res) {
+          Taro.showToast({
+            title: "提交成功",
+            icon: "none",
+          });
+          Taro.navigateBack({ delta: 1 });
+        } else {
+          Taro.showToast({
+            title: "提交失败",
+            icon: "error",
+          });
+        }
+      });
+    } else {
+      Taro.showToast({
+        title: "请输入地址信息内容",
+        icon: "none",
+      });
+    }
+  }
   onReset(event) {
     this.setState({
       name: "",
@@ -33,8 +112,6 @@ class EditAddress extends Component {
       detail: "",
     });
   }
-
-  componentDidMount() {}
 
   render() {
     return (
@@ -53,7 +130,7 @@ class EditAddress extends Component {
               title="联系人"
               type="text"
               placeholder="输入联系人"
-              value={this.state.value}
+              value={this.state.name}
               onChange={this.handleChange.bind(this, "name")}
             />
             <AtInput
@@ -66,21 +143,13 @@ class EditAddress extends Component {
             />
             <AtInput
               name="address"
-              title="所在地区"
+              title="配送地址"
               type="text"
-              placeholder="输入所在地区"
+              placeholder="输入配送地址"
               value={this.state.address}
               onChange={this.handleChange.bind(this, "address")}
             />
-            <AtInput
-              name="detail"
-              title="详细地址"
-              type="text"
-              placeholder="输入详细地址"
-              value={this.state.detail}
-              onChange={this.handleChange.bind(this, "detail")}
-            />
-            <AtButton formType="submit">提交</AtButton>
+            <AtButton formType="submit" className="submitButton">提交</AtButton>
             <AtButton formType="reset">重置</AtButton>
           </AtForm>
         </ScrollView>

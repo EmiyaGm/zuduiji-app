@@ -85,6 +85,12 @@ class User extends Component {
     });
   };
 
+  goAddress = () => {
+    Taro.navigateTo({
+      url: '/pages/address-list/address-list'
+    })
+  }
+
   render() {
     const { userInfo, loginInfo } = this.props;
 
@@ -181,7 +187,7 @@ class User extends Component {
               ) : (
                 ""
               )}
-              <AtListItem title="收货地址" arrow="right" />
+              <AtListItem title="收货地址" arrow="right" onClick={this.goAddress.bind(this)} />
               <AtListItem title="联系客服" arrow="right" />
             </AtList>
           </View>

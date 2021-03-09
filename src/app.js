@@ -20,9 +20,6 @@ class App extends Component {
   config = {
     pages: [
       "pages/home/home",
-      "pages/cate/cate",
-      "pages/cate-sub/cate-sub",
-      "pages/cart/cart",
       "pages/user/user",
       "pages/user-login/user-login",
       "pages/item/item",
@@ -39,6 +36,8 @@ class App extends Component {
       "pages/admin-apply/admin-apply",
       "pages/publish-order-list/publish-order-list",
       "pages/publish-list/publish-list",
+      "pages/address-list/address-list",
+      "pages/edit-address/edit-address",
     ],
     window: {
       backgroundTextStyle: "light",

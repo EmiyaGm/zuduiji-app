@@ -89,6 +89,11 @@ class PublishDetail extends Component {
   }
 
   render() {
+    const groupRule = {
+      random_group: "随机分组",
+      random_num: "随机编号",
+      random_list: "随机序号",
+    };
     return (
       <View className="publish-detail">
         <ScrollView
@@ -106,7 +111,7 @@ class PublishDetail extends Component {
               </View>
               <View className="fare">
                 {this.state.publishtDetail.fare
-                  ? this.state.publishtDetail.fare / 100
+                  ? `运费：￥ ${this.state.publishtDetail.fare / 100}`
                   : "免运费"}
               </View>
             </View>
@@ -128,7 +133,7 @@ class PublishDetail extends Component {
               />
               <AtListItem
                 title="分配规则"
-                extraText={this.state.publishtDetail.groupRule}
+                extraText={groupRule[this.state.publishtDetail.groupRule]}
               />
               <AtListItem
                 title="开卡时间"
@@ -146,21 +151,27 @@ class PublishDetail extends Component {
                 )}
               />
             </AtList>
+            <View className="introduceArea">
+              <View>活动介绍：</View>
+              {this.state.publishtDetail.introduce}
+            </View>
           </View>
           <View className="descArea"></View>
-          <View className="bottomArea at-row">
-            <View className="share at-col at-col-4">
-              <AtButton type="primary">分享</AtButton>
+          {this.state.publishtDetail.status === "wait_team" && (
+            <View className="bottomArea at-row">
+              <View className="share at-col at-col-4">
+                <AtButton type="primary">分享</AtButton>
+              </View>
+              <View className="buy at-col at-col-8">
+                <AtButton
+                  type="primary"
+                  onClick={this.confirmOrder.bind(this, this.state.id)}
+                >
+                  报名参加
+                </AtButton>
+              </View>
             </View>
-            <View className="buy at-col at-col-8">
-              <AtButton
-                type="primary"
-                onClick={this.confirmOrder.bind(this, this.state.id)}
-              >
-                报名参加
-              </AtButton>
-            </View>
-          </View>
+          )}
         </ScrollView>
       </View>
     );

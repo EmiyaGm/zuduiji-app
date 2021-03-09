@@ -45,9 +45,9 @@ class UserLogin extends Component {
 
     return (
       <View className='user-login'>
-        <View className='user-login__logo'>
+        {/* <View className='user-login__logo'>
           <Image src={LOGO} className='user-login__logo-img' />
-        </View>
+        </View> */}
         <Auth />
       </View>
     )

@@ -63,3 +63,8 @@ export const API_ACTIVITY_CANCELORDER = `${host}/activity/cancelOrder`;
 export const API_ACCOUNT_ACCOUNTS = `${host}/account/accounts`;
 export const API_ACCOUNT_SETADMIN = `${host}/account/setAdmin`;
 export const API_ACCOUNT_SETBUSINESS = `${host}/account/setBusiness`;
+
+// address
+export const API_ADDRESS_LIST = `${host}/address/list`;
+export const API_ADDRESS_ADDRESS = `${host}/address/address`;
+export const API_ADDRESS_DELETE = `${host}/address/delete`;
