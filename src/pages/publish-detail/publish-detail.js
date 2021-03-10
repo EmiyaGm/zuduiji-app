@@ -53,7 +53,7 @@ class PublishDetail extends Component {
         if (res.activity.images) {
           images = res.activity.images.map((item, index) => {
             return {
-              image: HOST_UPLOAD + item,
+              img: HOST_UPLOAD + item,
               rank: index,
             };
           });

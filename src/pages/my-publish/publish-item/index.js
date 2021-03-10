@@ -1,6 +1,13 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
-import { AtAvatar } from "taro-ui";
+import {
+  AtAvatar,
+  AtModal,
+  AtModalHeader,
+  AtModalContent,
+  AtModalAction,
+  AtInput,
+} from "taro-ui";
 import fetch from "@utils/request";
 import { API_ACTIVITY_NOTICE, API_ACTIVITY_SETLUCKNUMS } from "@constants/api";
 import defaultAvatar from "@assets/default-avatar.png";
@@ -83,7 +90,7 @@ export default class PublishItem extends Component {
             });
             self.setState({
               isOpenShow: false,
-            })
+            });
           } else {
             Taro.showToast({
               title: "设置失败",

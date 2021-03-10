@@ -14,6 +14,7 @@ import * as actions from "@actions/user";
 import upload from "@utils/upload";
 import fetch from "@utils/request";
 import { API_ACTIVITY_ADD } from "@constants/api";
+import moment from "moment";
 import { getWindowHeight } from "@utils/style";
 import "./publish.scss";
 
@@ -148,8 +149,7 @@ class Publish extends Component {
       groupRule: this.state.groupRuleChecked,
       fare: this.state.fare * 100,
       openTime:
-        new Date(this.state.dateSel + " " + this.state.timeSel).getTime() /
-        1000,
+        moment(this.state.dateSel + " " + this.state.timeSel).valueOf() / 1000,
       numsFile: this.state.numsFile,
       numMax: this.state.numMax,
       numMin: this.state.numMin,

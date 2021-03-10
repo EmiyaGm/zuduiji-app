@@ -1,7 +1,18 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtList, AtListItem, AtAvatar, AtCountdown, AtButton } from "taro-ui";
+import {
+  AtList,
+  AtListItem,
+  AtAvatar,
+  AtCountdown,
+  AtButton,
+  AtModal,
+  AtModalHeader,
+  AtModalContent,
+  AtModalAction,
+  AtInput,
+} from "taro-ui";
 import fetch from "@utils/request";
 import {
   API_ACTIVITY_ORDERDETAIL,
