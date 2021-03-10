@@ -44,7 +44,7 @@ class MyOrder extends Component {
     );
   }
 
-  componentDidMount() {
+  componentDidShow() {
     const params = this.$router.params;
     if (params.type) {
       this.state.tabList.map((item, index) => {
@@ -54,13 +54,13 @@ class MyOrder extends Component {
               current: index,
             },
             () => {
-              this.onLoad();
+              this.onRefresh();
             },
           );
         }
       });
     } else {
-      this.onLoad();
+      this.onRefresh();
     }
   }
 

@@ -3,7 +3,7 @@ import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import { AtList, AtListItem, AtAvatar, AtCountdown, AtButton } from "taro-ui";
 import fetch from "@utils/request";
-import { API_ACTIVITY_ORDERDETAIL, API_ACTIVITY_ORDER } from "@constants/api";
+import { API_ACTIVITY_ORDERDETAIL, API_ACTIVITY_CANCELORDER } from "@constants/api";
 import { getWindowHeight } from "@utils/style";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./order-detail.scss";
@@ -57,29 +57,6 @@ class OrderDetail extends Component {
       }
     });
   }
-
-  payOrder = () => {
-    fetch({
-      url: API_ACTIVITY_ORDER,
-      payload: [
-        {
-          activityId: this.state.publishtDetail.id,
-          num: this.state.orderDetail.num,
-        },
-      ],
-      method: "POST",
-      showToast: false,
-      autoLogin: false,
-    }).then((res) => {
-      if (res) {
-        if (res.activityId) {
-          Taro.navigateTo({
-            url: `/pages/apply-success/apply-success?id=${res.activityId}`,
-          });
-        }
-      }
-    });
-  };
 
   getStatus(status) {
     switch (status) {
@@ -138,28 +115,43 @@ class OrderDetail extends Component {
     });
   }
 
-  payOrder = (id, num) => {
+  payOrder = (order) => {
     const self = this;
-    fetch({
-      url: API_ACTIVITY_ORDER,
-      payload: [
-        {
-          activityId: id,
-          num: num,
-        },
-      ],
-      method: "POST",
-      showToast: false,
-      autoLogin: false,
-    }).then((res) => {
-      if (res) {
-        if (res.activityId) {
-          Taro.navigateTo({
-            url: `/pages/apply-success/apply-success?id=${res.activityId}`,
-          });
-        }
+    if (order.payInfo) {
+      if (order.payInfo.expend) {
+        const payInfo = JSON.parse(order.payInfo.expend.pay_info);
+        Taro.requestPayment({
+          ...payInfo,
+          success: () => {
+            Taro.showToast({
+              title: "支付成功",
+              icon: "success",
+            });
+            if (order.activityId) {
+              Taro.redirectTo({
+                url: `/pages/apply-success/apply-success?id=${order.activityId}`,
+              });
+            }
+          },
+          fail: () => {
+            Taro.showToast({
+              title: "支付失败",
+              icon: "error",
+            });
+          },
+        });
+      } else {
+        Taro.showToast({
+          title: "生成支付失败",
+          icon: "error",
+        });
       }
-    });
+    } else {
+      Taro.showToast({
+        title: "生成支付失败",
+        icon: "error",
+      });
+    }
   };
 
   // 需要删除的测试流程接口
@@ -183,6 +175,7 @@ class OrderDetail extends Component {
               title: "取消成功",
               icon: "success",
             });
+            self.getDetail();
           } else {
             Taro.showToast({
               title: "取消失败",
@@ -234,11 +227,7 @@ class OrderDetail extends Component {
                     type="primary"
                     circle={true}
                     size="small"
-                    onClick={this.payOrder.bind(
-                      this,
-                      this.state.orderDetail.id,
-                      this.state.orderDetail.num,
-                    )}
+                    onClick={this.payOrder.bind(this, this.state.orderDetail)}
                   >
                     确认支付
                   </AtButton>
@@ -308,13 +297,9 @@ class OrderDetail extends Component {
           <View className="codeArea">
             <View className="title">已为您分配序号：</View>
             <View className="myCode">
-              {
-                this.state.activityItems.map((item, index) => {
-                  return (
-                    <View className="codeItem">{item.luckNum}</View>
-                  )
-                })
-              }
+              {this.state.activityItems.map((item, index) => {
+                return <View className="codeItem">{item.luckNum}</View>;
+              })}
             </View>
             <View className="title">中奖序号：</View>
             <View className="luckCode"></View>

@@ -21,6 +21,7 @@ export default class PublishItem extends Component {
   state = {
     isOpenShow: false,
     luckNums: "",
+    hideButton: false,
   };
 
   handleChange = (key, value) => {
@@ -90,6 +91,7 @@ export default class PublishItem extends Component {
             });
             self.setState({
               isOpenShow: false,
+              hideButton: true,
             });
           } else {
             Taro.showToast({
@@ -118,7 +120,7 @@ export default class PublishItem extends Component {
 
   render() {
     const { publishData } = this.props;
-    const { isOpenShow } = this.state;
+    const { isOpenShow, hideButton } = this.state;
 
     return (
       <View className="publish-item">
@@ -191,7 +193,7 @@ export default class PublishItem extends Component {
               发送开播提醒
             </View>
           )}
-          {publishData.status === "wait_open" && (
+          {publishData.status === "wait_open" && !hideButton && (
             <View
               className="statuArea"
               onClick={this.openShow.bind(this, true)}

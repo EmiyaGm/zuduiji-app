@@ -23,8 +23,8 @@ class MyPublish extends Component {
     dataList: [],
   };
 
-  componentDidMount() {
-    this.onLoad();
+  componentDidShow() {
+    this.onRefresh();
   }
 
   // 监听下拉刷新

@@ -16,7 +16,6 @@ import {
 import fetch from "@utils/request";
 import {
   API_ACTIVITY_ORDERDETAIL,
-  API_ACTIVITY_ORDER,
   API_ACTIVITY_LOGISTICS,
 } from "@constants/api";
 import { getWindowHeight } from "@utils/style";
@@ -75,29 +74,6 @@ class PublishOrderDetail extends Component {
     });
   }
 
-  payOrder = () => {
-    fetch({
-      url: API_ACTIVITY_ORDER,
-      payload: [
-        {
-          activityId: this.state.publishtDetail.id,
-          num: this.state.orderDetail.num,
-        },
-      ],
-      method: "POST",
-      showToast: false,
-      autoLogin: false,
-    }).then((res) => {
-      if (res) {
-        if (res.activityId) {
-          Taro.navigateTo({
-            url: `/pages/apply-success/apply-success?id=${res.activityId}`,
-          });
-        }
-      }
-    });
-  };
-
   getStatus(status) {
     switch (status) {
       case "wait_pay":
@@ -155,62 +131,6 @@ class PublishOrderDetail extends Component {
     });
   }
 
-  payOrder = (id, num) => {
-    const self = this;
-    fetch({
-      url: API_ACTIVITY_ORDER,
-      payload: [
-        {
-          activityId: id,
-          num: num,
-        },
-      ],
-      method: "POST",
-      showToast: false,
-      autoLogin: false,
-    }).then((res) => {
-      if (res) {
-        if (res.activityId) {
-          Taro.navigateTo({
-            url: `/pages/apply-success/apply-success?id=${res.activityId}`,
-          });
-        }
-      }
-    });
-  };
-
-  // 需要删除的测试流程接口
-
-  cancelOrder = () => {
-    const self = this;
-    Taro.showModal({
-      title: "取消订单",
-      content: "确认取消该订单？",
-    }).then((res) => {
-      if (res.confirm) {
-        fetch({
-          url: API_ACTIVITY_CANCELORDER,
-          payload: [this.state.orderDetail.id],
-          method: "POST",
-          showToast: false,
-          autoLogin: false,
-        }).then((res) => {
-          if (res) {
-            Taro.showToast({
-              title: "取消成功",
-              icon: "success",
-            });
-          } else {
-            Taro.showToast({
-              title: "取消失败",
-              icon: "error",
-            });
-          }
-        });
-      }
-    });
-  };
-
   handleChange = (key, value) => {
     this.setState({
       [key]: value,
@@ -238,6 +158,7 @@ class PublishOrderDetail extends Component {
             title: "设置成功",
             icon: "success",
           });
+          self.getDetail(this.state.orderDetail.id)
           self.setState({
             isBingoShow: false,
           });

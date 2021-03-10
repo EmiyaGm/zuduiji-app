@@ -35,7 +35,7 @@ class PublishOrderList extends Component {
     );
   }
 
-  componentDidMount() {
+  componentDidShow() {
     const params = this.$router.params;
     if (params.id) {
       this.setState(
@@ -43,7 +43,7 @@ class PublishOrderList extends Component {
           id: params.id,
         },
         () => {
-          this.onLoad();
+          this.onRefresh();
         },
       );
     }

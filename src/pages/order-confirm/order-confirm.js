@@ -40,6 +40,7 @@ class OrderConfirm extends Component {
         id: params.id,
       });
       this.getDetail(params.id);
+      this.getAddress();
     }
   }
 
@@ -122,11 +123,11 @@ class OrderConfirm extends Component {
       }).then((res) => {
         if (res) {
           if (res.payInfo) {
-            if (res.payInfo.extend) {
-              const payInfo = JSON.parse(res.payInfo.extend);
+            if (res.payInfo.expend && res.payInfo.expend.pay_info) {
+              const payInfo = JSON.parse(res.payInfo.expend.pay_info);
               Taro.requestPayment({
                 ...payInfo,
-                success: (res) => {
+                success: () => {
                   Taro.showToast({
                     title: "支付成功",
                     icon: "success",
@@ -137,7 +138,7 @@ class OrderConfirm extends Component {
                     });
                   }
                 },
-                fail: (res) => {
+                fail: () => {
                   Taro.showToast({
                     title: "支付失败",
                     icon: "error",

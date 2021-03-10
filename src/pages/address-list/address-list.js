@@ -21,7 +21,7 @@ class AddressList extends Component {
     dataList: [],
   };
 
-  componentDidMount() {
+  componentShow() {
     this.onLoad();
   }
 

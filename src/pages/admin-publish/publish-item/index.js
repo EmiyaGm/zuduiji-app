@@ -11,6 +11,10 @@ export default class PublishItem extends Component {
     publishData: {},
   };
 
+  state = {
+    hideButton: false,
+  };
+
   goDetail = (id) => {
     Taro.navigateTo({
       url: `/pages/publish-detail/publish-detail?id=${id}`,
@@ -32,10 +36,12 @@ export default class PublishItem extends Component {
           autoLogin: false,
         }).then((res) => {
           if (res) {
-            self.props.publishData.status = status;
             Taro.showToast({
               title: "操作成功",
               icon: "success",
+            });
+            self.setState({
+              hideButton: true,
             });
           } else {
             Taro.showToast({
@@ -50,6 +56,7 @@ export default class PublishItem extends Component {
 
   render() {
     const { publishData } = this.props;
+    const { hideButton } = this.state;
 
     return (
       <View className="publish-item">
@@ -102,7 +109,7 @@ export default class PublishItem extends Component {
           </View>
         </View>
         <View className="footContent">
-          {publishData.status === "wait_review" && (
+          {publishData.status === "wait_review" && !hideButton && (
             <View className="actionArea">
               <Text
                 className="actionItem"

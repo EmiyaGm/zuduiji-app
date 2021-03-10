@@ -11,6 +11,10 @@ export default class ApplyItem extends Component {
     applyData: {},
   };
 
+  state = {
+    hideButton: false,
+  };
+
   getStatus(status) {
     switch (status) {
       case "never":
@@ -43,6 +47,9 @@ export default class ApplyItem extends Component {
               title: "操作成功",
               icon: "success",
             });
+            self.setState({
+              hideButton: true,
+            });
           } else {
             Taro.showToast({
               title: "操作失败",
@@ -56,6 +63,7 @@ export default class ApplyItem extends Component {
 
   render() {
     const { applyData } = this.props;
+    const { hideButton } = this.state;
     return (
       <View className="apply-item">
         <View className="headContent">
@@ -67,7 +75,7 @@ export default class ApplyItem extends Component {
           </View>
         </View>
         <View className="footContent">
-          {applyData.status === "never" && (
+          {applyData.status === "never" && !hideButton && (
             <View className="actionArea">
               <Text
                 className="actionItem"

@@ -12,6 +12,10 @@ export default class OrderItem extends Component {
     activityData: {},
   };
 
+  state = {
+    hideButton: false,
+  };
+
   goDetail = (id) => {
     Taro.navigateTo({
       url: `/pages/order-detail/order-detail?id=${id}`,
@@ -37,28 +41,43 @@ export default class OrderItem extends Component {
     }
   }
 
-  payOrder = (id, num) => {
+  payOrder = (order) => {
     const self = this;
-    fetch({
-      url: API_ACTIVITY_ORDER,
-      payload: [
-        {
-          activityId: id,
-          num: num,
-        },
-      ],
-      method: "POST",
-      showToast: false,
-      autoLogin: false,
-    }).then((res) => {
-      if (res) {
-        if (res.activityId) {
-          Taro.navigateTo({
-            url: `/pages/apply-success/apply-success?id=${res.activityId}`,
-          });
-        }
+    if (order.payInfo) {
+      if (order.payInfo.expend) {
+        const payInfo = JSON.parse(order.payInfo.expend.pay_info);
+        Taro.requestPayment({
+          ...payInfo,
+          success: (res) => {
+            Taro.showToast({
+              title: "支付成功",
+              icon: "success",
+            });
+            if (order.activityId) {
+              Taro.redirectTo({
+                url: `/pages/apply-success/apply-success?id=${order.activityId}`,
+              });
+            }
+          },
+          fail: (res) => {
+            Taro.showToast({
+              title: "支付失败",
+              icon: "error",
+            });
+          },
+        });
+      } else {
+        Taro.showToast({
+          title: "生成支付失败",
+          icon: "error",
+        });
       }
-    });
+    } else {
+      Taro.showToast({
+        title: "生成支付失败",
+        icon: "error",
+      });
+    }
   };
 
   cancelOrder = () => {
@@ -80,6 +99,9 @@ export default class OrderItem extends Component {
               title: "取消成功",
               icon: "success",
             });
+            self.setState({
+              hideButton: true,
+            });
           } else {
             Taro.showToast({
               title: "取消失败",
@@ -93,6 +115,7 @@ export default class OrderItem extends Component {
 
   render() {
     const { activityData, orderData } = this.props;
+    const { hideButton } = this.state;
 
     return (
       <View className="order-item">
@@ -122,7 +145,7 @@ export default class OrderItem extends Component {
           </View>
         </View>
         <View className="middleContent">合计：￥ {orderData.amount / 100}</View>
-        {orderData.status === "wait_pay" && (
+        {orderData.status === "wait_pay" && !hideButton && (
           <View className="footContent">
             <View className="actionButton">
               <AtButton
@@ -139,7 +162,7 @@ export default class OrderItem extends Component {
                 type="primary"
                 circle={true}
                 size="small"
-                onClick={this.payOrder.bind(this, orderData.id, orderData.num)}
+                onClick={this.payOrder.bind(this, orderData)}
               >
                 确认支付
               </AtButton>
