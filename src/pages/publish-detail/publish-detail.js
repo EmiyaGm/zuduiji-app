@@ -155,6 +155,12 @@ class PublishDetail extends Component {
               <View>活动介绍：</View>
               {this.state.publishtDetail.introduce}
             </View>
+            {this.state.publishtDetail.noticeContent && (
+              <View className="noticeArea">
+                <View>正在开奖：</View>
+                {this.state.publishtDetail.noticeContent}
+              </View>
+            )}
           </View>
           <View className="descArea"></View>
           {this.state.publishtDetail.status === "wait_team" && (
