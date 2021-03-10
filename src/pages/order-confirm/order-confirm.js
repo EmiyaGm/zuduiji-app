@@ -121,11 +121,46 @@ class OrderConfirm extends Component {
         autoLogin: false,
       }).then((res) => {
         if (res) {
-          if (res.activityId) {
-            Taro.redirectTo({
-              url: `/pages/apply-success/apply-success?id=${res.activityId}`,
+          if (res.payInfo) {
+            if (res.payInfo.extend) {
+              const payInfo = JSON.parse(res.payInfo.extend);
+              Taro.requestPayment({
+                ...payInfo,
+                success: (res) => {
+                  Taro.showToast({
+                    title: "支付成功",
+                    icon: "success",
+                  });
+                  if (res.order && res.order.activityId) {
+                    Taro.redirectTo({
+                      url: `/pages/apply-success/apply-success?id=${res.order.activityId}`,
+                    });
+                  }
+                },
+                fail: (res) => {
+                  Taro.showToast({
+                    title: "支付失败",
+                    icon: "error",
+                  });
+                },
+              });
+            } else {
+              Taro.showToast({
+                title: "生成支付失败",
+                icon: "error",
+              });
+            }
+          } else {
+            Taro.showToast({
+              title: "生成支付失败",
+              icon: "error",
             });
           }
+        } else {
+          Taro.showToast({
+            title: "生成支付失败",
+            icon: "error",
+          });
         }
       });
     } else {
