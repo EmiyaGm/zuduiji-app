@@ -39,6 +39,17 @@ class PublishDetail extends Component {
     }
   }
 
+  onShareAppMessage (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: this.state.publishtDetail.name,
+      path: `/publish-page/publish-detail?id=${this.state.id}`
+    }
+  }
+
   getDetail(id) {
     const self = this;
     fetch({
@@ -166,7 +177,7 @@ class PublishDetail extends Component {
           {this.state.publishtDetail.status === "wait_team" && (
             <View className="bottomArea at-row">
               <View className="share at-col at-col-4">
-                <AtButton type="primary">分享</AtButton>
+                <AtButton type="primary" openType="share">分享</AtButton>
               </View>
               <View className="buy at-col at-col-8">
                 <AtButton

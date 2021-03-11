@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Image } from "@tarojs/components";
+import { View, Text, Button } from "@tarojs/components";
 import {
   AtAvatar,
   AtModal,
@@ -23,6 +23,17 @@ export default class PublishItem extends Component {
     luckNums: "",
     hideButton: false,
   };
+
+  onShareAppMessage (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: this.props.publishData.name,
+      path: `/publish-page/publish-detail?id=${this.props.publishData.id}`
+    }
+  }
 
   handleChange = (key, value) => {
     this.setState({
@@ -179,13 +190,8 @@ export default class PublishItem extends Component {
         </View>
         <View className="footContent">
           <View className="actionArea">
-            <Text
-              className="actionItem"
-              onClick={this.goDetail.bind(this, publishData.id)}
-            >
-              详情
-            </Text>
-            <Text>分享</Text>
+            <Button className="actionButton" onClick={this.goDetail.bind(this, publishData.id)}>详情</Button>
+            <Button className="actionButton" openType="share">分享</Button>
           </View>
           {publishData.status === "wait_open" && (
             <View

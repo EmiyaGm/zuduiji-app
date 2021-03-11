@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Image } from "@tarojs/components";
+import { View, Text, Image, Button } from "@tarojs/components";
 import { AtAvatar } from "taro-ui";
 import fetch from "@utils/request";
 import defaultAvatar from "@assets/default-avatar.png";
@@ -9,6 +9,18 @@ export default class PublishItem extends Component {
   static defaultProps = {
     publishData: {},
   };
+
+  onShareAppMessage (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: this.props.publishData.name,
+      path: `/publish-page/publish-detail?id=${this.props.publishData.id}`
+    }
+  }
+
 
   goDetail = (id) => {
     Taro.navigateTo({
@@ -73,13 +85,13 @@ export default class PublishItem extends Component {
         </View>
         <View className="footContent">
           <View className="actionArea">
-            <Text
-              className="actionItem"
+            <Button
+              className="actionButton"
               onClick={this.goDetail.bind(this, publishData.id)}
             >
               详情
-            </Text>
-            <Text>分享</Text>
+            </Button>
+            <Button className="actionButton" openType="share">分享</Button>
           </View>
         </View>
       </View>
