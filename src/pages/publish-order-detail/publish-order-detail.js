@@ -158,7 +158,7 @@ class PublishOrderDetail extends Component {
             title: "设置成功",
             icon: "success",
           });
-          self.getDetail(this.state.orderDetail.id)
+          self.getDetail(this.state.orderDetail.id);
           self.setState({
             isBingoShow: false,
           });
@@ -219,14 +219,16 @@ class PublishOrderDetail extends Component {
               <AtModalHeader>请输入快递单号</AtModalHeader>
               <AtModalContent>
                 <View>请输入快递单号</View>
-                <AtInput
-                  name="logistics"
-                  title="快递单号"
-                  type="text"
-                  placeholder="快递单号"
-                  value={this.state.logistics}
-                  onChange={this.handleChange.bind(this, "logistics")}
-                />
+                {isBingoShow && (
+                  <AtInput
+                    name="logistics"
+                    title="快递单号"
+                    type="text"
+                    placeholder="快递单号"
+                    value={this.state.logistics}
+                    onChange={this.handleChange.bind(this, "logistics")}
+                  />
+                )}
               </AtModalContent>
               <AtModalAction>
                 <Button onClick={this.bingoShow.bind(this, false)}>取消</Button>{" "}

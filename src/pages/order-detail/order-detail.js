@@ -3,7 +3,10 @@ import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import { AtList, AtListItem, AtAvatar, AtCountdown, AtButton } from "taro-ui";
 import fetch from "@utils/request";
-import { API_ACTIVITY_ORDERDETAIL, API_ACTIVITY_CANCELORDER } from "@constants/api";
+import {
+  API_ACTIVITY_ORDERDETAIL,
+  API_ACTIVITY_CANCELORDER,
+} from "@constants/api";
 import { getWindowHeight } from "@utils/style";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./order-detail.scss";
@@ -302,7 +305,13 @@ class OrderDetail extends Component {
               })}
             </View>
             <View className="title">中奖序号：</View>
-            <View className="luckCode"></View>
+            <View className="luckCode">
+              {this.state.orderDetail.luckNums
+                ? this.state.orderDetail.luckNums.map((item, index) => {
+                    return <View className="codeItem">{item}</View>;
+                  })
+                : "暂未开奖"}
+            </View>
           </View>
         </ScrollView>
       </View>

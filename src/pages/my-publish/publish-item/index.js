@@ -103,13 +103,13 @@ export default class PublishItem extends Component {
       } else {
         Taro.showToast({
           title: "中奖号码不合法",
-          icon: 'error'
+          icon: "error",
         });
       }
     } else {
       Taro.showToast({
         title: "请填写中奖号码",
-        icon: 'error'
+        icon: "error",
       });
     }
   };
@@ -207,14 +207,16 @@ export default class PublishItem extends Component {
             <AtModalHeader>请输入开奖号码</AtModalHeader>
             <AtModalContent>
               <View>请输入开奖号码，并用英文逗号 ',' 做分隔</View>
-              <AtInput
-                name="luckNums"
-                title="开奖号码"
-                type="text"
-                placeholder="开奖号码"
-                value={this.state.luckNums}
-                onChange={this.handleChange.bind(this, "luckNums")}
-              />
+              {this.state.isOpenShow && (
+                <AtInput
+                  name="luckNums"
+                  title="开奖号码"
+                  type="text"
+                  placeholder="开奖号码"
+                  value={this.state.luckNums}
+                  onChange={this.handleChange.bind(this, "luckNums")}
+                />
+              )}
             </AtModalContent>
             <AtModalAction>
               <Button onClick={this.openShow.bind(this, false)}>取消</Button>{" "}
