@@ -65,11 +65,6 @@ class PublishList extends Component {
             showActivity: false,
           });
         }
-      } else {
-        Taro.showToast({
-          title: "暂无数据",
-          icon: "none",
-        });
       }
     });
   };

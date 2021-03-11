@@ -143,6 +143,11 @@ class OrderConfirm extends Component {
                     title: "支付失败",
                     icon: "error",
                   });
+                  if (res.order && res.order.id) {
+                    Taro.redirectTo({
+                      url: `/pages/order-detail/order-detail?id=${res.order.id}`,
+                    });
+                  }
                 },
               });
             } else {
@@ -150,16 +155,26 @@ class OrderConfirm extends Component {
                 title: "生成支付失败",
                 icon: "error",
               });
+              if (res.order && res.order.activityId) {
+                Taro.redirectTo({
+                  url: `/pages/order-detail/order-detail?id=${res.order.id}`,
+                });
+              }
             }
           } else {
             Taro.showToast({
               title: "生成支付失败",
               icon: "error",
             });
+            if (res.order && res.order.activityId) {
+              Taro.redirectTo({
+                url: `/pages/order-detail/order-detail?id=${res.order.id}`,
+              });
+            }
           }
         } else {
           Taro.showToast({
-            title: "生成支付失败",
+            title: "生成订单失败",
             icon: "error",
           });
         }

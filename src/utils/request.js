@@ -56,6 +56,13 @@ export default async function fetch(options) {
         await updateStorage(res.data[1]);
       }
 
+      if (res.data[0] === "NO_LOGIN") {
+        Taro.showToast({
+          title: "请先登录",
+          icon: "error",
+        });
+      }
+
       return res.data[1];
     })
     .catch((err) => {
