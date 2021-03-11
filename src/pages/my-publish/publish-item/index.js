@@ -22,17 +22,19 @@ export default class PublishItem extends Component {
     isOpenShow: false,
     luckNums: "",
     hideButton: false,
+    noticeContent: "",
+    isNoticeShow: false,
   };
 
-  onShareAppMessage (res) {
-    if (res.from === 'button') {
+  onShareAppMessage(res) {
+    if (res.from === "button") {
       // 来自页面内转发按钮
-      console.log(res.target)
+      console.log(res.target);
     }
     return {
       title: this.props.publishData.name,
-      path: `/publish-page/publish-detail?id=${this.props.publishData.id}`
-    }
+      path: `/publish-page/publish-detail?id=${this.props.publishData.id}`,
+    };
   }
 
   handleChange = (key, value) => {
@@ -54,7 +56,6 @@ export default class PublishItem extends Component {
   };
 
   notice = (id) => {
-    const self = this;
     Taro.showModal({
       title: "发送开奖提醒",
       content: "确认发送开奖提醒？",
@@ -62,7 +63,7 @@ export default class PublishItem extends Component {
       if (res.confirm) {
         fetch({
           url: API_ACTIVITY_NOTICE,
-          payload: [id, "您参与的活动马上就要开奖了，请前往直播间观看", 10],
+          payload: [id, `您参与的活动马上就要开奖了，请前往直播间观看，直播间分享口令为：${this.state.noticeContent}`, 10],
           method: "POST",
           showToast: false,
           autoLogin: false,
@@ -131,9 +132,15 @@ export default class PublishItem extends Component {
     });
   };
 
+  noticeShow = (isShow) => {
+    this.setState({
+      isNoticeShow: isShow,
+    });
+  };
+
   render() {
     const { publishData } = this.props;
-    const { isOpenShow, hideButton } = this.state;
+    const { isOpenShow, hideButton, isNoticeShow } = this.state;
 
     return (
       <View className="publish-item">
@@ -190,17 +197,46 @@ export default class PublishItem extends Component {
         </View>
         <View className="footContent">
           <View className="actionArea">
-            <Button className="actionButton" onClick={this.goDetail.bind(this, publishData.id)}>详情</Button>
-            <Button className="actionButton" openType="share">分享</Button>
+            <Button
+              className="actionButton"
+              onClick={this.goDetail.bind(this, publishData.id)}
+            >
+              详情
+            </Button>
+            <Button className="actionButton" openType="share">
+              分享
+            </Button>
           </View>
           {publishData.status === "wait_open" && (
             <View
               className="statuArea"
-              onClick={this.notice.bind(this, publishData.id)}
+              onClick={this.noticeShow.bind(this, true)}
             >
               发送开播提醒
             </View>
           )}
+          <AtModal isOpened={isNoticeShow}>
+            <AtModalHeader>请输入抖音直播分享口令</AtModalHeader>
+            <AtModalContent>
+              <View>请输入抖音直播分享口令，邀请活动参与者前来观看直播</View>
+              {isNoticeShow && (
+                <AtInput
+                  name="noticeContent"
+                  title="直播分享口令"
+                  type="text"
+                  placeholder="直播分享口令"
+                  value={this.state.noticeContent}
+                  onChange={this.handleChange.bind(this, "noticeContent")}
+                />
+              )}
+            </AtModalContent>
+            <AtModalAction>
+              <Button onClick={this.noticeShow.bind(this, false)}>取消</Button>{" "}
+              <Button onClick={this.notice.bind(this, publishData.id)}>
+                确定
+              </Button>
+            </AtModalAction>
+          </AtModal>
           {publishData.status === "wait_open" && !hideButton && (
             <View
               className="statuArea"
