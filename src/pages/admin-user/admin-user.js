@@ -88,6 +88,7 @@ class AdminUser extends Component {
           icon: "none",
         });
       }
+      Taro.stopPullDownRefresh();
     });
   };
 
@@ -96,8 +97,9 @@ class AdminUser extends Component {
     this.setState({
       dataList: [],
       page: 0,
+    }, () => {
+      this.onLoad();
     });
-    this.onLoad();
   }
 
   render() {

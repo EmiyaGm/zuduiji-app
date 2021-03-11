@@ -92,6 +92,7 @@ class PublishOrderList extends Component {
           icon: "none",
         });
       }
+      Taro.stopPullDownRefresh();
     });
   };
 
@@ -112,35 +113,29 @@ class PublishOrderList extends Component {
     const { dataList } = this.state;
     return (
       <View className="publish-order-list">
-        <ScrollView
-          scrollY
-          className="publish-order-list__wrap"
-          style={{ height: getWindowHeight() }}
-        >
-          <View className="orderList">
-            {dataList.map((order, index) => {
-              return (
-                <OrderItem
-                  key={`${order.orders[0].order.id}`}
-                  orderData={order.orders[0].order}
-                  activityData={order.activity}
-                />
-              );
-            })}
+        <View className="orderList">
+          {dataList.map((order, index) => {
+            return (
+              <OrderItem
+                key={`${order.orders[0].order.id}`}
+                orderData={order.orders[0].order}
+                activityData={order.activity}
+              />
+            );
+          })}
+        </View>
+        {this.state.showActivity && (
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+            }}
+          >
+            <AtActivityIndicator></AtActivityIndicator>
           </View>
-          {this.state.showActivity && (
-            <View
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-              }}
-            >
-              <AtActivityIndicator></AtActivityIndicator>
-            </View>
-          )}
-        </ScrollView>
+        )}
       </View>
     );
   }

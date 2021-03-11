@@ -88,6 +88,7 @@ class AdminApply extends Component {
           icon: "none",
         });
       }
+      Taro.stopPullDownRefresh();
     });
   };
 

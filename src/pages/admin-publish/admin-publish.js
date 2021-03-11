@@ -91,6 +91,7 @@ class AdminPublish extends Component {
           icon: "none",
         });
       }
+      Taro.stopPullDownRefresh();
     });
   };
 
@@ -99,8 +100,9 @@ class AdminPublish extends Component {
     this.setState({
       dataList: [],
       page: 0,
+    }, () => {
+      this.onLoad();
     });
-    this.onLoad();
   }
 
   render() {

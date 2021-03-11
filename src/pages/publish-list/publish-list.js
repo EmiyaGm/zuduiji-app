@@ -66,6 +66,7 @@ class PublishList extends Component {
           });
         }
       }
+      Taro.stopPullDownRefresh();
     });
   };
 
@@ -74,36 +75,31 @@ class PublishList extends Component {
     this.setState({
       dataList: [],
       page: 0,
+    }, () => {
+      this.onLoad();
     });
-    this.onLoad();
   }
 
   render() {
     return (
       <View className="publish-list">
-        <ScrollView
-          scrollY
-          className="publish-list__wrap"
-          style={{ height: getWindowHeight() }}
-        >
-          <View className="publishList">
-            {this.state.dataList.map((item, index) => {
-              return <PublishItem key={`${item.id}`} publishData={item} />;
-            })}
+        <View className="publishList">
+          {this.state.dataList.map((item, index) => {
+            return <PublishItem key={`${item.id}`} publishData={item} />;
+          })}
+        </View>
+        {this.state.showActivity && (
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+            }}
+          >
+            <AtActivityIndicator></AtActivityIndicator>
           </View>
-          {this.state.showActivity && (
-            <View
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: "10px",
-                paddingBottom: "10px",
-              }}
-            >
-              <AtActivityIndicator></AtActivityIndicator>
-            </View>
-          )}
-        </ScrollView>
+        )}
       </View>
     );
   }

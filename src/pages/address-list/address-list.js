@@ -52,8 +52,9 @@ class AddressList extends Component {
     this.setState({
       dataList: [],
       page: 0,
+    }, () => {
+      this.onLoad();
     });
-    this.onLoad();
   }
 
   addAddress = () => {

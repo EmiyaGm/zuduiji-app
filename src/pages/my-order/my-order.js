@@ -107,6 +107,7 @@ class MyOrder extends Component {
           icon: "none",
         });
       }
+      Taro.stopPullDownRefresh();
     });
   };
 

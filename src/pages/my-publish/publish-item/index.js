@@ -103,11 +103,13 @@ export default class PublishItem extends Component {
       } else {
         Taro.showToast({
           title: "中奖号码不合法",
+          icon: 'error'
         });
       }
     } else {
       Taro.showToast({
         title: "请填写中奖号码",
+        icon: 'error'
       });
     }
   };

@@ -58,6 +58,9 @@ export default class OrderItem extends Component {
                 url: `/pages/apply-success/apply-success?id=${order.activityId}`,
               });
             }
+            self.setState({
+              hideButton: true,
+            });
           },
           fail: (res) => {
             Taro.showToast({
