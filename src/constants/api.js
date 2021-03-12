@@ -33,7 +33,7 @@ export const API_CART_UPDATE_CHECK = `${host}/xhr/promotionCart/updateCheck.json
 export const API_USER = `${host}/xhr/user/getDetail.json`;
 export const API_USER_LOGIN = `${host}/wx/login`;
 export const API_USER_INFO = `${host}/wx/info`;
-export const API_USER_PHONE = `${host}/wx/phone`
+export const API_USER_PHONE = `${host}/wx/phone`;
 export const API_CHECK_LOGIN = `${host}/xhr/u/checkLogin.json`;
 
 // item
@@ -70,3 +70,7 @@ export const API_ACCOUNT_SETBUSINESS = `${host}/account/setBusiness`;
 export const API_ADDRESS_LIST = `${host}/address/list`;
 export const API_ADDRESS_ADDRESS = `${host}/address/address`;
 export const API_ADDRESS_DELETE = `${host}/address/delete`;
+
+// wallet
+export const API_WALLET_REVIEW = `${host}/wallet/review`;
+export const API_WALLET_LIST = `${host}/wallet/review`;

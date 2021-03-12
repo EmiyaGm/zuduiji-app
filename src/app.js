@@ -40,6 +40,7 @@ class App extends Component {
       "pages/edit-address/edit-address",
       "pages/publish-order-detail/publish-order-detail",
       "pages/party-success/party-success",
+      "pages/admin-withdraw/admin-withdraw",
     ],
     window: {
       backgroundTextStyle: "light",
