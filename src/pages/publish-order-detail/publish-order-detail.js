@@ -137,7 +137,7 @@ class PublishOrderDetail extends Component {
     });
   };
 
-  bingoShow = () => {
+  bingoShow = (isShow) => {
     this.setState({
       isBingoShow: isShow,
     });

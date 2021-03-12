@@ -85,11 +85,23 @@ class User extends Component {
     });
   };
 
+  adminWithdraw = () => {
+    Taro.navigateTo({
+      url: "/pages/admin-withdraw/admin-withdraw",
+    });
+  };
+
   goAddress = () => {
     Taro.navigateTo({
-      url: '/pages/address-list/address-list'
-    })
-  }
+      url: "/pages/address-list/address-list",
+    });
+  };
+
+  myWallet = () => {
+    Taro.navigateTo({
+      url: "/pages/my-wallet/my-wallet",
+    });
+  };
 
   render() {
     const { userInfo, loginInfo } = this.props;
@@ -157,6 +169,13 @@ class User extends Component {
           ></AtCard>
           <View className="functionArea">
             <AtList>
+              {loginInfo.account && loginInfo.account.role === "BUSINESS" && (
+                <AtListItem
+                  title="我的钱包"
+                  arrow="right"
+                  onClick={this.myWallet.bind(this)}
+                />
+              )}
               {loginInfo.account && loginInfo.account.role === "ADMIN" ? (
                 <View>
                   <AtListItem
@@ -174,6 +193,11 @@ class User extends Component {
                     arrow="right"
                     onClick={this.adminPublish.bind(this)}
                   />
+                  <AtListItem
+                    title="体现管理"
+                    arrow="right"
+                    onClick={this.adminWithdraw.bind(this)}
+                  />
                 </View>
               ) : (
                 ""
@@ -187,7 +211,11 @@ class User extends Component {
               ) : (
                 ""
               )}
-              <AtListItem title="收货地址" arrow="right" onClick={this.goAddress.bind(this)} />
+              <AtListItem
+                title="收货地址"
+                arrow="right"
+                onClick={this.goAddress.bind(this)}
+              />
               <AtListItem title="联系客服" arrow="right" />
             </AtList>
           </View>

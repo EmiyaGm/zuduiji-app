@@ -41,6 +41,7 @@ class App extends Component {
       "pages/publish-order-detail/publish-order-detail",
       "pages/party-success/party-success",
       "pages/admin-withdraw/admin-withdraw",
+      "pages/my-wallet/my-wallet",
     ],
     window: {
       backgroundTextStyle: "light",

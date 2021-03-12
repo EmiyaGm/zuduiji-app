@@ -1,0 +1,38 @@
+.withdraw-item {
+  padding: 24px;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  margin-bottom: 40px;
+  .headContent {
+    padding-bottom: 24px;
+    .nameArea {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 20px;
+      font-size: 32px;
+      .name {
+        padding-bottom: 20px;
+      }
+    }
+    .moneyArea {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 20px;
+      font-size: 32px;
+    }
+  }
+  .footContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 32px;
+    padding: 24px 0px;
+    .actionArea {
+      .actionItem {
+        margin-right: 20px;
+      }
+    }
+  }
+}
