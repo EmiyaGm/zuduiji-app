@@ -74,6 +74,6 @@ export const API_ADDRESS_DELETE = `${host}/address/delete`;
 
 // wallet
 export const API_WALLET_REVIEW = `${host}/wallet/review`;
-export const API_WALLET_LIST = `${host}/wallet/review`;
+export const API_WALLET_LIST = `${host}/wallet/list`;
 export const API_WALLET_BALANCE = `${host}/wallet/balance`;
 export const API_WALLET_APPLY = `${host}/wallet/apply`;
