@@ -23,3 +23,5 @@ export const dispatchLogout = () => ({ type: USER_LOGOUT });
  * 保存用户微信信息
  */
 export const dispatchUser = (payload) => ({ type: USER_INFO, payload });
+
+export const dispatchLoginInfo = (payload) => ({ type: USER_LOGIN, payload });

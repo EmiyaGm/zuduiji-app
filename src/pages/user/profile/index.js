@@ -6,7 +6,7 @@ import { AtButton } from "taro-ui";
 import defaultAvatar from "@assets/default-avatar.png";
 import bg from "./assets/bg.png";
 import fetch from "@utils/request";
-import { API_USER_PHONE } from "@constants/api";
+import { API_ACCOUNT_PHONE } from "@constants/api";
 import "./index.scss";
 @connect((state) => state.user, actions)
 export default class Profile extends Component {
@@ -28,7 +28,7 @@ export default class Profile extends Component {
     const { errMsg } = e.detail ? e.detail : {};
     if (errMsg === "getPhoneNumber:ok") {
       fetch({
-        url: API_USER_PHONE,
+        url: API_ACCOUNT_PHONE,
         payload: [
           {
             ...e.detail,

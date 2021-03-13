@@ -1,6 +1,9 @@
 import "@tarojs/async-await";
 import Taro, { Component } from "@tarojs/taro";
-import { Provider } from "@tarojs/redux";
+import { Provider, connect } from "@tarojs/redux";
+import * as actions from "@actions/user";
+import fetch from "@utils/request";
+import { API_ACCOUNT_SYNC } from "@constants/api";
 
 import Index from "./pages/index";
 
@@ -16,14 +19,13 @@ import "./app.scss";
 
 const store = configStore();
 
+@connect((state) => state.user, actions)
 class App extends Component {
   config = {
     pages: [
       "pages/home/home",
       "pages/user/user",
       "pages/user-login/user-login",
-      "pages/item/item",
-      "pages/webview/webview",
       "pages/publish/publish",
       "pages/my-publish/my-publish",
       "pages/publish-detail/publish-detail",
@@ -77,7 +79,21 @@ class App extends Component {
     },
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    const self = this;
+    fetch({
+      url: API_ACCOUNT_SYNC,
+      payload: [],
+      method: "POST",
+      showToast: false,
+      autoLogin: false,
+    }).then((result) => {
+      if (result.account) {
+        self.props.dispatchLoginInfo(result.account);
+        self.props.dispatchUser(result.account);
+      }
+    });
+  }
 
   componentDidShow() {}
 

@@ -61,6 +61,9 @@ export default async function fetch(options) {
           title: "请先登录",
           icon: "error",
         });
+        Taro.navigateTo({
+          url: "/pages/user-login/user-login",
+        });
       }
 
       return res.data[1];
