@@ -89,7 +89,7 @@ class App extends Component {
       autoLogin: false,
     }).then((result) => {
       if (result.account) {
-        self.props.dispatchLoginInfo(result.account);
+        self.props.dispatchLoginInfo(result);
         self.props.dispatchUser(result.account);
       }
     });
