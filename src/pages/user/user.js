@@ -2,14 +2,20 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import { AtButton, AtCard, AtList, AtListItem } from "taro-ui";
+import { ButtonItem } from "@components";
 import * as actions from "@actions/user";
 import { getWindowHeight } from "@utils/style";
-import { API_BUSINESS_APPLY } from "@constants/api";
+import { API_BUSINESS_APPLY, API_USER_INFO } from "@constants/api";
 import fetch from "@utils/request";
 import Profile from "./profile";
 import waitSend from "@assets/wait-send.png";
 import waitPay from "@assets/wait-pay.png";
 import waitReceive from "@assets/wait-receive.png";
+import businessIcon from "@assets/businessIcon.png";
+import userIcon from "@assets/userIcon.png";
+import activityIcon from "@assets/activityIcon.png";
+import withdrawIcon from "@assets/withdrawIcon.png";
+import allIcon from "@assets/allIcon.png";
 import "./user.scss";
 
 @connect((state) => state.user, { ...actions })
@@ -19,12 +25,6 @@ class User extends Component {
   };
 
   componentDidShow() {}
-
-  handleLogin = () => {
-    Taro.navigateTo({
-      url: "/pages/user-login/user-login",
-    });
-  };
 
   handleLogout = () => {
     this.props.dispatchLogout();
@@ -103,6 +103,54 @@ class User extends Component {
     });
   };
 
+  agreeAuth = (e) => {
+    const { errMsg, userInfo } = e.detail ? e.detail : {};
+    const self = this;
+    if (errMsg === "getUserInfo:ok") {
+      self.props.dispatchUser(userInfo);
+      Taro.login({
+        success: function(res) {
+          if (res.code) {
+            Taro.showLoading({
+              title: "正在登录",
+            });
+            self.props.dispatchLogin([res.code]).then((rep) => {
+              fetch({
+                url: API_USER_INFO,
+                payload: [
+                  {
+                    ...e.detail,
+                    sessionKey: rep.account.sessionKey,
+                  },
+                ],
+                method: "POST",
+                showToast: false,
+                autoLogin: false,
+              }).then((result) => {
+                if (result) {
+                  self.props.dispatchUser(result);
+                  Taro.hideLoading();
+                  Taro.showToast({
+                    title: "登录成功！",
+                    icon: "none",
+                  });
+                }
+              });
+              Taro.navigateBack({ delta: 2 });
+            });
+          } else {
+            console.log("登录失败！" + res.errMsg);
+          }
+        },
+      });
+    } else {
+      Taro.showToast({
+        title: "授权失败",
+        icon: "none",
+      });
+    }
+  };
+
   render() {
     const { userInfo, loginInfo } = this.props;
 
@@ -120,14 +168,53 @@ class User extends Component {
             </View>
           )}
           <View className="user__empty" />
-          <AtCard
-            extra="全部订单"
-            title="我参与的"
-            onClick={this.myOrder.bind(this)}
-          >
+          {loginInfo.account && loginInfo.account.role === "ADMIN" && (
+            <AtCard extra="" title="平台管理">
+              <View className="at-row">
+                <View
+                  className="at-col at-col-3 statusText"
+                  onClick={this.adminApply.bind(this)}
+                >
+                  <View>
+                    <Image className="statusIcon" src={businessIcon} />
+                  </View>
+                  <View>全部商家</View>
+                </View>
+                <View
+                  className="at-col at-col-3 statusText"
+                  onClick={this.adminUser.bind(this)}
+                >
+                  <View>
+                    <Image className="statusIcon" src={userIcon} />
+                  </View>
+                  <View>全部用户</View>
+                </View>
+                <View
+                  className="at-col at-col-3 statusText"
+                  onClick={this.adminPublish.bind(this)}
+                >
+                  <View>
+                    <Image className="statusIcon" src={activityIcon} />
+                  </View>
+                  <View>全部活动</View>
+                </View>
+                <View
+                  className="at-col at-col-3 statusText"
+                  onClick={this.adminWithdraw.bind(this)}
+                >
+                  <View>
+                    <Image className="statusIcon" src={withdrawIcon} />
+                  </View>
+                  <View>全部提现</View>
+                </View>
+              </View>
+            </AtCard>
+          )}
+          <View className="user__empty" />
+          <AtCard extra="" title="我参与的">
             <View className="at-row">
               <View
-                className="at-col at-col-4 statusText"
+                className="at-col at-col-3 statusText"
                 onClick={(e) => {
                   this.orderList(e, "wait_pay");
                 }}
@@ -138,7 +225,7 @@ class User extends Component {
                 <View>待支付</View>
               </View>
               <View
-                className="at-col at-col-4 statusText"
+                className="at-col at-col-3 statusText"
                 onClick={(e) => {
                   this.orderList(e, "bingo");
                 }}
@@ -149,7 +236,7 @@ class User extends Component {
                 <View>待发货</View>
               </View>
               <View
-                className="at-col at-col-4 statusText"
+                className="at-col at-col-3 statusText"
                 onClick={(e) => {
                   this.orderList(e, "send");
                 }}
@@ -159,6 +246,15 @@ class User extends Component {
                 </View>
                 <View>待收货</View>
               </View>
+              <View
+                className="at-col at-col-3 statusText"
+                onClick={this.myOrder.bind(this)}
+              >
+                <View>
+                  <Image className="statusIcon" src={allIcon} />
+                </View>
+                <View>全部订单</View>
+              </View>
             </View>
           </AtCard>
           <View className="user__empty" />
@@ -167,6 +263,18 @@ class User extends Component {
             title="我发起的"
             onClick={this.myPublish}
           ></AtCard>
+          <View className="user__empty" />
+          {!loginInfo.account && (
+            <View className="loginArea">
+              <View className="loginTip">登录后即可参与报名球星卡组队活动</View>
+              <ButtonItem
+                type="primary"
+                text="立即登录"
+                openType="getUserInfo"
+                onGetUserInfo={this.agreeAuth}
+              />
+            </View>
+          )}
           <View className="functionArea">
             <AtList>
               {loginInfo.account && loginInfo.account.role === "BUSINESS" && (
@@ -175,32 +283,6 @@ class User extends Component {
                   arrow="right"
                   onClick={this.myWallet.bind(this)}
                 />
-              )}
-              {loginInfo.account && loginInfo.account.role === "ADMIN" ? (
-                <View>
-                  <AtListItem
-                    title="商家申请管理"
-                    arrow="right"
-                    onClick={this.adminApply.bind(this)}
-                  />
-                  <AtListItem
-                    title="用户管理"
-                    arrow="right"
-                    onClick={this.adminUser.bind(this)}
-                  />
-                  <AtListItem
-                    title="活动管理"
-                    arrow="right"
-                    onClick={this.adminPublish.bind(this)}
-                  />
-                  <AtListItem
-                    title="体现管理"
-                    arrow="right"
-                    onClick={this.adminWithdraw.bind(this)}
-                  />
-                </View>
-              ) : (
-                ""
               )}
               {loginInfo.account && loginInfo.account.role === "USER" ? (
                 <AtListItem

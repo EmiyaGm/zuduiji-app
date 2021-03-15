@@ -6,12 +6,13 @@
   .headContent {
     display: flex;
     align-items: center;
-    padding-bottom: 24px;
     .nameArea {
       margin-left: 20px;
       font-size: 32px;
+      display: flex;
+      align-items: center;
       .name {
-        padding-bottom: 20px;
+        padding-left: 40px;
       }
     }
   }

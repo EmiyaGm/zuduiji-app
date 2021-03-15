@@ -25,7 +25,6 @@ class App extends Component {
     pages: [
       "pages/home/home",
       "pages/user/user",
-      "pages/user-login/user-login",
       "pages/publish/publish",
       "pages/my-publish/my-publish",
       "pages/publish-detail/publish-detail",
@@ -44,6 +43,8 @@ class App extends Component {
       "pages/party-success/party-success",
       "pages/admin-withdraw/admin-withdraw",
       "pages/my-wallet/my-wallet",
+      "pages/apply-notice/apply-notice",
+      "pages/apply-nums/apply-nums",
     ],
     window: {
       backgroundTextStyle: "light",
@@ -88,7 +89,7 @@ class App extends Component {
       showToast: false,
       autoLogin: false,
     }).then((result) => {
-      if (result.account) {
+      if (result && result.account) {
         self.props.dispatchLoginInfo(result);
         self.props.dispatchUser(result.account);
       }

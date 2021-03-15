@@ -8,7 +8,11 @@ import "./index.scss";
 
 export default class ApplyItem extends Component {
   static defaultProps = {
-    applyData: {},
+    applyData: {
+      account: {},
+      business: {},
+      address: {},
+    },
   };
 
   state = {
@@ -68,29 +72,13 @@ export default class ApplyItem extends Component {
       <View className="apply-item">
         <View className="headContent">
           <View className="nameArea">
-            <View className="name">用户Id：{applyData.userId}</View>
-            <View className="status">
-              状态：{this.getStatus(applyData.status)}
+            <View className="avatar">
+              <AtAvatar
+                image={applyData.account.avatarUrl}
+              ></AtAvatar>
             </View>
+            <View className="name">{applyData.account.nickName}</View>
           </View>
-        </View>
-        <View className="footContent">
-          {applyData.status === "never" && !hideButton && (
-            <View className="actionArea">
-              <Text
-                className="actionItem"
-                onClick={this.review.bind(this, "pass", applyData.userId)}
-              >
-                通过
-              </Text>
-              <Text
-                className="actionItem"
-                onClick={this.review.bind(this, "fail", applyData.userId)}
-              >
-                拒绝
-              </Text>
-            </View>
-          )}
         </View>
       </View>
     );

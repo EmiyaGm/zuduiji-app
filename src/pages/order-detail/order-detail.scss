@@ -50,6 +50,42 @@
         }
       }
     }
+    .noticeContent {
+      padding: 24px;
+      .title {
+        padding: 24px 0px;
+        font-weight: 700;
+        font-size: 44px;
+      }
+      .content {
+        font-size: 28px;
+        .contentTitle {
+          padding-bottom: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+    }
+    .logisticsContent {
+      padding: 24px;
+      .title {
+        padding: 24px 0px;
+        font-weight: 700;
+        font-size: 44px;
+      }
+      .content {
+        font-size: 28px;
+        .contentTitle {
+          padding-bottom: 24px;
+        }
+        .contentArea {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+    }
     .codeArea {
       padding: 24px;
       font-size: 32px;

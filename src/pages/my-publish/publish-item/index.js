@@ -8,8 +8,6 @@ import {
   AtModalAction,
   AtInput,
 } from "taro-ui";
-import fetch from "@utils/request";
-import { API_ACTIVITY_NOTICE, API_ACTIVITY_SETLUCKNUMS } from "@constants/api";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./index.scss";
 
@@ -19,11 +17,7 @@ export default class PublishItem extends Component {
   };
 
   state = {
-    isOpenShow: false,
-    luckNums: "",
     hideButton: false,
-    noticeContent: "",
-    isNoticeShow: false,
   };
 
   onShareAppMessage(res) {
@@ -55,87 +49,35 @@ export default class PublishItem extends Component {
     });
   };
 
-  notice = (id) => {
-    Taro.showModal({
-      title: "发送开奖提醒",
-      content: "确认发送开奖提醒？",
-    }).then((res) => {
-      if (res.confirm) {
-        fetch({
-          url: API_ACTIVITY_NOTICE,
-          payload: [id, `您参与的活动马上就要开奖了，请前往直播间观看，直播间分享口令为：${this.state.noticeContent}`, 10],
-          method: "POST",
-          showToast: false,
-          autoLogin: false,
-        }).then((res) => {
-          if (res) {
-            Taro.showToast({
-              title: "发送成功",
-              icon: "success",
-            });
-          } else {
-            Taro.showToast({
-              title: "发送失败",
-              icon: "error",
-            });
-          }
-        });
-      }
+  goNotice = (id) => {
+    Taro.navigateTo({
+      url: `/pages/apply-notice/apply-notice?id=${id}`,
     });
   };
 
-  setLuckNums = () => {
-    const self = this;
-    if (this.state.luckNums) {
-      const luckNums = this.state.luckNums.split(",");
-      if (luckNums.length > 0) {
-        fetch({
-          url: API_ACTIVITY_SETLUCKNUMS,
-          payload: [this.props.publishData.id, luckNums],
-          method: "POST",
-          showToast: false,
-          autoLogin: false,
-        }).then((res) => {
-          if (res) {
-            Taro.showToast({
-              title: "设置成功",
-              icon: "success",
-            });
-            self.setState({
-              isOpenShow: false,
-              hideButton: true,
-            });
-          } else {
-            Taro.showToast({
-              title: "设置失败",
-              icon: "error",
-            });
-          }
-        });
-      } else {
-        Taro.showToast({
-          title: "中奖号码不合法",
-          icon: "error",
-        });
-      }
-    } else {
-      Taro.showToast({
-        title: "请填写中奖号码",
-        icon: "error",
-      });
+  goNums = (id) => {
+    Taro.navigateTo({
+      url: `/pages/apply-nums/apply-nums?id=${id}`,
+    });
+  };
+
+  getStatus = (status) => {
+    switch (status) {
+      case "wait_review":
+        return "待审核";
+      case "review_refuse":
+        return "审核未通过";
+      case "wait_team":
+        return "待组队";
+      case "wait_open":
+        return "待开奖";
+      case "complete":
+        return "已完成";
+      case "close":
+        return "组队未成功，关闭";
+      default:
+        return "";
     }
-  };
-
-  openShow = (isShow) => {
-    this.setState({
-      isOpenShow: isShow,
-    });
-  };
-
-  noticeShow = (isShow) => {
-    this.setState({
-      isNoticeShow: isShow,
-    });
   };
 
   render() {
@@ -156,8 +98,11 @@ export default class PublishItem extends Component {
             ></AtAvatar>
           </View>
           <View className="nameArea">
-            <View className="name">{publishData.name}</View>
-            <View className="price">￥ {publishData.price / 100}</View>
+            <View>
+              <View className="name">{publishData.name}</View>
+              <View className="price">￥ {publishData.price / 100}</View>
+            </View>
+            <View className="status">{this.getStatus(publishData.status)}</View>
           </View>
         </View>
         <View className="middleContent">
@@ -210,61 +155,19 @@ export default class PublishItem extends Component {
           {publishData.status === "wait_open" && (
             <View
               className="statuArea"
-              onClick={this.noticeShow.bind(this, true)}
+              onClick={this.goNotice.bind(this, publishData.id)}
             >
-              发送开播提醒
+              提交直播
             </View>
           )}
-          <AtModal isOpened={isNoticeShow}>
-            <AtModalHeader>请输入抖音直播分享口令</AtModalHeader>
-            <AtModalContent>
-              <View>请输入抖音直播分享口令，邀请活动参与者前来观看直播</View>
-              {isNoticeShow && (
-                <AtInput
-                  name="noticeContent"
-                  title="直播分享口令"
-                  type="text"
-                  placeholder="直播分享口令"
-                  value={this.state.noticeContent}
-                  onChange={this.handleChange.bind(this, "noticeContent")}
-                />
-              )}
-            </AtModalContent>
-            <AtModalAction>
-              <Button onClick={this.noticeShow.bind(this, false)}>取消</Button>{" "}
-              <Button onClick={this.notice.bind(this, publishData.id)}>
-                确定
-              </Button>
-            </AtModalAction>
-          </AtModal>
           {publishData.status === "wait_open" && !hideButton && (
             <View
               className="statuArea"
-              onClick={this.openShow.bind(this, true)}
+              onClick={this.goNums.bind(this, publishData.id)}
             >
-              开奖
+              提交开奖
             </View>
           )}
-          <AtModal isOpened={isOpenShow}>
-            <AtModalHeader>请输入开奖号码</AtModalHeader>
-            <AtModalContent>
-              <View>请输入开奖号码，并用英文逗号 ',' 做分隔</View>
-              {this.state.isOpenShow && (
-                <AtInput
-                  name="luckNums"
-                  title="开奖号码"
-                  type="text"
-                  placeholder="开奖号码"
-                  value={this.state.luckNums}
-                  onChange={this.handleChange.bind(this, "luckNums")}
-                />
-              )}
-            </AtModalContent>
-            <AtModalAction>
-              <Button onClick={this.openShow.bind(this, false)}>取消</Button>{" "}
-              <Button onClick={this.setLuckNums.bind(this)}>确定</Button>
-            </AtModalAction>
-          </AtModal>
         </View>
       </View>
     );

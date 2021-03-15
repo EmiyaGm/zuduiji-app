@@ -15,14 +15,6 @@ export default class Profile extends Component {
     loginInfo: {},
   };
 
-  handleLogin = () => {
-    if (!this.props.loginInfo.token) {
-      Taro.navigateTo({
-        url: "/pages/user-login/user-login",
-      });
-    }
-  };
-
   getPhoneNumber = (e) => {
     const self = this;
     const { errMsg } = e.detail ? e.detail : {};
@@ -68,11 +60,10 @@ export default class Profile extends Component {
             <Image
               className="user-profile__avatar-img"
               src={userInfo.avatarUrl || defaultAvatar}
-              onClick={this.handleLogin}
             />
           </View>
 
-          <View className="user-profile__info" onClick={this.handleLogin}>
+          <View className="user-profile__info">
             <Text className="user-profile__info-name">
               {loginInfo.token ? userInfo.nickName : "未登录"}
             </Text>
@@ -90,10 +81,10 @@ export default class Profile extends Component {
                   </AtButton>
                 </View>
               ) : (
-                ""
+                <View className="user-profile__info-tip">{userInfo.phone}</View>
               )
             ) : (
-              <Text className="user-profile__info-tip">点击登录账号</Text>
+              <Text className="user-profile__info-tip">登录后显示</Text>
             )}
           </View>
         </View>

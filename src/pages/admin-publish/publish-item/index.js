@@ -60,7 +60,7 @@ export default class PublishItem extends Component {
 
     return (
       <View className="publish-item">
-        <View className="headContent">
+        <View className="headContent" onClick={this.goDetail.bind(this)}>
           <View className="coverArea">
             <AtAvatar
               image={

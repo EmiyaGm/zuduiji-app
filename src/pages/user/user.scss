@@ -47,3 +47,15 @@
   font-size: 28px;
   text-align: center;
 }
+
+.loginArea {
+  margin: 36px;
+  padding: 36px;
+  background: white;
+  border-radius: 8px;
+  .loginTip{
+    padding: 36px 0px;
+    font-size: 32px;
+    text-align: center;
+  }
+}

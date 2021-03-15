@@ -73,7 +73,6 @@ export default class UserItem extends Component {
             <View className="name">{userData.nickName}</View>
             <View className="price">
               <View>{userData.phone}</View>
-              <View>{userData.id}</View>
             </View>
           </View>
         </View>

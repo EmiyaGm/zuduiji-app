@@ -61,9 +61,9 @@ export default async function fetch(options) {
           title: "请先登录",
           icon: "error",
         });
-        Taro.navigateTo({
-          url: "/pages/user-login/user-login",
-        });
+        Taro.switchTab({
+          url: '/pages/user/user'
+        })
       }
 
       return res.data[1];
@@ -79,9 +79,9 @@ export default async function fetch(options) {
       }
 
       if (err.code === CODE_AUTH_EXPIRED && autoLogin) {
-        Taro.navigateTo({
-          url: "/pages/user-login/user-login",
-        });
+        Taro.switchTab({
+          url: '/pages/user/user'
+        })
       }
 
       return Promise.reject({ message: defaultMsg, ...err });

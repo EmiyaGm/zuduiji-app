@@ -177,6 +177,18 @@ class PublishOrderDetail extends Component {
     }
   };
 
+  copyText = (text) => {
+    Taro.setClipboardData({
+      data: text,
+      success: () => {
+        Taro.showToast({
+          title: "复制成功",
+          icon: "success",
+        });
+      },
+    });
+  };
+
   render() {
     const { isBingoShow } = this.state;
     return (
@@ -295,6 +307,52 @@ class PublishOrderDetail extends Component {
               />
             </AtList>
           </View>
+          {this.state.publishtDetail.noticeContent && (
+            <View className="noticeContent">
+              <View className="title">直播信息</View>
+              <View className="content">
+                <View className="contentTitle">
+                  <View>直播口令</View>
+                  <View>
+                    <AtButton
+                      type="primary"
+                      size="small"
+                      onClick={this.copyText.bind(
+                        this,
+                        this.state.publishtDetail.noticeContent,
+                      )}
+                    >
+                      复制
+                    </AtButton>
+                  </View>
+                </View>
+                <View>{this.state.publishtDetail.noticeContent}</View>
+              </View>
+            </View>
+          )}
+          {this.state.orderDetail.logistics && (
+            <View className="logisticsContent">
+              <View className="title">物流单号</View>
+              <View className="content">
+                <View className="contentTitle">物流公司：</View>
+                <View className="contentArea">
+                  <View> 快递单号：{this.state.orderDetail.logistics}</View>
+                  <View>
+                    <AtButton
+                      type="primary"
+                      size="small"
+                      onClick={this.copyText.bind(
+                        this,
+                        this.state.orderDetail.logistics,
+                      )}
+                    >
+                      复制
+                    </AtButton>
+                  </View>
+                </View>
+              </View>
+            </View>
+          )}
           <View className="codeArea">
             <View className="title">已为您分配序号：</View>
             <View className="myCode">

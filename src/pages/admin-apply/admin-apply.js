@@ -64,6 +64,7 @@ class AdminApply extends Component {
       url: API_BUSINESS_LIST,
       payload: [
         this.state.tabList[this.state.current].type,
+        [],
         self.state.page * self.state.pagesize,
         self.state.pagesize,
       ],
@@ -83,6 +84,9 @@ class AdminApply extends Component {
           });
         }
       } else {
+        self.setState({
+          showActivity: false,
+        });
         Taro.showToast({
           title: "暂无数据",
           icon: "none",
@@ -121,7 +125,7 @@ class AdminApply extends Component {
                 <View className="applyList">
                   {dataList.map((apply, index2) => {
                     return (
-                      <ApplyItem applyData={apply} key={`${apply.userId + index2}`} />
+                      <ApplyItem applyData={apply} key={`${apply.business.id + index2}`} />
                     );
                   })}
                 </View>
