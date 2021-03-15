@@ -10,17 +10,16 @@ export default class PublishItem extends Component {
     publishData: {},
   };
 
-  onShareAppMessage (res) {
-    if (res.from === 'button') {
+  onShareAppMessage(res) {
+    if (res.from === "button") {
       // 来自页面内转发按钮
-      console.log(res.target)
+      console.log(res.target);
     }
     return {
       title: this.props.publishData.name,
-      path: `/publish-page/publish-detail?id=${this.props.publishData.id}`
-    }
+      path: `/publish-page/publish-detail?id=${this.props.publishData.id}`,
+    };
   }
-
 
   goDetail = (id) => {
     Taro.navigateTo({
@@ -45,15 +44,16 @@ export default class PublishItem extends Component {
             ></AtAvatar>
           </View>
           <View className="nameArea">
-            <View className="name">{publishData.name}</View>
-            <View className="price">￥ {publishData.price / 100}</View>
+            <View>
+              <View className="name">{publishData.name}</View>
+              <View className="price">￥ {publishData.price / 100}</View>
+            </View>
+            <View className="status">{this.getStatus(publishData.status)}</View>
           </View>
         </View>
         <View className="middleContent">
           <View className="at-row">
-            <View
-              className="at-col"
-            >
+            <View className="at-col">
               <View
                 style={{
                   color: "lightblue",
@@ -91,7 +91,9 @@ export default class PublishItem extends Component {
             >
               详情
             </Button>
-            <Button className="actionButton" openType="share">分享</Button>
+            <Button className="actionButton" openType="share">
+              分享
+            </Button>
           </View>
         </View>
       </View>

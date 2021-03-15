@@ -23,7 +23,7 @@ class PartySuccess extends Component {
   state = {
     id: "",
     orderDetail: {},
-    publishtDetail: {},
+    publishDetail: {},
     activityItems: [],
   };
 
@@ -51,7 +51,7 @@ class PartySuccess extends Component {
           self.setState(
             {
               orderDetail: res.orders[0].order,
-              publishtDetail: res.activity,
+              publishDetail: res.activity,
               activityItems: res.orders[0].activityItems,
             },
             () => {

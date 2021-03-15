@@ -19,7 +19,7 @@ class OrderDetail extends Component {
   state = {
     id: "",
     orderDetail: {},
-    publishtDetail: {},
+    publishDetail: {},
     activityItems: [],
     minutes: 0,
     seconds: 0,
@@ -49,7 +49,7 @@ class OrderDetail extends Component {
           self.setState(
             {
               orderDetail: res.orders[0].order,
-              publishtDetail: res.activity,
+              publishDetail: res.activity,
               activityItems: res.orders[0].activityItems,
             },
             () => {
@@ -266,17 +266,17 @@ class OrderDetail extends Component {
             <View className="cover">
               <AtAvatar
                 image={
-                  this.state.publishtDetail.images
-                    ? HOST_UPLOAD + this.state.publishtDetail.images[0]
+                  this.state.publishDetail.images
+                    ? HOST_UPLOAD + this.state.publishDetail.images[0]
                     : defaultAvatar
                 }
                 size="large"
               ></AtAvatar>
             </View>
             <View className="content">
-              <View className="name">{this.state.publishtDetail.name}</View>
+              <View className="name">{this.state.publishDetail.name}</View>
               <View className="price">
-                {this.state.publishtDetail.price / 100}
+                {this.state.publishDetail.price / 100}
                 <Text className="number">x1</Text>
               </View>
             </View>
@@ -290,8 +290,8 @@ class OrderDetail extends Component {
               <AtListItem
                 title="邮费"
                 extraText={
-                  this.state.publishtDetail.fare
-                    ? `￥ ${this.state.publishtDetail.fare / 100}`
+                  this.state.publishDetail.fare
+                    ? `￥ ${this.state.publishDetail.fare / 100}`
                     : "免运费"
                 }
               />
@@ -309,7 +309,7 @@ class OrderDetail extends Component {
               />
             </AtList>
           </View>
-          {this.state.publishtDetail.noticeContent && (
+          {this.state.publishDetail.noticeContent && (
             <View className="noticeContent">
               <View className="title">直播信息</View>
               <View className="content">
@@ -321,14 +321,14 @@ class OrderDetail extends Component {
                       size="small"
                       onClick={this.copyText.bind(
                         this,
-                        this.state.publishtDetail.noticeContent,
+                        this.state.publishDetail.noticeContent,
                       )}
                     >
                       复制
                     </AtButton>
                   </View>
                 </View>
-                <View>{this.state.publishtDetail.noticeContent}</View>
+                <View>{this.state.publishDetail.noticeContent}</View>
               </View>
             </View>
           )}

@@ -17,7 +17,7 @@ export default class PublishItem extends Component {
 
   goDetail = (id) => {
     Taro.navigateTo({
-      url: `/pages/publish-detail/publish-detail?id=${id}`,
+      url: `/pages/admin-publish-detail/admin-publish-detail?id=${id}`,
     });
   };
 
@@ -54,13 +54,35 @@ export default class PublishItem extends Component {
     });
   };
 
+  getStatus = (status) => {
+    switch (status) {
+      case "wait_review":
+        return "待审核";
+      case "review_refuse":
+        return "审核未通过";
+      case "wait_team":
+        return "待组队";
+      case "wait_open":
+        return "待开奖";
+      case "complete":
+        return "已完成";
+      case "close":
+        return "组队未成功，关闭";
+      default:
+        return "";
+    }
+  };
+
   render() {
     const { publishData } = this.props;
     const { hideButton } = this.state;
 
     return (
       <View className="publish-item">
-        <View className="headContent" onClick={this.goDetail.bind(this)}>
+        <View
+          className="headContent"
+          onClick={this.goDetail.bind(this, publishData.id)}
+        >
           <View className="coverArea">
             <AtAvatar
               image={
@@ -72,8 +94,11 @@ export default class PublishItem extends Component {
             ></AtAvatar>
           </View>
           <View className="nameArea">
-            <View className="name">{publishData.name}</View>
-            <View className="price">￥ {publishData.price / 100}</View>
+            <View>
+              <View className="name">{publishData.name}</View>
+              <View className="price">￥ {publishData.price / 100}</View>
+            </View>
+            <View className="status">{this.getStatus(publishData.status)}</View>
           </View>
         </View>
         <View className="middleContent">

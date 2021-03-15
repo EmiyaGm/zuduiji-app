@@ -1,23 +1,15 @@
 import Taro, { Component, getCurrentInstance } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import {
-  AtForm,
-  AtInput,
-  AtButton,
-  AtImagePicker,
-  AtList,
-  AtListItem,
-  AtTextarea,
-} from "taro-ui";
+import { AtButton, AtList, AtListItem } from "taro-ui";
 import moment from "moment";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
-import { API_ACTIVITY_DETIL } from "@constants/api";
+import { API_ACTIVITY_DETIL, API_ACTIVITY_ADMINREVIEWACTIVITY } from "@constants/api";
 import Banner from "./banner";
-import "./publish-detail.scss";
+import "./admin-publish-detail.scss";
 
-class PublishDetail extends Component {
+class AdminPublishDetail extends Component {
   config = {
     navigationBarTitleText: "组队详情",
   };
@@ -39,15 +31,15 @@ class PublishDetail extends Component {
     }
   }
 
-  onShareAppMessage (res) {
-    if (res.from === 'button') {
+  onShareAppMessage(res) {
+    if (res.from === "button") {
       // 来自页面内转发按钮
-      console.log(res.target)
+      console.log(res.target);
     }
     return {
       title: this.state.publishDetail.name,
-      path: `/publish-page/publish-detail?id=${this.state.id}`
-    }
+      path: `/publish-page/publish-detail?id=${this.state.id}`,
+    };
   }
 
   getDetail(id) {
@@ -93,11 +85,38 @@ class PublishDetail extends Component {
     });
   }
 
-  confirmOrder(id) {
-    Taro.navigateTo({
-      url: `/pages/order-confirm/order-confirm?id=${id}`,
+  review = (status, id) => {
+    const self = this;
+    Taro.showModal({
+      title: "活动申请",
+      content: status === "pass" ? "确认通过？" : "确认拒绝",
+    }).then((res) => {
+      if (res.confirm) {
+        fetch({
+          url: API_ACTIVITY_ADMINREVIEWACTIVITY,
+          payload: [id, status, ""],
+          method: "POST",
+          showToast: false,
+          autoLogin: false,
+        }).then((res) => {
+          if (res) {
+            Taro.showToast({
+              title: "操作成功",
+              icon: "success",
+            });
+            self.setState({
+              hideButton: true,
+            });
+          } else {
+            Taro.showToast({
+              title: "操作失败",
+              icon: "error",
+            });
+          }
+        });
+      }
     });
-  }
+  };
 
   render() {
     const groupRule = {
@@ -105,11 +124,12 @@ class PublishDetail extends Component {
       random_num: "随机编号",
       random_list: "随机序号",
     };
+    const { publishDetail } = this.state;
     return (
-      <View className="publish-detail">
+      <View className="admin-publish-detail">
         <ScrollView
           scrollY
-          className="publish-detail__wrap"
+          className="admin-publish-detail__wrap"
           style={{ height: getWindowHeight() }}
         >
           <View className="imagesArea">
@@ -127,6 +147,55 @@ class PublishDetail extends Component {
               </View>
             </View>
             <View className="name">{this.state.publishDetail.name}</View>
+          </View>
+          {publishDetail.status === "wait_review" && !hideButton && (
+            <View className="actionArea">
+              <Text
+                className="actionItem"
+                onClick={this.review.bind(this, "pass", publishDetail.id)}
+              >
+                审核通过
+              </Text>
+              <Text
+                className="actionItem"
+                onClick={this.review.bind(this, "fail", publishDetail.id)}
+              >
+                审核拒绝
+              </Text>
+            </View>
+          )}
+          <View className="orderArea">
+            <View className="title">订单信息</View>
+            <View className="at-row">
+              <View className="at-col">
+                <View
+                  style={{
+                    color: "lightblue",
+                  }}
+                >
+                  0
+                </View>
+                <View>订单数</View>
+              </View>
+              <View className="at-col">
+                <View style={{ color: "red" }}>
+                  {(publishDetail.num * publishDetail.price) / 100}
+                </View>
+                <View>订单总额</View>
+              </View>
+              <View className="at-col">
+                <View>{publishDetail.joinNum ? publishDetail.joinNum : 0}</View>
+                <View>已卖出</View>
+              </View>
+              <View className="at-col">
+                <View style={{ color: "red" }}>
+                  {publishDetail.joinNum
+                    ? publishDetail.num - publishDetail.joinNum
+                    : publishDetail.num}
+                </View>
+                <View>剩余数</View>
+              </View>
+            </View>
           </View>
           <View className="infoArea">
             <AtList>
@@ -174,25 +243,10 @@ class PublishDetail extends Component {
             )}
           </View>
           <View className="descArea"></View>
-          {this.state.publishDetail.status === "wait_team" && (
-            <View className="bottomArea at-row">
-              <View className="share at-col at-col-4">
-                <AtButton type="primary" openType="share">分享</AtButton>
-              </View>
-              <View className="buy at-col at-col-8">
-                <AtButton
-                  type="primary"
-                  onClick={this.confirmOrder.bind(this, this.state.id)}
-                >
-                  报名参加
-                </AtButton>
-              </View>
-            </View>
-          )}
         </ScrollView>
       </View>
     );
   }
 }
 
-export default PublishDetail;
+export default AdminPublishDetail;

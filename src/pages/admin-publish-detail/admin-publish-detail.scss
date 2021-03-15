@@ -1,0 +1,51 @@
+.admin-publish-detail {
+  .admin-publish-detail__wrap {
+    .priceArea {
+      font-size: 40px;
+      padding: 24px;
+      .price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 24px;
+        .fare {
+          font-size: 32px;
+          color: #999999;
+        }
+      }
+    }
+    .infoArea {
+      .introduceArea {
+        padding: 24px;
+        font-size: 36px;
+      }
+      .noticeArea {
+        padding: 24px;
+        font-size: 36px;
+      }
+    }
+    .actionArea {
+      font-size: 32px;
+      padding: 24px 24px;
+      .actionItem {
+        margin-right: 20px;
+      }
+    }
+    .orderArea {
+      font-size: 32px;
+      text-align: center;
+      padding: 24px;
+    }
+    .bottomArea {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .share {
+        padding: 12px;
+      }
+      .buy {
+        padding: 12px;
+      }
+    }
+  }
+}

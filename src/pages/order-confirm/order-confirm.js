@@ -26,7 +26,7 @@ class OrderConfirm extends Component {
 
   state = {
     id: "",
-    publishtDetail: {},
+    publishDetail: {},
     num: 1,
     totalAmount: 0,
     remark: "",
@@ -66,7 +66,7 @@ class OrderConfirm extends Component {
           this.state.num * res.activity.price +
           (res.activity.fare ? res.activity.fare : 0);
         self.setState({
-          publishtDetail: res.activity,
+          publishDetail: res.activity,
           totalAmount,
         });
       }
@@ -97,8 +97,8 @@ class OrderConfirm extends Component {
 
   handleChange = (num) => {
     const totalAmount =
-      num * this.state.publishtDetail.price +
-      (this.state.publishtDetail.fare ? this.state.publishtDetail.fare : 0);
+      num * this.state.publishDetail.price +
+      (this.state.publishDetail.fare ? this.state.publishDetail.fare : 0);
     this.setState({
       num,
       totalAmount,
@@ -250,17 +250,17 @@ class OrderConfirm extends Component {
             <View className="cover">
               <AtAvatar
                 image={
-                  this.state.publishtDetail.images
-                    ? HOST_UPLOAD + this.state.publishtDetail.images[0]
+                  this.state.publishDetail.images
+                    ? HOST_UPLOAD + this.state.publishDetail.images[0]
                     : defaultAvatar
                 }
                 size="large"
               ></AtAvatar>
             </View>
             <View className="content">
-              <View className="name">{this.state.publishtDetail.name}</View>
+              <View className="name">{this.state.publishDetail.name}</View>
               <View className="price">
-                ￥ {this.state.publishtDetail.price / 100}
+                ￥ {this.state.publishDetail.price / 100}
                 <Text className="number">x1</Text>
               </View>
             </View>
@@ -272,7 +272,7 @@ class OrderConfirm extends Component {
                 <View className="second">
                   <AtInputNumber
                     min={1}
-                    max={this.state.publishtDetail.num}
+                    max={this.state.publishDetail.num}
                     step={1}
                     value={this.state.num}
                     onChange={this.handleChange.bind(this)}
@@ -284,8 +284,8 @@ class OrderConfirm extends Component {
               <AtListItem
                 title="邮费"
                 extraText={
-                  this.state.publishtDetail.fare
-                    ? `￥ ${this.state.publishtDetail.fare / 100}`
+                  this.state.publishDetail.fare
+                    ? `￥ ${this.state.publishDetail.fare / 100}`
                     : "免运费"
                 }
               />

@@ -1,23 +1,9 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import {
-  AtList,
-  AtListItem,
-  AtAvatar,
-  AtCountdown,
-  AtButton,
-  AtModal,
-  AtModalHeader,
-  AtModalContent,
-  AtModalAction,
-  AtInput,
-} from "taro-ui";
+import { AtList, AtListItem, AtAvatar, AtCountdown, AtButton } from "taro-ui";
 import fetch from "@utils/request";
-import {
-  API_ACTIVITY_ORDERDETAIL,
-  API_ACTIVITY_LOGISTICS,
-} from "@constants/api";
+import { API_ACTIVITY_ORDERDETAIL } from "@constants/api";
 import { getWindowHeight } from "@utils/style";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./publish-order-detail.scss";
@@ -30,12 +16,10 @@ class PublishOrderDetail extends Component {
   state = {
     id: "",
     orderDetail: {},
-    publishtDetail: {},
+    publishDetail: {},
     activityItems: [],
     minutes: 0,
     seconds: 0,
-    isBingoShow: false,
-    logistics: "",
   };
 
   componentDidMount() {
@@ -62,7 +46,7 @@ class PublishOrderDetail extends Component {
           self.setState(
             {
               orderDetail: res.orders[0].order,
-              publishtDetail: res.activity,
+              publishDetail: res.activity,
               activityItems: res.orders[0].activityItems,
             },
             () => {
@@ -137,46 +121,6 @@ class PublishOrderDetail extends Component {
     });
   };
 
-  bingoShow = (isShow) => {
-    this.setState({
-      isBingoShow: isShow,
-    });
-  };
-
-  setLogistics = () => {
-    const self = this;
-    if (this.state.logistics) {
-      fetch({
-        url: API_ACTIVITY_LOGISTICS,
-        payload: [this.state.orderDetail.id, this.state.logistics],
-        method: "POST",
-        showToast: false,
-        autoLogin: false,
-      }).then((res) => {
-        if (res) {
-          Taro.showToast({
-            title: "设置成功",
-            icon: "success",
-          });
-          self.getDetail(this.state.orderDetail.id);
-          self.setState({
-            isBingoShow: false,
-          });
-        } else {
-          Taro.showToast({
-            title: "设置失败",
-            icon: "error",
-          });
-        }
-      });
-    } else {
-      Taro.showToast({
-        title: "请输入快递单号",
-        icon: "none",
-      });
-    }
-  };
-
   copyText = (text) => {
     Taro.setClipboardData({
       data: text,
@@ -189,8 +133,13 @@ class PublishOrderDetail extends Component {
     });
   };
 
+  goLogistics = () => {
+    Taro.navigateTo({
+      url: "/pages/apply-logistics/apply-logistics",
+    });
+  };
+
   render() {
-    const { isBingoShow } = this.state;
     return (
       <View className="publish-order-detail">
         <ScrollView
@@ -220,33 +169,13 @@ class PublishOrderDetail extends Component {
                     type="primary"
                     circle={true}
                     size="small"
-                    onClick={this.bingoShow.bind(this, true)}
+                    onClick={this.goLogistics.bind(this)}
                   >
                     确认发货
                   </AtButton>
                 </View>
               </View>
             )}
-            <AtModal isOpened={isBingoShow}>
-              <AtModalHeader>请输入快递单号</AtModalHeader>
-              <AtModalContent>
-                <View>请输入快递单号</View>
-                {isBingoShow && (
-                  <AtInput
-                    name="logistics"
-                    title="快递单号"
-                    type="text"
-                    placeholder="快递单号"
-                    value={this.state.logistics}
-                    onChange={this.handleChange.bind(this, "logistics")}
-                  />
-                )}
-              </AtModalContent>
-              <AtModalAction>
-                <Button onClick={this.bingoShow.bind(this, false)}>取消</Button>{" "}
-                <Button onClick={this.setLogistics.bind(this)}>确定</Button>
-              </AtModalAction>
-            </AtModal>
           </View>
           <View className="addressArea">
             <View className="addressTitle">
@@ -264,17 +193,17 @@ class PublishOrderDetail extends Component {
             <View className="cover">
               <AtAvatar
                 image={
-                  this.state.publishtDetail.images
-                    ? HOST_UPLOAD + this.state.publishtDetail.images[0]
+                  this.state.publishDetail.images
+                    ? HOST_UPLOAD + this.state.publishDetail.images[0]
                     : defaultAvatar
                 }
                 size="large"
               ></AtAvatar>
             </View>
             <View className="content">
-              <View className="name">{this.state.publishtDetail.name}</View>
+              <View className="name">{this.state.publishDetail.name}</View>
               <View className="price">
-                {this.state.publishtDetail.price / 100}
+                {this.state.publishDetail.price / 100}
                 <Text className="number">x1</Text>
               </View>
             </View>
@@ -288,8 +217,8 @@ class PublishOrderDetail extends Component {
               <AtListItem
                 title="邮费"
                 extraText={
-                  this.state.publishtDetail.fare
-                    ? `￥ ${this.state.publishtDetail.fare / 100}`
+                  this.state.publishDetail.fare
+                    ? `￥ ${this.state.publishDetail.fare / 100}`
                     : "免运费"
                 }
               />
@@ -307,7 +236,7 @@ class PublishOrderDetail extends Component {
               />
             </AtList>
           </View>
-          {this.state.publishtDetail.noticeContent && (
+          {this.state.publishDetail.noticeContent && (
             <View className="noticeContent">
               <View className="title">直播信息</View>
               <View className="content">
@@ -319,14 +248,14 @@ class PublishOrderDetail extends Component {
                       size="small"
                       onClick={this.copyText.bind(
                         this,
-                        this.state.publishtDetail.noticeContent,
+                        this.state.publishDetail.noticeContent,
                       )}
                     >
                       复制
                     </AtButton>
                   </View>
                 </View>
-                <View>{this.state.publishtDetail.noticeContent}</View>
+                <View>{this.state.publishDetail.noticeContent}</View>
               </View>
             </View>
           )}

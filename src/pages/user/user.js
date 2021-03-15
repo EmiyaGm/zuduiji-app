@@ -1,4 +1,4 @@
-import Taro, { Component } from "@tarojs/taro";
+import Taro, { Component, login } from "@tarojs/taro";
 import { View, Text, ScrollView } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import { AtButton, AtCard, AtList, AtListItem } from "taro-ui";
@@ -211,59 +211,63 @@ class User extends Component {
             </AtCard>
           )}
           <View className="user__empty" />
-          <AtCard extra="" title="我参与的">
-            <View className="at-row">
-              <View
-                className="at-col at-col-3 statusText"
-                onClick={(e) => {
-                  this.orderList(e, "wait_pay");
-                }}
-              >
-                <View>
-                  <Image className="statusIcon" src={waitPay} />
+          {loginInfo.account && (
+            <View>
+              <AtCard extra="" title="我参与的">
+                <View className="at-row">
+                  <View
+                    className="at-col at-col-3 statusText"
+                    onClick={(e) => {
+                      this.orderList(e, "wait_pay");
+                    }}
+                  >
+                    <View>
+                      <Image className="statusIcon" src={waitPay} />
+                    </View>
+                    <View>待支付</View>
+                  </View>
+                  <View
+                    className="at-col at-col-3 statusText"
+                    onClick={(e) => {
+                      this.orderList(e, "bingo");
+                    }}
+                  >
+                    <View>
+                      <Image className="statusIcon" src={waitSend} />
+                    </View>
+                    <View>待发货</View>
+                  </View>
+                  <View
+                    className="at-col at-col-3 statusText"
+                    onClick={(e) => {
+                      this.orderList(e, "send");
+                    }}
+                  >
+                    <View>
+                      <Image className="statusIcon" src={waitReceive} />
+                    </View>
+                    <View>待收货</View>
+                  </View>
+                  <View
+                    className="at-col at-col-3 statusText"
+                    onClick={this.myOrder.bind(this)}
+                  >
+                    <View>
+                      <Image className="statusIcon" src={allIcon} />
+                    </View>
+                    <View>全部订单</View>
+                  </View>
                 </View>
-                <View>待支付</View>
-              </View>
-              <View
-                className="at-col at-col-3 statusText"
-                onClick={(e) => {
-                  this.orderList(e, "bingo");
-                }}
-              >
-                <View>
-                  <Image className="statusIcon" src={waitSend} />
-                </View>
-                <View>待发货</View>
-              </View>
-              <View
-                className="at-col at-col-3 statusText"
-                onClick={(e) => {
-                  this.orderList(e, "send");
-                }}
-              >
-                <View>
-                  <Image className="statusIcon" src={waitReceive} />
-                </View>
-                <View>待收货</View>
-              </View>
-              <View
-                className="at-col at-col-3 statusText"
-                onClick={this.myOrder.bind(this)}
-              >
-                <View>
-                  <Image className="statusIcon" src={allIcon} />
-                </View>
-                <View>全部订单</View>
-              </View>
+              </AtCard>
+              <View className="user__empty" />
+              <AtCard
+                extra="全部活动"
+                title="我发起的"
+                onClick={this.myPublish}
+              ></AtCard>
+              <View className="user__empty" />
             </View>
-          </AtCard>
-          <View className="user__empty" />
-          <AtCard
-            extra="全部活动"
-            title="我发起的"
-            onClick={this.myPublish}
-          ></AtCard>
-          <View className="user__empty" />
+          )}
           {!loginInfo.account && (
             <View className="loginArea">
               <View className="loginTip">登录后即可参与报名球星卡组队活动</View>
@@ -293,12 +297,16 @@ class User extends Component {
               ) : (
                 ""
               )}
-              <AtListItem
-                title="收货地址"
-                arrow="right"
-                onClick={this.goAddress.bind(this)}
-              />
-              <AtListItem title="联系客服" arrow="right" />
+              {loginInfo.account && (
+                <View>
+                  <AtListItem
+                    title="收货地址"
+                    arrow="right"
+                    onClick={this.goAddress.bind(this)}
+                  />
+                  <AtListItem title="联系客服" arrow="right" />
+                </View>
+              )}
             </AtList>
           </View>
         </ScrollView>

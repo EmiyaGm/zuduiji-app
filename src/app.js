@@ -45,6 +45,8 @@ class App extends Component {
       "pages/my-wallet/my-wallet",
       "pages/apply-notice/apply-notice",
       "pages/apply-nums/apply-nums",
+      "pages/apply-logistics/apply-logistics",
+      "pages/admin-publish-detail/admin-publish-detail",
     ],
     window: {
       backgroundTextStyle: "light",
