@@ -24,44 +24,20 @@ export default class UserItem extends Component {
     }
   }
 
-  setRole(role, userId) {
-    Taro.showModal({
-      title: "设置角色",
-      content:
-        role === "ADMIN"
-          ? "确认设置该用户为管理员？"
-          : "确认设置该用户为管理员商户",
-    }).then((res) => {
-      if (res.confirm) {
-        fetch({
-          url:
-            role === "ADMIN" ? API_ACCOUNT_SETADMIN : API_ACCOUNT_SETBUSINESS,
-          payload: [userId, false],
-          method: "POST",
-          showToast: false,
-          autoLogin: false,
-        }).then((res) => {
-          if (res) {
-            Taro.showToast({
-              title: "操作成功",
-              icon: "success",
-            });
-          } else {
-            Taro.showToast({
-              title: "操作失败",
-              icon: "error",
-            });
-          }
-        });
-      }
+  goDetail = (id) => {
+    Taro.navigateTo({
+      url: `/pages/admin-user-detail/admin-user-detail?id=${id}`,
     });
-  }
+  };
 
   render() {
     const { userData } = this.props;
 
     return (
-      <View className="user-item">
+      <View
+        className="user-item"
+        onClick={this.goDetail.bind(this, userData.id)}
+      >
         <View className="headContent">
           <View className="coverArea">
             <AtAvatar
@@ -77,44 +53,6 @@ export default class UserItem extends Component {
           </View>
         </View>
         <View className="middleContent">{this.getRole(userData.role)}</View>
-        {userData.role === "USER" && (
-          <View className="footContent">
-            <View className="actionButton">
-              <AtButton
-                type="secondary"
-                circle={true}
-                size="small"
-                onClick={this.setRole.bind(this, "ADMIN", userData.id)}
-              >
-                设置管理员
-              </AtButton>
-            </View>
-            <View className="actionButton">
-              <AtButton
-                type="primary"
-                circle={true}
-                size="small"
-                onClick={this.setRole.bind(this, "BUSINESS", userData.id)}
-              >
-                设置商户
-              </AtButton>
-            </View>
-          </View>
-        )}
-        {userData.role === "BUSINESS" && (
-          <View className="footContent">
-            <View className="actionButton">
-              <AtButton
-                type="primary"
-                circle={true}
-                size="small"
-                onClick={this.setRole.bind(this, "ADMIN", userData.id)}
-              >
-                设置管理员
-              </AtButton>
-            </View>
-          </View>
-        )}
       </View>
     );
   }

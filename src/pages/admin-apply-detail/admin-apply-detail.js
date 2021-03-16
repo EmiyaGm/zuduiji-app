@@ -149,7 +149,7 @@ class AdminApplyDetail extends Component {
                 ) : ''}
               </View>
               <View>
-                <View>审核：</View>
+                <View>审核：{!data.business || data.business.status !== "never" ? '已审核' : ''}</View>
                 {data.business && data.business.status === "never" && (
                   <View>
                     <AtButton

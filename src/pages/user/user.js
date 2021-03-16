@@ -16,6 +16,7 @@ import userIcon from "@assets/userIcon.png";
 import activityIcon from "@assets/activityIcon.png";
 import withdrawIcon from "@assets/withdrawIcon.png";
 import allIcon from "@assets/allIcon.png";
+import luckOrder from '@assets/luckOrder.png';
 import "./user.scss";
 
 @connect((state) => state.user, { ...actions })
@@ -136,7 +137,6 @@ class User extends Component {
                   });
                 }
               });
-              Taro.navigateBack({ delta: 2 });
             });
           } else {
             console.log("登录失败！" + res.errMsg);
@@ -149,6 +149,12 @@ class User extends Component {
         icon: "none",
       });
     }
+  };
+
+  goOrderList = () => {
+    Taro.navigateTo({
+      url: `/pages/publish-order-list/publish-order-list`,
+    });
   };
 
   render() {
@@ -261,10 +267,29 @@ class User extends Component {
               </AtCard>
               <View className="user__empty" />
               <AtCard
-                extra="全部活动"
                 title="我发起的"
-                onClick={this.myPublish}
-              ></AtCard>
+              >
+                <View className="at-row">
+                  <View
+                    className="at-col at-col-3 statusText"
+                    onClick={this.goOrderList.bind(this)}
+                  >
+                    <View>
+                      <Image className="statusIcon" src={luckOrder} />
+                    </View>
+                    <View>中奖订单</View>
+                  </View>
+                  <View
+                    className="at-col at-col-3 statusText"
+                    onClick={this.myPublish.bind(this)}
+                  >
+                    <View>
+                      <Image className="statusIcon" src={allIcon} />
+                    </View>
+                    <View>全部活动</View>
+                  </View>
+                </View>
+              </AtCard>
               <View className="user__empty" />
             </View>
           )}

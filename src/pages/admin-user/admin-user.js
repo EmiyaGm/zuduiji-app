@@ -106,7 +106,7 @@ class AdminUser extends Component {
   render() {
     const { dataList } = this.state;
     return (
-      <View className="admin-publish">
+      <View className="admin-user">
         <AtTabs
           current={this.state.current}
           tabList={this.state.tabList}

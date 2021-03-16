@@ -17,7 +17,7 @@ class ApplyNums extends Component {
     id: "",
   };
 
-  componentShow() {
+  componentDidShow() {
     const params = this.$router.params;
     if (params.id) {
       this.setState({

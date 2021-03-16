@@ -19,7 +19,7 @@ class ApplyLogistics extends Component {
     selectorChecked: "顺丰快递",
   };
 
-  componentShow() {
+  componentDidShow() {
     const params = this.$router.params;
     if (params.id) {
       this.setState({

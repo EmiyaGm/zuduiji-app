@@ -46,6 +46,8 @@ class PublishOrderList extends Component {
           this.onRefresh();
         },
       );
+    } else {
+      this.onRefresh();
     }
   }
 

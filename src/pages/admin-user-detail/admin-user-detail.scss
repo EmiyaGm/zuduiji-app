@@ -1,5 +1,5 @@
-.admin-apply-detail {
-  .admin-apply-detail__wrap {
+.admin-user-detail {
+  .admin-user-detail__wrap {
     .userInfo {
       padding: 24px;
       .content {
@@ -14,15 +14,9 @@
       padding: 24px;
       .content {
         font-size: 28px;
-        .passButton {
+        .firstButton {
           margin-bottom: 40px;
         }
-      }
-    }
-    .statusInfo {
-      padding: 24px;
-      .content {
-        font-size: 28px;
       }
     }
   }
