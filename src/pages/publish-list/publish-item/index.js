@@ -27,6 +27,25 @@ export default class PublishItem extends Component {
     });
   };
 
+  getStatus = (status) => {
+    switch (status) {
+      case "wait_review":
+        return "待审核";
+      case "review_refuse":
+        return "审核未通过";
+      case "wait_team":
+        return "待组队";
+      case "wait_open":
+        return "待开奖";
+      case "complete":
+        return "已完成";
+      case "close":
+        return "组队未成功，关闭";
+      default:
+        return "";
+    }
+  };
+
   render() {
     const { publishData } = this.props;
 

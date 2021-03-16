@@ -64,7 +64,7 @@ class AdminApply extends Component {
       url: API_BUSINESS_LIST,
       payload: [
         this.state.tabList[this.state.current].type,
-        [],
+        null,
         self.state.page * self.state.pagesize,
         self.state.pagesize,
       ],
@@ -125,7 +125,10 @@ class AdminApply extends Component {
                 <View className="applyList">
                   {dataList.map((apply, index2) => {
                     return (
-                      <ApplyItem applyData={apply} key={`${apply.business.id + index2}`} />
+                      <ApplyItem
+                        applyData={apply}
+                        key={`${apply.business.id + index2}`}
+                      />
                     );
                   })}
                 </View>

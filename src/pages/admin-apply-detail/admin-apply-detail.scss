@@ -1,0 +1,33 @@
+.admin-apply-detail {
+  padding: 24px;
+  .admin-apply-detail__wrap {
+    .userInfo {
+      .content {
+        display: flex;
+        .infoContent {
+          margin-left: 40px;
+          font-size: 28px;
+        }
+      }
+    }
+    .applyInfo {
+      .content {
+        font-size: 28px;
+        .passButton {
+          margin-bottom: 40px;
+        }
+      }
+    }
+    .statusInfo {
+      .content {
+        font-size: 28px;
+      }
+    }
+  }
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 700;
+  padding: 24px 0px;
+}

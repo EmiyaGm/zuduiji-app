@@ -63,6 +63,7 @@ class AdminUser extends Component {
     fetch({
       url: API_ACCOUNT_ACCOUNTS,
       payload: [
+        null,
         self.state.page * self.state.pagesize,
         self.state.pagesize,
         this.state.tabList[this.state.current].type,

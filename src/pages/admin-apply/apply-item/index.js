@@ -32,50 +32,23 @@ export default class ApplyItem extends Component {
     }
   }
 
-  review = (status, id) => {
-    const self = this;
-    Taro.showModal({
-      title: "用户申请",
-      content: status === "pass" ? "确认通过？" : "确认拒绝",
-    }).then((res) => {
-      if (res.confirm) {
-        fetch({
-          url: API_BUSINESS_REVIEW,
-          payload: [id, status, ""],
-          method: "POST",
-          showToast: false,
-          autoLogin: false,
-        }).then((res) => {
-          if (res) {
-            Taro.showToast({
-              title: "操作成功",
-              icon: "success",
-            });
-            self.setState({
-              hideButton: true,
-            });
-          } else {
-            Taro.showToast({
-              title: "操作失败",
-              icon: "error",
-            });
-          }
-        });
-      }
+  goDetail = (id) => {
+    Taro.navigateTo({
+      url: `/pages/admin-apply-detail/admin-apply-detail?id=${id}`,
     });
   };
 
   render() {
     const { applyData } = this.props;
-    const { hideButton } = this.state;
     return (
-      <View className="apply-item">
+      <View
+        className="apply-item"
+        onClick={this.goDetail.bind(this, applyData.account.id)}
+      >
         <View className="headContent">
           <View className="nameArea">
             <View className="avatar">
-              <AtAvatar
-                image={applyData.account.avatarUrl}
-              ></AtAvatar>
+              <AtAvatar image={applyData.account ? applyData.account.avatarUrl : ''}></AtAvatar>
             </View>
             <View className="name">{applyData.account.nickName}</View>
           </View>

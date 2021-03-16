@@ -47,6 +47,7 @@ class App extends Component {
       "pages/apply-nums/apply-nums",
       "pages/apply-logistics/apply-logistics",
       "pages/admin-publish-detail/admin-publish-detail",
+      "pages/admin-apply-detail/admin-apply-detail",
     ],
     window: {
       backgroundTextStyle: "light",
