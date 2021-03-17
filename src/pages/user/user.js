@@ -23,12 +23,17 @@ import activityIcon from "@assets/activityIcon.png";
 import withdrawIcon from "@assets/withdrawIcon.png";
 import allIcon from "@assets/allIcon.png";
 import luckOrder from "@assets/luckOrder.png";
+import applyIcon from "@assets/applyIcon.png";
+import publishIcon from "@assets/publishIcon.png";
+import onPublishIcon from "@assets/onPublishIcon.png";
+import allPublishIcon from "@assets/allPublishIcon.png";
+import applyStatus from "@assets/applyStatus.png";
 import "./user.scss";
 
 @connect((state) => state.user, { ...actions })
 class User extends Component {
   config = {
-    navigationBarTitleText: "个人中心",
+    navigationBarTitleText: "组队鸡",
   };
 
   state = {
@@ -39,7 +44,7 @@ class User extends Component {
   componentDidShow() {
     const self = this;
     if (self.props.loginInfo.account) {
-      if (self.props.loginInfo.role === "USER") {
+      if (self.props.loginInfo.account.role === "USER") {
         self.getApplyStatus();
       }
     }
@@ -49,9 +54,9 @@ class User extends Component {
     this.props.dispatchLogout();
   };
 
-  myPublish() {
+  myPublish(type) {
     Taro.navigateTo({
-      url: "/pages/my-publish/my-publish",
+      url: `/pages/my-publish/my-publish?type=${type}`,
     });
   }
 
@@ -85,22 +90,32 @@ class User extends Component {
 
   handleApply = () => {
     const self = this;
-    fetch({ url: API_BUSINESS_APPLY, showToast: false, autoLogin: false }).then(
-      (res) => {
-        if (res) {
-          Taro.showToast({
-            title: "申请成功！",
-            icon: "none",
-          });
-          self.applyNotice();
-        } else {
-          Taro.showToast({
-            title: "申请失败，请稍后再试",
-            icon: "none",
-          });
-        }
-      },
-    );
+    Taro.showModal({
+      title: "商家入驻",
+      content: "您确定要申请成为商家并入驻吗？",
+    }).then((res) => {
+      if (res.confirm) {
+        fetch({
+          url: API_BUSINESS_APPLY,
+          showToast: false,
+          autoLogin: false,
+        }).then((res) => {
+          if (res) {
+            Taro.showToast({
+              title: "申请成功！",
+              icon: "succes",
+            });
+            self.applyNotice();
+            self.getApplyStatus();
+          } else {
+            Taro.showToast({
+              title: "申请失败，请稍后再试",
+              icon: "error",
+            });
+          }
+        });
+      }
+    });
   };
 
   applyNotice = () => {
@@ -111,7 +126,7 @@ class User extends Component {
         fail: () => {},
       });
     };
-  }
+  };
 
   adminPublish = () => {
     Taro.navigateTo({
@@ -163,7 +178,7 @@ class User extends Component {
               }).then((result) => {
                 if (result) {
                   self.props.dispatchUser(result);
-                  if (result.role === 'ADMIN') {
+                  if (result.role === "ADMIN") {
                     self.adminNotice();
                   }
                   if (!result.phone) {
@@ -174,6 +189,7 @@ class User extends Component {
                     title: "登录成功！",
                     icon: "none",
                   });
+                  self.getApplyStatus();
                 }
               });
             });
@@ -204,19 +220,6 @@ class User extends Component {
     Taro.navigateTo({
       url: `/pages/publish-order-list/publish-order-list`,
     });
-  };
-
-  getStatus = (status) => {
-    switch (status) {
-      case "pass":
-        return "审核通过";
-      case "never":
-        return "正在审核";
-      case "fail":
-        return "审核拒绝，再次申请";
-      default:
-        return "点击提交申请";
-    }
   };
 
   goPublish = () => {
@@ -263,6 +266,11 @@ class User extends Component {
   render() {
     const { userInfo, loginInfo } = this.props;
     const { applyInfo, isOpened } = this.state;
+    const getStatus = {
+      pass: "审核通过",
+      never: "管理员正在审核中",
+      fail: "审核拒绝，请联系客服后再次申请",
+    };
 
     return (
       <View className="user">
@@ -272,11 +280,6 @@ class User extends Component {
           style={{ height: getWindowHeight() }}
         >
           <Profile userInfo={userInfo} loginInfo={loginInfo} />
-          {loginInfo.token && loginInfo.account.role !== "USER" && (
-            <View className="user__logout" onClick={this.goPublish.bind(this)}>
-              <Text className="user__logout-txt"> + 发布组队</Text>
-            </View>
-          )}
           <View className="user__empty" />
           {loginInfo.account && loginInfo.account.role === "ADMIN" && (
             <AtCard extra="" title="平台管理">
@@ -323,6 +326,89 @@ class User extends Component {
           <View className="user__empty" />
           {loginInfo.account && (
             <View>
+              {loginInfo.account.role !== "USER" && (
+                <AtCard title="我发起的">
+                  <View className="at-row">
+                    <View
+                      className="at-col at-col-3 statusText"
+                      onClick={this.goOrderList.bind(this)}
+                    >
+                      <View>
+                        <Image className="statusIcon" src={luckOrder} />
+                      </View>
+                      <View>中奖订单</View>
+                    </View>
+                    <View
+                      className="at-col at-col-3 statusText"
+                      onClick={this.myPublish.bind(this, "")}
+                    >
+                      <View>
+                        <Image className="statusIcon" src={allIcon} />
+                      </View>
+                      <View>全部活动</View>
+                    </View>
+                  </View>
+                </AtCard>
+              )}
+              <View className="user__empty" />
+              <AtCard title="我的组队">
+                {loginInfo.account.role === "USER" && (
+                  <View className="at-row">
+                    <View
+                      className="at-col at-col-3 statusText"
+                      onClick={this.handleApply.bind(this)}
+                    >
+                      <View>
+                        <Image className="statusIcon" src={applyIcon} />
+                      </View>
+                      <View>入驻商家</View>
+                    </View>
+                    {applyInfo.userId && (
+                      <View className="at-col at-col-9 statusText">
+                        <View>
+                          <Image className="statusIcon" src={applyStatus} />
+                        </View>
+                        <View>
+                          商家审核结果：
+                          {getStatus[applyInfo.status]}
+                        </View>
+                      </View>
+                    )}
+                  </View>
+                )}
+                {loginInfo.account.role !== "USER" && (
+                  <View className="at-row">
+                    <View
+                      className="at-col at-col-3 statusText"
+                      onClick={this.goPublish.bind(this)}
+                    >
+                      <View>
+                        <Image className="statusIcon" src={publishIcon} />
+                      </View>
+                      <View>发布组队</View>
+                    </View>
+                    <View
+                      className="at-col at-col-3 statusText"
+                      onClick={this.myPublish.bind(this, "wait_team")}
+                    >
+                      <View>
+                        <Image className="statusIcon" src={onPublishIcon} />
+                      </View>
+                      <View>进行中的组队</View>
+                    </View>
+                    <View
+                      className="at-col at-col-3 statusText"
+                      onClick={this.myPublish.bind(this, "")}
+                    >
+                      <View>
+                        <Image className="statusIcon" src={allPublishIcon} />
+                      </View>
+                      <View>全部组队</View>
+                    </View>
+                  </View>
+                )}
+              </AtCard>
+              <View className="user__empty" />
               <AtCard extra="" title="我参与的">
                 <View className="at-row">
                   <View
@@ -370,29 +456,6 @@ class User extends Component {
                 </View>
               </AtCard>
               <View className="user__empty" />
-              <AtCard title="我发起的">
-                <View className="at-row">
-                  <View
-                    className="at-col at-col-3 statusText"
-                    onClick={this.goOrderList.bind(this)}
-                  >
-                    <View>
-                      <Image className="statusIcon" src={luckOrder} />
-                    </View>
-                    <View>中奖订单</View>
-                  </View>
-                  <View
-                    className="at-col at-col-3 statusText"
-                    onClick={this.myPublish.bind(this)}
-                  >
-                    <View>
-                      <Image className="statusIcon" src={allIcon} />
-                    </View>
-                    <View>全部活动</View>
-                  </View>
-                </View>
-              </AtCard>
-              <View className="user__empty" />
             </View>
           )}
           {!loginInfo.account && (
@@ -408,16 +471,6 @@ class User extends Component {
           )}
           <View className="functionArea">
             <AtList>
-              {loginInfo.account && loginInfo.account.role === "USER" ? (
-                <AtListItem
-                  title="入驻商家"
-                  arrow="right"
-                  onClick={this.handleApply.bind(this)}
-                  extraText={this.getStatus.bind(this, applyInfo.status)}
-                />
-              ) : (
-                ""
-              )}
               {/* {loginInfo.account && (
                 <View>
                   <AtListItem title="联系客服" arrow="right" />
