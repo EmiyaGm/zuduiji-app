@@ -61,9 +61,6 @@ export default async function fetch(options) {
           title: "请先登录",
           icon: "error",
         });
-        Taro.switchTab({
-          url: '/pages/user/user'
-        })
       }
 
       return res.data[1];
@@ -79,7 +76,7 @@ export default async function fetch(options) {
       }
 
       if (err.code === CODE_AUTH_EXPIRED && autoLogin) {
-        Taro.switchTab({
+        Taro.navigateTo({
           url: '/pages/user/user'
         })
       }

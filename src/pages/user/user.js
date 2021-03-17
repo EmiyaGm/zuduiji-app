@@ -5,7 +5,11 @@ import { AtButton, AtCard, AtList, AtListItem } from "taro-ui";
 import { ButtonItem } from "@components";
 import * as actions from "@actions/user";
 import { getWindowHeight } from "@utils/style";
-import { API_BUSINESS_APPLY, API_USER_INFO } from "@constants/api";
+import {
+  API_BUSINESS_APPLY,
+  API_USER_INFO,
+  API_BUSINESS_STATUS,
+} from "@constants/api";
 import fetch from "@utils/request";
 import Profile from "./profile";
 import waitSend from "@assets/wait-send.png";
@@ -16,7 +20,7 @@ import userIcon from "@assets/userIcon.png";
 import activityIcon from "@assets/activityIcon.png";
 import withdrawIcon from "@assets/withdrawIcon.png";
 import allIcon from "@assets/allIcon.png";
-import luckOrder from '@assets/luckOrder.png';
+import luckOrder from "@assets/luckOrder.png";
 import "./user.scss";
 
 @connect((state) => state.user, { ...actions })
@@ -25,7 +29,18 @@ class User extends Component {
     navigationBarTitleText: "个人中心",
   };
 
-  componentDidShow() {}
+  state = {
+    applyInfo: {},
+  };
+
+  componentDidShow() {
+    const self = this;
+    if (self.props.loginInfo.account) {
+      if (self.props.loginInfo.role === "USER") {
+        self.getApplyStatus();
+      }
+    }
+  }
 
   handleLogout = () => {
     this.props.dispatchLogout();
@@ -49,6 +64,21 @@ class User extends Component {
       url: `/pages/my-order/my-order?type=${type}`,
     });
   }
+
+  getApplyStatus = () => {
+    const self = this;
+    fetch({
+      url: API_BUSINESS_STATUS,
+      showToast: false,
+      autoLogin: false,
+    }).then((res) => {
+      if (res) {
+        self.setState({
+          applyInfo: res,
+        });
+      }
+    });
+  };
 
   handleApply = () => {
     fetch({ url: API_BUSINESS_APPLY, showToast: false, autoLogin: false }).then(
@@ -89,18 +119,6 @@ class User extends Component {
   adminWithdraw = () => {
     Taro.navigateTo({
       url: "/pages/admin-withdraw/admin-withdraw",
-    });
-  };
-
-  goAddress = () => {
-    Taro.navigateTo({
-      url: "/pages/address-list/address-list",
-    });
-  };
-
-  myWallet = () => {
-    Taro.navigateTo({
-      url: "/pages/my-wallet/my-wallet",
     });
   };
 
@@ -157,8 +175,28 @@ class User extends Component {
     });
   };
 
+  getStatus = (status) => {
+    switch (status) {
+      case "pass":
+        return "审核通过";
+      case "never":
+        return "正在审核";
+      case "fail":
+        return "审核拒绝，再次申请";
+      default:
+        return "点击提交申请";
+    }
+  };
+
+  goPublish = () => {
+    Taro.navigateTo({
+      url: "/pages/publish/publish",
+    });
+  };
+
   render() {
     const { userInfo, loginInfo } = this.props;
+    const { applyInfo } = this.state;
 
     return (
       <View className="user">
@@ -168,9 +206,9 @@ class User extends Component {
           style={{ height: getWindowHeight() }}
         >
           <Profile userInfo={userInfo} loginInfo={loginInfo} />
-          {loginInfo.token && (
-            <View className="user__logout" onClick={this.handleLogout}>
-              <Text className="user__logout-txt">退出登录</Text>
+          {loginInfo.token && loginInfo.account.role !== 'USER' && (
+            <View className="user__logout" onClick={this.goPublish.bind(this)}>
+              <Text className="user__logout-txt"> + 发布组队</Text>
             </View>
           )}
           <View className="user__empty" />
@@ -266,9 +304,7 @@ class User extends Component {
                 </View>
               </AtCard>
               <View className="user__empty" />
-              <AtCard
-                title="我发起的"
-              >
+              <AtCard title="我发起的">
                 <View className="at-row">
                   <View
                     className="at-col at-col-3 statusText"
@@ -306,32 +342,21 @@ class User extends Component {
           )}
           <View className="functionArea">
             <AtList>
-              {loginInfo.account && loginInfo.account.role === "BUSINESS" && (
-                <AtListItem
-                  title="我的钱包"
-                  arrow="right"
-                  onClick={this.myWallet.bind(this)}
-                />
-              )}
               {loginInfo.account && loginInfo.account.role === "USER" ? (
                 <AtListItem
                   title="入驻商家"
                   arrow="right"
                   onClick={this.handleApply.bind(this)}
+                  extraText={this.getStatus.bind(this, applyInfo.status)}
                 />
               ) : (
                 ""
               )}
-              {loginInfo.account && (
+              {/* {loginInfo.account && (
                 <View>
-                  <AtListItem
-                    title="收货地址"
-                    arrow="right"
-                    onClick={this.goAddress.bind(this)}
-                  />
                   <AtListItem title="联系客服" arrow="right" />
                 </View>
-              )}
+              )} */}
             </AtList>
           </View>
         </ScrollView>

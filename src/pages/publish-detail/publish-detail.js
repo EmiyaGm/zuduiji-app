@@ -147,13 +147,6 @@ class PublishDetail extends Component {
                 extraText={groupRule[this.state.publishDetail.groupRule]}
               />
               <AtListItem
-                title="开卡时间"
-                extraText="人齐就开"
-                note={moment(this.state.publishDetail.openTime * 1000).format(
-                  "YYYY-MM-DD HH:mm:ss",
-                )}
-              />
-              <AtListItem
                 title="序号总表"
                 extraText="查看"
                 onClick={this.openFile.bind(

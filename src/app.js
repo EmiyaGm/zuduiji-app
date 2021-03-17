@@ -23,8 +23,8 @@ const store = configStore();
 class App extends Component {
   config = {
     pages: [
-      "pages/home/home",
       "pages/user/user",
+      "pages/home/home",
       "pages/publish/publish",
       "pages/my-publish/my-publish",
       "pages/publish-detail/publish-detail",
@@ -56,32 +56,32 @@ class App extends Component {
       navigationBarTitleText: "组队机",
       navigationBarTextStyle: "black",
     },
-    tabBar: {
-      color: "#666",
-      selectedColor: "#b4282d",
-      backgroundColor: "#fafafa",
-      borderStyle: "black",
-      list: [
-        {
-          pagePath: "pages/home/home",
-          iconPath: "./assets/tab-bar/home.png",
-          selectedIconPath: "./assets/tab-bar/home-active.png",
-          text: "首页",
-        },
-        {
-          pagePath: "pages/publish/publish",
-          iconPath: "./assets/tab-bar/cart.png",
-          selectedIconPath: "./assets/tab-bar/cart-active.png",
-          text: "发布",
-        },
-        {
-          pagePath: "pages/user/user",
-          iconPath: "./assets/tab-bar/user.png",
-          selectedIconPath: "./assets/tab-bar/user-active.png",
-          text: "个人",
-        },
-      ],
-    },
+    // tabBar: {
+    //   color: "#666",
+    //   selectedColor: "#b4282d",
+    //   backgroundColor: "#fafafa",
+    //   borderStyle: "black",
+    //   list: [
+    //     {
+    //       pagePath: "pages/home/home",
+    //       iconPath: "./assets/tab-bar/home.png",
+    //       selectedIconPath: "./assets/tab-bar/home-active.png",
+    //       text: "首页",
+    //     },
+    //     {
+    //       pagePath: "pages/publish/publish",
+    //       iconPath: "./assets/tab-bar/cart.png",
+    //       selectedIconPath: "./assets/tab-bar/cart-active.png",
+    //       text: "发布",
+    //     },
+    //     {
+    //       pagePath: "pages/user/user",
+    //       iconPath: "./assets/tab-bar/user.png",
+    //       selectedIconPath: "./assets/tab-bar/user-active.png",
+    //       text: "个人",
+    //     },
+    //   ],
+    // },
   };
 
   componentDidMount() {

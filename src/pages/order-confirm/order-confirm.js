@@ -14,6 +14,7 @@ import {
   API_ACTIVITY_DETIL,
   API_ACTIVITY_ORDER,
   API_ADDRESS_LIST,
+  API_ADDRESS_ADDRESS,
 } from "@constants/api";
 import { getWindowHeight } from "@utils/style";
 import defaultAvatar from "@assets/default-avatar.png";
@@ -107,7 +108,7 @@ class OrderConfirm extends Component {
 
   payOrder = () => {
     const self = this;
-    if (this.state.addressInfo.address) {
+    if (this.state.addressInfo.userName) {
       fetch({
         url: API_ACTIVITY_ORDER,
         payload: [
@@ -185,12 +186,43 @@ class OrderConfirm extends Component {
         content: "请先设置自己的收货地址",
       }).then((res) => {
         if (res.confirm) {
-          Taro.navigateTo({
-            url: "/pages/edit-address/edit-address",
-          });
+          self.goAddress();
         }
       });
     }
+  };
+
+  goAddress = () => {
+    const self = this;
+    Taro.chooseAddress({
+      success: (res) => {
+        if (res && res.errMsg === "chooseAddress:ok") {
+          fetch({
+            url: API_ADDRESS_ADDRESS,
+            payload: [res],
+            method: "POST",
+            showToast: false,
+            autoLogin: false,
+          }).then((res) => {
+            if (res) {
+              Taro.showToast({
+                title: "提交成功",
+                icon: "none",
+              });
+              self.getAddress();
+            } else {
+              Taro.showToast({
+                title: "提交失败",
+                icon: "error",
+              });
+            }
+          });
+        }
+      },
+      fail: (res) => {
+        console.log(res);
+      },
+    });
   };
 
   notice = () => {
@@ -237,13 +269,24 @@ class OrderConfirm extends Component {
               <View>
                 <View className="at-icon at-icon-map-pin"></View>
               </View>
-              <View>{this.state.addressInfo.address}</View>
+              <View>
+                {this.state.addressInfo.provinceName}
+                {this.state.addressInfo.cityName}
+                {this.state.addressInfo.countyName}
+                {this.state.addressInfo.detailInfo}
+              </View>
             </View>
             <View className="addressContent">
               <View>
-                {this.state.addressInfo.name} {this.state.addressInfo.phone}
+                {this.state.addressInfo.userName}{" "}
+                {this.state.addressInfo.telNumber}
               </View>
-              <View>{this.state.addressInfo.address}</View>
+              <View>
+                {this.state.addressInfo.provinceName}
+                {this.state.addressInfo.cityName}
+                {this.state.addressInfo.countyName}
+                {this.state.addressInfo.detailInfo}
+              </View>
             </View>
           </View>
           <View className="goodsArea">
