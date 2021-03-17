@@ -1,7 +1,7 @@
 import Taro, { Component, login } from "@tarojs/taro";
 import { View, Text, ScrollView } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtButton, AtCard, AtList, AtListItem } from "taro-ui";
+import { AtButton, AtCard, AtList, AtListItem, AtActionSheet } from "taro-ui";
 import { ButtonItem } from "@components";
 import * as actions from "@actions/user";
 import { getWindowHeight } from "@utils/style";
@@ -9,6 +9,7 @@ import {
   API_BUSINESS_APPLY,
   API_USER_INFO,
   API_BUSINESS_STATUS,
+  API_ACCOUNT_PHONE,
 } from "@constants/api";
 import fetch from "@utils/request";
 import Profile from "./profile";
@@ -31,6 +32,7 @@ class User extends Component {
 
   state = {
     applyInfo: {},
+    isOpened: false,
   };
 
   componentDidShow() {
@@ -148,6 +150,9 @@ class User extends Component {
               }).then((result) => {
                 if (result) {
                   self.props.dispatchUser(result);
+                  if (!result.phone) {
+                    self.setState({ isOpened: true });
+                  }
                   Taro.hideLoading();
                   Taro.showToast({
                     title: "登录成功！",
@@ -194,9 +199,44 @@ class User extends Component {
     });
   };
 
+  getPhoneNumber = (e) => {
+    const self = this;
+    const { errMsg } = e.detail ? e.detail : {};
+    if (errMsg === "getPhoneNumber:ok") {
+      fetch({
+        url: API_ACCOUNT_PHONE,
+        payload: [
+          {
+            ...e.detail,
+            sessionKey: self.props.loginInfo.account.sessionKey,
+          },
+        ],
+        method: "POST",
+        showToast: false,
+        autoLogin: false,
+      }).then((res) => {
+        if (res) {
+          self.props.dispatchUser(res);
+          Taro.showToast({
+            title: "获取成功",
+            icon: "success",
+          });
+          self.setState({
+            isOpened: false,
+          });
+        } else {
+          Taro.showToast({
+            title: "获取失败",
+            icon: "error",
+          });
+        }
+      });
+    }
+  };
+
   render() {
     const { userInfo, loginInfo } = this.props;
-    const { applyInfo } = this.state;
+    const { applyInfo, isOpened } = this.state;
 
     return (
       <View className="user">
@@ -206,7 +246,7 @@ class User extends Component {
           style={{ height: getWindowHeight() }}
         >
           <Profile userInfo={userInfo} loginInfo={loginInfo} />
-          {loginInfo.token && loginInfo.account.role !== 'USER' && (
+          {loginInfo.token && loginInfo.account.role !== "USER" && (
             <View className="user__logout" onClick={this.goPublish.bind(this)}>
               <Text className="user__logout-txt"> + 发布组队</Text>
             </View>
@@ -360,6 +400,23 @@ class User extends Component {
             </AtList>
           </View>
         </ScrollView>
+        <AtActionSheet isOpened={isOpened} cancelText="取消" title="绑定手机号">
+          <View className="bindPhone">
+            <View className="bindPhoneTip">
+              以便于我们为您提供更好的服务，请绑定手机号
+            </View>
+            <AtButton
+              type="primary"
+              size="normal"
+              openType="getPhoneNumber"
+              onGetPhoneNumber={this.getPhoneNumber}
+              round
+              className="bindPhoneButton"
+            >
+              微信一键绑定
+            </AtButton>
+          </View>
+        </AtActionSheet>
       </View>
     );
   }

@@ -53,9 +53,21 @@
   padding: 36px;
   background: white;
   border-radius: 8px;
-  .loginTip{
+  .loginTip {
     padding: 36px 0px;
     font-size: 32px;
     text-align: center;
+  }
+}
+
+.bindPhone {
+  padding: 0px 24px;
+  .bindPhoneTip {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 32px;
+  }
+  .bindPhoneButton{
+    margin-bottom: 40px;
   }
 }
