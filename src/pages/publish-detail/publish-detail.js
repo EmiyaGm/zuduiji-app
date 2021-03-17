@@ -10,7 +10,6 @@ import {
   AtListItem,
   AtTextarea,
 } from "taro-ui";
-import moment from "moment";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
 import { API_ACTIVITY_DETIL } from "@constants/api";
@@ -39,15 +38,15 @@ class PublishDetail extends Component {
     }
   }
 
-  onShareAppMessage (res) {
-    if (res.from === 'button') {
+  onShareAppMessage(res) {
+    if (res.from === "button") {
       // 来自页面内转发按钮
-      console.log(res.target)
+      console.log(res.target);
     }
     return {
       title: this.state.publishDetail.name,
-      path: `/publish-page/publish-detail?id=${this.state.id}`
-    }
+      path: `/publish-page/publish-detail?id=${this.state.id}`,
+    };
   }
 
   getDetail(id) {
@@ -105,6 +104,15 @@ class PublishDetail extends Component {
       random_num: "随机编号",
       random_list: "随机序号",
     };
+    const status = {
+      wait_review: "待审核",
+      review_refuse: "审核未通过",
+      wait_team: "待组队",
+      wait_open: "待开奖",
+      complete: "已完成",
+      close: "组队未成功，关闭"
+    }
+    const { loginInfo } = this.props;
     return (
       <View className="publish-detail">
         <ScrollView
@@ -154,6 +162,10 @@ class PublishDetail extends Component {
                   this.state.publishDetail.numsFile,
                 )}
               />
+              <AtListItem
+                title="活动状态"
+                extraText={status[this.state.publishDetail.status]}
+              />
             </AtList>
             <View className="introduceArea">
               <View>活动介绍：</View>
@@ -170,7 +182,9 @@ class PublishDetail extends Component {
           {this.state.publishDetail.status === "wait_team" && (
             <View className="bottomArea at-row">
               <View className="share at-col at-col-4">
-                <AtButton type="primary" openType="share">分享</AtButton>
+                <AtButton type="primary" openType="share">
+                  分享
+                </AtButton>
               </View>
               <View className="buy at-col at-col-8">
                 <AtButton

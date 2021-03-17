@@ -16,6 +16,7 @@ import fetch from "@utils/request";
 import { API_ACTIVITY_ADD } from "@constants/api";
 import moment from "moment";
 import { getWindowHeight } from "@utils/style";
+import { BUSINESS_APPLY_NOTICE } from "@utils/noticeTmpl";
 import "./publish.scss";
 
 @connect((state) => state.user, { ...actions })
@@ -61,7 +62,6 @@ class Publish extends Component {
     });
   };
   onDateChange = (e) => {
-    console.log(e);
     this.setState({
       dateSel: e.detail.value,
     });
@@ -157,15 +157,42 @@ class Publish extends Component {
       if (res) {
         if (res.id) {
           Taro.showToast({
-            title: "发布成功",
+            title:
+              "发布成功，请等待管理员审核，您可以订阅消息以便于第一时间收到审核结果通知",
             icon: "none",
           });
           self.onReset();
+          self.businessNotice();
         }
-        console.log(res);
       }
     });
   };
+
+  businessNotice = () => {
+    wx.requestSubscribeMessage({
+      tmplIds: [BUSINESS_APPLY_NOTICE],
+      success: (rep) => {
+        if (rep[BUSINESS_APPLY_NOTICE] === "accept") {
+          Taro.showToast({
+            title: "订阅成功",
+            icon: "success",
+          });
+        } else {
+          Taro.showToast({
+            title: "订阅失败",
+            icon: "error",
+          });
+        }
+      },
+      fail: () => {
+        Taro.showToast({
+          title: "订阅失败",
+          icon: "error",
+        });
+      },
+    });
+  };
+
   onReset = () => {
     this.setState({
       name: "",
@@ -197,7 +224,7 @@ class Publish extends Component {
           if (res.data) {
             const result = JSON.parse(res.data);
             if (result && result.length === 2) {
-              self.setState({ images: [...self.state.images, result[1]] });
+              self.setState({ images: [...self.state.images, ...result[1]] });
             }
           }
         })
@@ -311,6 +338,7 @@ class Publish extends Component {
               onChange={this.onChange.bind(this)}
               count={9}
               length={3}
+              multiple={false}
             />
             <AtTextarea
               count={false}

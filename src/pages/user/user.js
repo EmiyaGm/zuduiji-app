@@ -11,6 +11,7 @@ import {
   API_BUSINESS_STATUS,
   API_ACCOUNT_PHONE,
 } from "@constants/api";
+import { ADMIN_REVIEW_NOTICE, BUSINESS_APPLY_NOTICE } from "@utils/noticeTmpl";
 import fetch from "@utils/request";
 import Profile from "./profile";
 import waitSend from "@assets/wait-send.png";
@@ -83,6 +84,7 @@ class User extends Component {
   };
 
   handleApply = () => {
+    const self = this;
     fetch({ url: API_BUSINESS_APPLY, showToast: false, autoLogin: false }).then(
       (res) => {
         if (res) {
@@ -90,6 +92,7 @@ class User extends Component {
             title: "申请成功！",
             icon: "none",
           });
+          self.applyNotice();
         } else {
           Taro.showToast({
             title: "申请失败，请稍后再试",
@@ -99,6 +102,16 @@ class User extends Component {
       },
     );
   };
+
+  applyNotice = () => {
+    notice = () => {
+      wx.requestSubscribeMessage({
+        tmplIds: [BUSINESS_APPLY_NOTICE],
+        success: (rep) => {},
+        fail: () => {},
+      });
+    };
+  }
 
   adminPublish = () => {
     Taro.navigateTo({
@@ -150,6 +163,9 @@ class User extends Component {
               }).then((result) => {
                 if (result) {
                   self.props.dispatchUser(result);
+                  if (result.role === 'ADMIN') {
+                    self.adminNotice();
+                  }
                   if (!result.phone) {
                     self.setState({ isOpened: true });
                   }
@@ -172,6 +188,16 @@ class User extends Component {
         icon: "none",
       });
     }
+  };
+
+  adminNotice = () => {
+    notice = () => {
+      wx.requestSubscribeMessage({
+        tmplIds: [ADMIN_REVIEW_NOTICE],
+        success: (rep) => {},
+        fail: () => {},
+      });
+    };
   };
 
   goOrderList = () => {
