@@ -1,10 +1,8 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, ScrollView } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import {
-  AtList,
-  AtListItem,
-} from "taro-ui";
+import { AtList, AtListItem } from "taro-ui";
+import { USER_ACTIVITY_NOTICE, USER_ORDER_NOTICE } from "@utils/noticeTmpl";
 import { getWindowHeight } from "@utils/style";
 import successIcon from "@assets/success-icon.png";
 import "./apply-success.scss";
@@ -24,19 +22,17 @@ class ApplySuccess extends Component {
       this.setState({
         id: params.id,
       });
+      this.notice();
     }
   }
 
   notice = () => {
     wx.requestSubscribeMessage({
-      tmplIds: [
-        "ltd0x1AtVHBlIiuF5S46Ed2osQCITRIJM98Y0uUbnnk",
-        "IRbJ73aUzQGQt18XxrmkJZC0kWbcWqAEIXvNZ5lxwHg",
-      ],
+      tmplIds: [USER_ACTIVITY_NOTICE, USER_ORDER_NOTICE],
       success: (rep) => {
         if (
-          rep["ltd0x1AtVHBlIiuF5S46Ed2osQCITRIJM98Y0uUbnnk"] === "accept" ||
-          rep["IRbJ73aUzQGQt18XxrmkJZC0kWbcWqAEIXvNZ5lxwHg"] === "accept"
+          rep[USER_ACTIVITY_NOTICE] === "accept" ||
+          rep[USER_ORDER_NOTICE] === "accept"
         ) {
           Taro.showToast({
             title: "订阅成功",
