@@ -29,6 +29,7 @@ import publishIcon from "@assets/publishIcon.png";
 import onPublishIcon from "@assets/onPublishIcon.png";
 import allPublishIcon from "@assets/allPublishIcon.png";
 import applyStatus from "@assets/applyStatus.png";
+import partyIcon from "@assets/partyIcon.png";
 import "./user.scss";
 
 @connect((state) => state.user, { ...actions })
@@ -350,10 +351,10 @@ class User extends Component {
                   <View className="at-row">
                     {/* <View
                       className="at-col at-col-3 statusText"
-                      onClick={this.goOrderList.bind(this)}
+                      onClick={this.goPublishOrder.bind(this, "wait_team")}
                     >
                       <View>
-                        <Image className="statusIcon" src={luckOrder} />
+                        <Image className="statusIcon" src={partyIcon} />
                       </View>
                       <View>组队订单</View>
                     </View> */}
