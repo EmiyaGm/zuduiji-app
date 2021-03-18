@@ -336,7 +336,7 @@ class OrderDetail extends Component {
             <View className="logisticsContent">
               <View className="title">物流单号</View>
               <View className="content">
-                <View className="contentTitle">物流公司：</View>
+                <View className="contentTitle">物流公司：{this.state.orderDetail.logisticsCompany}</View>
                 <View className="contentArea">
                   <View> 快递单号：{this.state.orderDetail.logistics}</View>
                   <View>

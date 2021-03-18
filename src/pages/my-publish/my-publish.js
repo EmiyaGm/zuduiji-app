@@ -81,7 +81,11 @@ class MyPublish extends Component {
     const self = this;
     fetch({
       url: API_MY_ACTIVITY,
-      payload: [self.state.page * self.state.pagesize, self.state.pagesize],
+      payload: [
+        self.state.tabList[self.state.current].type,
+        self.state.page * self.state.pagesize,
+        self.state.pagesize,
+      ],
       method: "POST",
       showToast: false,
       autoLogin: false,

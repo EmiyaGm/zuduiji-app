@@ -39,7 +39,7 @@ class ApplyLogistics extends Component {
     if (self.state.value) {
       fetch({
         url: API_ACTIVITY_LOGISTICS,
-        payload: [self.state.id, self.state.value],
+        payload: [self.state.id, self.state.value, self.state.selectorChecked],
         method: "POST",
         showToast: false,
         autoLogin: false,
