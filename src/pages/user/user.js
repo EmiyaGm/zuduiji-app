@@ -262,6 +262,9 @@ class User extends Component {
                       title: "获取成功",
                       icon: "success",
                     });
+                    self.setState({
+                      isOpened: false,
+                    })
                   } else {
                     Taro.showToast({
                       title: "获取失败",
