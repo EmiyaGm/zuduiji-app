@@ -67,6 +67,7 @@ export const API_ACCOUNT_SETADMIN = `${host}/account/setAdmin`;
 export const API_ACCOUNT_SETBUSINESS = `${host}/account/setBusiness`;
 export const API_ACCOUNT_SYNC = `${host}/account/sync`;
 export const API_ACCOUNT_PHONE = `${host}/account/phone`;
+export const API_ACCOUNT_SYNCSESSION = `${host}/account/syncSession`
 
 // address
 export const API_ADDRESS_LIST = `${host}/address/list`;

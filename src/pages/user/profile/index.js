@@ -6,7 +6,11 @@ import { AtButton } from "taro-ui";
 import defaultAvatar from "@assets/default-avatar.png";
 import bg from "./assets/bg.png";
 import fetch from "@utils/request";
-import { API_ACCOUNT_PHONE, API_ADDRESS_ADDRESS } from "@constants/api";
+import {
+  API_ACCOUNT_PHONE,
+  API_ADDRESS_ADDRESS,
+  API_ACCOUNT_SYNCSESSION,
+} from "@constants/api";
 import walletIcon from "@assets/walletIcon.png";
 import addressIcon from "@assets/addressIcon.png";
 import "./index.scss";
@@ -21,30 +25,46 @@ export default class Profile extends Component {
     const self = this;
     const { errMsg } = e.detail ? e.detail : {};
     if (errMsg === "getPhoneNumber:ok") {
-      fetch({
-        url: API_ACCOUNT_PHONE,
-        payload: [
-          {
-            ...e.detail,
-            sessionKey: self.props.loginInfo.account.sessionKey,
-          },
-        ],
-        method: "POST",
-        showToast: false,
-        autoLogin: false,
-      }).then((res) => {
-        if (res) {
-          self.props.dispatchUser(res);
-          Taro.showToast({
-            title: "获取成功",
-            icon: "success",
-          });
-        } else {
-          Taro.showToast({
-            title: "获取失败",
-            icon: "error",
-          });
-        }
+      Taro.login({
+        success: function(res) {
+          if (res.code) {
+            fetch({
+              url: API_ACCOUNT_SYNCSESSION,
+              payload: [res.code],
+              method: "POST",
+              showToast: false,
+              autoLogin: false,
+            }).then((result) => {
+              if (result && result.sessionKey) {
+                fetch({
+                  url: API_ACCOUNT_PHONE,
+                  payload: [
+                    {
+                      ...e.detail,
+                      sessionKey: result.sessionKey,
+                    },
+                  ],
+                  method: "POST",
+                  showToast: false,
+                  autoLogin: false,
+                }).then((res) => {
+                  if (res) {
+                    self.props.dispatchUser(res);
+                    Taro.showToast({
+                      title: "获取成功",
+                      icon: "success",
+                    });
+                  } else {
+                    Taro.showToast({
+                      title: "获取失败",
+                      icon: "error",
+                    });
+                  }
+                });
+              }
+            });
+          }
+        },
       });
     }
   };

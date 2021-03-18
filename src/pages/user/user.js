@@ -10,6 +10,7 @@ import {
   API_USER_INFO,
   API_BUSINESS_STATUS,
   API_ACCOUNT_PHONE,
+  API_ACCOUNT_SYNCSESSION,
 } from "@constants/api";
 import { ADMIN_REVIEW_NOTICE, BUSINESS_APPLY_NOTICE } from "@utils/noticeTmpl";
 import fetch from "@utils/request";
@@ -232,33 +233,46 @@ class User extends Component {
     const self = this;
     const { errMsg } = e.detail ? e.detail : {};
     if (errMsg === "getPhoneNumber:ok") {
-      fetch({
-        url: API_ACCOUNT_PHONE,
-        payload: [
-          {
-            ...e.detail,
-            sessionKey: self.props.loginInfo.account.sessionKey,
-          },
-        ],
-        method: "POST",
-        showToast: false,
-        autoLogin: false,
-      }).then((res) => {
-        if (res) {
-          self.props.dispatchUser(res);
-          Taro.showToast({
-            title: "获取成功",
-            icon: "success",
-          });
-          self.setState({
-            isOpened: false,
-          });
-        } else {
-          Taro.showToast({
-            title: "获取失败",
-            icon: "error",
-          });
-        }
+      Taro.login({
+        success: function(res) {
+          if (res.code) {
+            fetch({
+              url: API_ACCOUNT_SYNCSESSION,
+              payload: [res.code],
+              method: "POST",
+              showToast: false,
+              autoLogin: false,
+            }).then((result) => {
+              if (result && result.sessionKey) {
+                fetch({
+                  url: API_ACCOUNT_PHONE,
+                  payload: [
+                    {
+                      ...e.detail,
+                      sessionKey: result.sessionKey,
+                    },
+                  ],
+                  method: "POST",
+                  showToast: false,
+                  autoLogin: false,
+                }).then((res) => {
+                  if (res) {
+                    self.props.dispatchUser(res);
+                    Taro.showToast({
+                      title: "获取成功",
+                      icon: "success",
+                    });
+                  } else {
+                    Taro.showToast({
+                      title: "获取失败",
+                      icon: "error",
+                    });
+                  }
+                });
+              }
+            });
+          }
+        },
       });
     }
   };
