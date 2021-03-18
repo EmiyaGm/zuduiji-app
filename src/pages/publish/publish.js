@@ -164,6 +164,9 @@ class Publish extends Component {
           });
           self.onReset();
           self.businessNotice();
+          Taro.redirectTo({
+            url: `/pages/publish-detail/publish-detail?id=${res.id}`,
+          });
         }
       }
     });
@@ -257,6 +260,9 @@ class Publish extends Component {
       groupRuleChecked: this.state.groupRule[e.detail.value].data,
       numMax: "",
       numMin: "",
+      num: "",
+      numsFile: "",
+      numsFileName: "",
     });
   };
 
@@ -313,11 +319,11 @@ class Publish extends Component {
     });
   };
 
-  onNumChange = e => {
+  onNumChange = (e) => {
     this.setState({
-      num: this.state.selector[e.detail.value]
-    })
-  }
+      num: this.state.selector[e.detail.value],
+    });
+  };
 
   render() {
     return (
@@ -411,10 +417,7 @@ class Publish extends Component {
                   onChange={this.onNumChange}
                 >
                   <AtList>
-                    <AtListItem
-                      title="组队数量"
-                      extraText={this.state.num}
-                    />
+                    <AtListItem title="组队数量" extraText={this.state.num} />
                   </AtList>
                 </Picker>
               </View>

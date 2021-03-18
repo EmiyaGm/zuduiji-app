@@ -20,17 +20,6 @@ export default class PublishItem extends Component {
     hideButton: false,
   };
 
-  onShareAppMessage(res) {
-    if (res.from === "button") {
-      // 来自页面内转发按钮
-      console.log(res.target);
-    }
-    return {
-      title: this.props.publishData.name,
-      path: `/pages/publish-detail/publish-detail?id=${this.props.publishData.id}`,
-    };
-  }
-
   handleChange = (key, value) => {
     this.setState({
       [key]: value,
@@ -148,7 +137,7 @@ export default class PublishItem extends Component {
             >
               详情
             </Button>
-            <Button className="actionButton" openType="share">
+            <Button className="actionButton" openType="share" data-shareModel={publishData}>
               分享
             </Button>
           </View>

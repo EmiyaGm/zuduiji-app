@@ -84,9 +84,7 @@ class AdminApplyDetail extends Component {
               title: "操作成功",
               icon: "success",
             });
-            self.setState({
-              hideButton: true,
-            });
+            self.getDetail();
           } else {
             Taro.showToast({
               title: "操作失败",

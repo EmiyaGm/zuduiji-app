@@ -10,17 +10,6 @@ export default class PublishItem extends Component {
     publishData: {},
   };
 
-  onShareAppMessage(res) {
-    if (res.from === "button") {
-      // 来自页面内转发按钮
-      console.log(res.target);
-    }
-    return {
-      title: this.props.publishData.name,
-      path: `/pages/publish-detail/publish-detail?id=${this.props.publishData.id}`,
-    };
-  }
-
   goDetail = (id) => {
     Taro.navigateTo({
       url: `/pages/publish-detail/publish-detail?id=${id}`,
@@ -110,7 +99,7 @@ export default class PublishItem extends Component {
             >
               详情
             </Button>
-            <Button className="actionButton" openType="share">
+            <Button className="actionButton" openType="share" data-shareModel={publishData}>
               分享
             </Button>
           </View>

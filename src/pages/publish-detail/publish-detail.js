@@ -19,6 +19,7 @@ import "./publish-detail.scss";
 class PublishDetail extends Component {
   config = {
     navigationBarTitleText: "组队详情",
+    enableShareAppMessage: true,
   };
 
   state = {

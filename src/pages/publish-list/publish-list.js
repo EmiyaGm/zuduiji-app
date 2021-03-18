@@ -14,7 +14,20 @@ class PublishList extends Component {
     navigationBarTitleText: "寻找组队",
     enablePullDownRefresh: true,
     onReachBottomDistance: 50,
+    enableShareAppMessage: true,
   };
+
+  onShareAppMessage(res) {
+    const shareModel = res.target.dataset.sharemodel;
+    if (res.from === "button") {
+      // 来自页面内转发按钮
+      console.log(res.target);
+    }
+    return {
+      title: shareModel.name,
+      path: `/pages/publish-detail/publish-detail?id=${shareModel.id}`,
+    };
+  }
 
   state = {
     page: 0,
