@@ -60,8 +60,9 @@ class PublishOrderList extends Component {
     i++;
     this.setState({
       showActivity: true,
+    }, () => {
+      this.onLoad();
     });
-    this.onLoad();
   }
 
   onLoad = () => {
@@ -119,9 +120,9 @@ class PublishOrderList extends Component {
           {dataList.map((order, index) => {
             return (
               <OrderItem
-                key={`${order.orders[0].order.id}`}
-                orderData={order.orders[0].order}
-                activityData={order.activity}
+                key={`${order.order.id}`}
+                orderData={order.order}
+                activityData={order.order.activity}
               />
             );
           })}

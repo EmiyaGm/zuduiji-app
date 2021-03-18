@@ -73,8 +73,9 @@ class MyOrder extends Component {
     i++;
     this.setState({
       showActivity: true,
+    }, () => {
+      this.onLoad();
     });
-    this.onLoad();
   }
 
   onLoad = () => {

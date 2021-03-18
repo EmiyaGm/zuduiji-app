@@ -84,10 +84,14 @@ class MyPublish extends Component {
   // 监听上拉触底
   onReachBottom() {
     i++;
-    this.setState({
-      showActivity: true,
-    });
-    this.onLoad();
+    this.setState(
+      {
+        showActivity: true,
+      },
+      () => {
+        this.onLoad();
+      },
+    );
   }
 
   onLoad = () => {

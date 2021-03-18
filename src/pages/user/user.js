@@ -276,6 +276,12 @@ class User extends Component {
     }
   };
 
+  goPublishOrder = (type) => {
+    Taro.navigateTo({
+      url: `/pages/publish-all-order/publish-all-order?type=${type}`,
+    });
+  }
+
   render() {
     const { userInfo, loginInfo } = this.props;
     const { applyInfo, isOpened } = this.state;
@@ -342,6 +348,15 @@ class User extends Component {
               {loginInfo.account.role !== "USER" && (
                 <AtCard title="我发起的">
                   <View className="at-row">
+                    {/* <View
+                      className="at-col at-col-3 statusText"
+                      onClick={this.goOrderList.bind(this)}
+                    >
+                      <View>
+                        <Image className="statusIcon" src={luckOrder} />
+                      </View>
+                      <View>组队订单</View>
+                    </View> */}
                     <View
                       className="at-col at-col-3 statusText"
                       onClick={this.goOrderList.bind(this)}

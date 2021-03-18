@@ -4,14 +4,14 @@ import { connect } from "@tarojs/redux";
 import { AtActivityIndicator, AtTabs, AtTabsPane } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
-import { API_BUSINESS_REVIEW, API_WALLET_LIST } from "@constants/api";
-import WithdrawItem from "./withdraw-item";
-import "./admin-withdraw.scss";
+import { API_MY_ACTIVITY } from "@constants/api";
+import "./publish-all-order.scss";
+import OrderItem from "./order-item";
 
 let i = 1;
-class AdminWithdraw extends Component {
+class PublishAllOrder extends Component {
   config = {
-    navigationBarTitleText: "提现审核",
+    navigationBarTitleText: "组队订单",
     enablePullDownRefresh: true,
     onReachBottomDistance: 50,
   };
@@ -23,15 +23,31 @@ class AdminWithdraw extends Component {
     showActivity: false,
     dataList: [],
     tabList: [
-      { title: "全部", type: "" },
-      { title: "未审核", type: "wait_review" },
-      { title: "审核通过", type: "pass" },
-      { title: "审核拒绝", type: "fail" },
+      { title: "全部活动的订单", type: "" },
+      { title: "待组队活动的订单", type: "wait_team" },
+      { title: "待开奖活动的订单", type: "wait_open" },
+      { title: "已完成活动的订单", type: "complete" },
     ],
   };
 
-  componentDidMount() {
-    this.onLoad();
+  componentDidShow() {
+    const params = this.$router.params;
+    if (params.type) {
+      this.state.tabList.map((item, index) => {
+        if (item.type === params.type) {
+          this.setState(
+            {
+              current: index,
+            },
+            () => {
+              this.onRefresh();
+            },
+          );
+        }
+      });
+    } else {
+      this.onRefresh();
+    }
   }
 
   handleClick(value) {
@@ -52,23 +68,24 @@ class AdminWithdraw extends Component {
   // 监听上拉触底
   onReachBottom() {
     i++;
-    this.setState({
-      showActivity: true,
-    }, () => {
-      this.onLoad();
-    });
+    this.setState(
+      {
+        showActivity: true,
+      },
+      () => {
+        this.onLoad();
+      },
+    );
   }
 
   onLoad = () => {
     const self = this;
     fetch({
-      url: API_WALLET_LIST,
+      url: API_MY_ACTIVITY,
       payload: [
-        {
-          start: self.state.page * self.state.pagesize,
-          size: self.state.pagesize,
-          status: this.state.tabList[this.state.current].type,
-        },
+        self.state.tabList[self.state.current].type,
+        self.state.page * self.state.pagesize,
+        self.state.pagesize,
       ],
       method: "POST",
       showToast: false,
@@ -76,10 +93,12 @@ class AdminWithdraw extends Component {
     }).then((res) => {
       if (res) {
         if (Array.isArray(res) && res.length > 0) {
-          self.setState({
-            dataList: [...self.state.dataList, ...res],
-            page: self.state.page + 1,
-          });
+          if (res.orders) {
+            self.setState({
+              dataList: [...self.state.dataList, ...res.orders],
+              page: self.state.page + 1,
+            });
+          }
         } else {
           self.setState({
             showActivity: false,
@@ -111,7 +130,7 @@ class AdminWithdraw extends Component {
   render() {
     const { dataList } = this.state;
     return (
-      <View className="admin-withdraw">
+      <View className="publish-all-order">
         <AtTabs
           current={this.state.current}
           tabList={this.state.tabList}
@@ -121,12 +140,13 @@ class AdminWithdraw extends Component {
           {this.state.tabList.map((item, index) => {
             return (
               <AtTabsPane current={this.state.current} index={index}>
-                <View className="withdrawList">
-                  {dataList.map((withdraw, index2) => {
+                <View className="orderList">
+                  {dataList.map((order, index) => {
                     return (
-                      <WithdrawItem
-                        withdrawData={withdraw}
-                        key={`${withdraw.userId + index2}`}
+                      <OrderItem
+                        key={`${order.order.id}`}
+                        orderData={order.order}
+                        activityData={order.order.activity}
                       />
                     );
                   })}
@@ -152,4 +172,4 @@ class AdminWithdraw extends Component {
   }
 }
 
-export default AdminWithdraw;
+export default PublishAllOrder;
