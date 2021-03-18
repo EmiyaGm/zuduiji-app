@@ -17,7 +17,7 @@ export default class PublishItem extends Component {
     }
     return {
       title: this.props.publishData.name,
-      path: `/publish-page/publish-detail?id=${this.props.publishData.id}`,
+      path: `/pages/publish-detail/publish-detail?id=${this.props.publishData.id}`,
     };
   }
 

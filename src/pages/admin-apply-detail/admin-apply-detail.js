@@ -155,7 +155,7 @@ class AdminApplyDetail extends Component {
                     <AtButton
                       size="small"
                       type="primary"
-                      onClick={this.review.bind(this, "pass")}
+                      onClick={this.review.bind(this, "pass", data.account.id)}
                       className="passButton"
                     >
                       通过
@@ -163,7 +163,7 @@ class AdminApplyDetail extends Component {
                     <AtButton
                       size="small"
                       type="primary"
-                      onClick={this.review.bind(this, "fail")}
+                      onClick={this.review.bind(this, "fail", data.account.id)}
                     >
                       拒绝
                     </AtButton>

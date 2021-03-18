@@ -46,6 +46,7 @@ class Publish extends Component {
     timeSel: "",
     numMin: "",
     numMax: "",
+    selector: [1, 2, 3, 5, 6, 10, 15, 30],
   };
 
   componentDidShow() {}
@@ -109,7 +110,7 @@ class Publish extends Component {
       });
       return;
     }
-    if (!this.state.numsFileName) {
+    if (this.state.selectorChecked === "随机序号" && !this.state.numsFileName) {
       Taro.showToast({
         title: "请选择上传序号总表",
         icon: "none",
@@ -312,6 +313,12 @@ class Publish extends Component {
     });
   };
 
+  onNumChange = e => {
+    this.setState({
+      num: this.state.selector[e.detail.value]
+    })
+  }
+
   render() {
     return (
       <View className="publish">
@@ -396,24 +403,44 @@ class Publish extends Component {
                 onChange={this.handleChange.bind(this, "numMax")}
               />
             )}
-            <AtInput
-              name="num"
-              title="组队数量"
-              type="number"
-              placeholder="1-9999"
-              value={this.state.num}
-              onChange={this.handleChange.bind(this, "num")}
-            />
-            <AtList>
-              <AtListItem
-                title="序号总表"
-                onClick={this.chooseMessageFile.bind(this)}
-                extraText={
-                  this.state.numsFileName ? this.state.numsFileName : "上传"
-                }
-                arrow="right"
+            {this.state.selectorChecked === "随机分组" && (
+              <View>
+                <Picker
+                  mode="selector"
+                  range={this.state.selector}
+                  onChange={this.onNumChange}
+                >
+                  <AtList>
+                    <AtListItem
+                      title="组队数量"
+                      extraText={this.state.num}
+                    />
+                  </AtList>
+                </Picker>
+              </View>
+            )}
+            {this.state.selectorChecked !== "随机分组" && (
+              <AtInput
+                name="num"
+                title="组队数量"
+                type="number"
+                placeholder="1-9999"
+                value={this.state.num}
+                onChange={this.handleChange.bind(this, "num")}
               />
-            </AtList>
+            )}
+            {this.state.selectorChecked === "随机序号" && (
+              <AtList>
+                <AtListItem
+                  title="序号总表"
+                  onClick={this.chooseMessageFile.bind(this)}
+                  extraText={
+                    this.state.numsFileName ? this.state.numsFileName : "上传"
+                  }
+                  arrow="right"
+                />
+              </AtList>
+            )}
           </View>
           <View className="formItem">
             <View className="formTitle">

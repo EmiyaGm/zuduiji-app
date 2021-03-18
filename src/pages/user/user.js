@@ -120,13 +120,11 @@ class User extends Component {
   };
 
   applyNotice = () => {
-    notice = () => {
-      wx.requestSubscribeMessage({
-        tmplIds: [BUSINESS_APPLY_NOTICE],
-        success: (rep) => {},
-        fail: () => {},
-      });
-    };
+    wx.requestSubscribeMessage({
+      tmplIds: [BUSINESS_APPLY_NOTICE],
+      success: (rep) => {},
+      fail: () => {},
+    });
   };
 
   adminPublish = () => {
@@ -208,13 +206,11 @@ class User extends Component {
   };
 
   adminNotice = () => {
-    notice = () => {
-      wx.requestSubscribeMessage({
-        tmplIds: [ADMIN_REVIEW_NOTICE],
-        success: (rep) => {},
-        fail: () => {},
-      });
-    };
+    wx.requestSubscribeMessage({
+      tmplIds: [ADMIN_REVIEW_NOTICE],
+      success: (rep) => {},
+      fail: () => {},
+    });
   };
 
   goOrderList = () => {
@@ -264,7 +260,7 @@ class User extends Component {
                     });
                     self.setState({
                       isOpened: false,
-                    })
+                    });
                   } else {
                     Taro.showToast({
                       title: "获取失败",

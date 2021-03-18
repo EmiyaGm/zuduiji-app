@@ -45,7 +45,7 @@ class PublishDetail extends Component {
     }
     return {
       title: this.state.publishDetail.name,
-      path: `/publish-page/publish-detail?id=${this.state.id}`,
+      path: `/pages/publish-detail/publish-detail?id=${this.state.id}`,
     };
   }
 
