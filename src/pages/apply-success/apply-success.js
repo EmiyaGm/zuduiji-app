@@ -1,7 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, ScrollView } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtList, AtListItem } from "taro-ui";
+import { AtButton, AtList, AtListItem } from "taro-ui";
 import { USER_ACTIVITY_NOTICE, USER_ORDER_NOTICE } from "@utils/noticeTmpl";
 import { getWindowHeight } from "@utils/style";
 import successIcon from "@assets/success-icon.png";
@@ -14,13 +14,15 @@ class ApplySuccess extends Component {
 
   state = {
     id: "",
+    orderId: "",
   };
 
   componentDidMount() {
     const params = this.$router.params;
-    if (params.id) {
+    if (params.id && params.orderId) {
       this.setState({
         id: params.id,
+        orderId: params.orderId,
       });
       this.notice();
     }
@@ -54,6 +56,12 @@ class ApplySuccess extends Component {
     });
   };
 
+  goDetail = () => {
+    Taro.redirectTo({
+      url: `/pages/order-detail/order-detail?id=${this.state.orderId}`,
+    });
+  };
+
   render() {
     return (
       <View className="apply-success">
@@ -71,6 +79,14 @@ class ApplySuccess extends Component {
               <View>1.组队成功待随机分配完序号后，将向您发送序号;</View>
               <View>2.商家在组队成功后将发起直播开卡</View>
             </View>
+          </View>
+          <View className="buttonArea">
+            <AtButton
+              type="primary"
+              onClick={this.goDetail.bind()}
+            >
+              订单详情
+            </AtButton>
           </View>
           <View className="orderTip">
             <AtList hasBorder={false}>

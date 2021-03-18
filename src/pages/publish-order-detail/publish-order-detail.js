@@ -140,6 +140,7 @@ class PublishOrderDetail extends Component {
   };
 
   render() {
+    const { orderDetail } = this.state;
     return (
       <View className="publish-order-detail">
         <ScrollView
@@ -184,10 +185,19 @@ class PublishOrderDetail extends Component {
               </View>
               <View>收货地址</View>
             </View>
-            <View className="addressContent">
-              <View>姓名 电话</View>
-              <View>这里是具体地址</View>
-            </View>
+            {orderDetail.address && (
+              <View className="addressContent">
+                <View>
+                  {orderDetail.address.userName} {orderDetail.address.telNumber}
+                </View>
+                <View>
+                  {orderDetail.address.provinceName}
+                  {orderDetail.address.cityName}
+                  {orderDetail.address.countyName}
+                  {orderDetail.address.detailInfo}
+                </View>
+              </View>
+            )}
           </View>
           <View className="goodsArea">
             <View className="cover">
@@ -263,7 +273,9 @@ class PublishOrderDetail extends Component {
             <View className="logisticsContent">
               <View className="title">物流单号</View>
               <View className="content">
-                <View className="contentTitle">物流公司：{this.state.orderDetail.logisticsCompany}</View>
+                <View className="contentTitle">
+                  物流公司：{this.state.orderDetail.logisticsCompany}
+                </View>
                 <View className="contentArea">
                   <View> 快递单号：{this.state.orderDetail.logistics}</View>
                   <View>

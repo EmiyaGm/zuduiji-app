@@ -59,7 +59,7 @@ export default class WithdrawItem extends Component {
         });
       }
     });
-  };
+  }
 
   render() {
     const { withdrawData } = this.props;
@@ -74,8 +74,12 @@ export default class WithdrawItem extends Component {
             </View>
           </View>
           <View className="moneyArea">
-            <View className="total">总金额：{withdrawData.total ? withdrawData.total / 100 : 0}</View>
-            <View className="fee">手续费：{withdrawData.fee ? withdrawData.fee / 100 : 0}</View>
+            <View className="total">
+              总金额：{withdrawData.total ? withdrawData.total / 100 : 0}
+            </View>
+            <View className="fee">
+              手续费：{withdrawData.fee ? withdrawData.fee / 100 : 0}
+            </View>
             <View className="amount">
               实际金额：{withdrawData.amount ? withdrawData.amount / 100 : 0}
             </View>
@@ -86,13 +90,13 @@ export default class WithdrawItem extends Component {
             <View className="actionArea">
               <Text
                 className="actionItem"
-                onClick={this.review.bind(this, "pass", withdrawData.userId)}
+                onClick={this.review.bind(this, "pass", withdrawData.id)}
               >
                 通过
               </Text>
               <Text
                 className="actionItem"
-                onClick={this.review.bind(this, "fail", withdrawData.userId)}
+                onClick={this.review.bind(this, "fail", withdrawData.id)}
               >
                 拒绝
               </Text>

@@ -137,7 +137,7 @@ class OrderConfirm extends Component {
                   });
                   if (res.order && res.order.activityId) {
                     Taro.redirectTo({
-                      url: `/pages/apply-success/apply-success?id=${res.order.activityId}`,
+                      url: `/pages/apply-success/apply-success?id=${res.order.activityId}&orderId=${res.order.id}`,
                     });
                   }
                 },

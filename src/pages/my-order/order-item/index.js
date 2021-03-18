@@ -55,7 +55,7 @@ export default class OrderItem extends Component {
             });
             if (order.activityId) {
               Taro.redirectTo({
-                url: `/pages/apply-success/apply-success?id=${order.activityId}`,
+                url: `/pages/apply-success/apply-success?id=${order.activityId}&orderId=${order.id}`,
               });
             }
             self.setState({

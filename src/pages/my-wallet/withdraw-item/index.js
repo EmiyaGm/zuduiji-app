@@ -1,7 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import { AtAvatar } from "taro-ui";
-import { API_WALLET_REVIEW } from "@constants/api";
 import fetch from "@utils/request";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./index.scss";
@@ -11,9 +10,7 @@ export default class WithdrawItem extends Component {
     withdrawData: {},
   };
 
-  state = {
-    hideButton: false,
-  };
+  state = {};
 
   getStatus(status) {
     switch (status) {
@@ -28,42 +25,8 @@ export default class WithdrawItem extends Component {
     }
   }
 
-  review = (status, id) => {
-    const self = this;
-    Taro.showModal({
-      title: "商户提现申请",
-      content: status === "pass" ? "确认通过？" : "确认拒绝",
-    }).then((res) => {
-      if (res.confirm) {
-        fetch({
-          url: API_WALLET_REVIEW,
-          payload: [id, status, ""],
-          method: "POST",
-          showToast: false,
-          autoLogin: false,
-        }).then((res) => {
-          if (res) {
-            Taro.showToast({
-              title: "操作成功",
-              icon: "success",
-            });
-            self.setState({
-              hideButton: true,
-            });
-          } else {
-            Taro.showToast({
-              title: "操作失败",
-              icon: "error",
-            });
-          }
-        });
-      }
-    });
-  };
-
   render() {
     const { withdrawData } = this.props;
-    const { hideButton } = this.state;
     return (
       <View className="withdraw-item">
         <View className="headContent">
