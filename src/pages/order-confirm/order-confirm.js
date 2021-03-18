@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
+import { View, Text, ScrollView, Image } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 import {
   AtButton,
@@ -19,6 +19,7 @@ import {
 import { getWindowHeight } from "@utils/style";
 import defaultAvatar from "@assets/default-avatar.png";
 import { USER_ACTIVITY_NOTICE, USER_ORDER_NOTICE } from "@utils/noticeTmpl";
+import wechat from "@assets/wechat.png";
 import "./order-confirm.scss";
 
 class OrderConfirm extends Component {
@@ -267,25 +268,37 @@ class OrderConfirm extends Component {
               <View>
                 <View className="at-icon at-icon-map-pin"></View>
               </View>
-              <View>
-                {this.state.addressInfo.provinceName}
-                {this.state.addressInfo.cityName}
-                {this.state.addressInfo.countyName}
-                {this.state.addressInfo.detailInfo}
-              </View>
+              <View>收货地址</View>
             </View>
-            <View className="addressContent">
-              <View>
-                {this.state.addressInfo.userName}{" "}
-                {this.state.addressInfo.telNumber}
+            {this.state.addressInfo.userName && (
+              <View className="addressContent" onClick={this.goAddress}>
+                <View>
+                  {this.state.addressInfo.userName}{" "}
+                  {this.state.addressInfo.telNumber}
+                </View>
+                <View>
+                  {this.state.addressInfo.provinceName}
+                  {this.state.addressInfo.cityName}
+                  {this.state.addressInfo.countyName}
+                  {this.state.addressInfo.detailInfo}
+                </View>
               </View>
-              <View>
-                {this.state.addressInfo.provinceName}
-                {this.state.addressInfo.cityName}
-                {this.state.addressInfo.countyName}
-                {this.state.addressInfo.detailInfo}
+            )}
+            {!this.state.addressInfo.userName && (
+              <View className="addressContent">
+                <AtButton onClick={this.goAddress} type="default" size="small">
+                  <View className="wechatButtonView">
+                    <Image src={wechat} className="wechat" />
+                    <View> 一键获取收货地址</View>
+                  </View>
+                </AtButton>
               </View>
-            </View>
+            )}
+            {this.state.addressInfo.userName && (
+              <View>
+                <View className="at-icon at-icon-chevron-right"></View>
+              </View>
+            )}
           </View>
           <View className="goodsArea">
             <View className="cover">

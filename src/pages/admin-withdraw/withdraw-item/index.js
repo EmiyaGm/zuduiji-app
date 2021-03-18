@@ -74,15 +74,15 @@ export default class WithdrawItem extends Component {
             </View>
           </View>
           <View className="moneyArea">
-            <View className="total">总金额：{withdrawData.total / 100}</View>
-            <View className="fee">手续费：{withdrawData.fee / 100}</View>
+            <View className="total">总金额：{withdrawData.total ? withdrawData.total / 100 : 0}</View>
+            <View className="fee">手续费：{withdrawData.fee ? withdrawData.fee / 100 : 0}</View>
             <View className="amount">
-              实际金额：{withdrawData.amount / 100}
+              实际金额：{withdrawData.amount ? withdrawData.amount / 100 : 0}
             </View>
           </View>
         </View>
         <View className="footContent">
-          {withdrawData.status === "never" && !hideButton && (
+          {withdrawData.status === "wait_review" && !hideButton && (
             <View className="actionArea">
               <Text
                 className="actionItem"

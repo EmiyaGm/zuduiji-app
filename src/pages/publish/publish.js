@@ -163,16 +163,13 @@ class Publish extends Component {
             icon: "none",
           });
           self.onReset();
-          self.businessNotice();
-          Taro.redirectTo({
-            url: `/pages/publish-detail/publish-detail?id=${res.id}`,
-          });
+          self.businessNotice(res.id);
         }
       }
     });
   };
 
-  businessNotice = () => {
+  businessNotice = (publishId) => {
     wx.requestSubscribeMessage({
       tmplIds: [BUSINESS_APPLY_NOTICE],
       success: (rep) => {
@@ -187,11 +184,17 @@ class Publish extends Component {
             icon: "error",
           });
         }
+        Taro.redirectTo({
+          url: `/pages/publish-detail/publish-detail?id=${publishId}`,
+        });
       },
       fail: () => {
         Taro.showToast({
           title: "订阅失败",
           icon: "error",
+        });
+        Taro.redirectTo({
+          url: `/pages/publish-detail/publish-detail?id=${publishId}`,
         });
       },
     });
@@ -294,9 +297,9 @@ class Publish extends Component {
             if (rep.data) {
               const result = JSON.parse(rep.data);
               if (result && result.length === 2) {
-                if (result[1]) {
+                if (result[1] && result[1].length > 0) {
                   self.setState({
-                    numsFile: result[1],
+                    numsFile: result[1][0],
                     numsFileName: res.tempFiles[0].name,
                   });
                 } else {

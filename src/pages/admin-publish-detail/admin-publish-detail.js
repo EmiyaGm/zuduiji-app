@@ -72,9 +72,13 @@ class AdminPublishDetail extends Component {
   }
 
   openFile(file) {
+    Taro.showLoading({
+      title: "正在打开",
+    });
     Taro.downloadFile({
       url: HOST_UPLOAD + file,
       success: function(res) {
+        Taro.hideLoading();
         var filePath = res.tempFilePath;
         Taro.openDocument({
           filePath: filePath,
@@ -83,6 +87,13 @@ class AdminPublishDetail extends Component {
           },
         });
       },
+      fail: function(res) {
+        Taro.hideLoading();
+        Taro.showToast({
+          title: '打开失败，请检查网络',
+          icon: 'error'
+        })
+      }
     });
   }
 
