@@ -93,12 +93,10 @@ class PublishAllOrder extends Component {
     }).then((res) => {
       if (res) {
         if (Array.isArray(res) && res.length > 0) {
-          if (res.orders) {
-            self.setState({
-              dataList: [...self.state.dataList, ...res.orders],
-              page: self.state.page + 1,
-            });
-          }
+          self.setState({
+            dataList: [...self.state.dataList, ...res],
+            page: self.state.page + 1,
+          });
         } else {
           self.setState({
             showActivity: false,
@@ -141,13 +139,19 @@ class PublishAllOrder extends Component {
             return (
               <AtTabsPane current={this.state.current} index={index}>
                 <View className="orderList">
-                  {dataList.map((order, index) => {
+                  {dataList.map((activity) => {
                     return (
-                      <OrderItem
-                        key={`${order.order.id}`}
-                        orderData={order.order}
-                        activityData={order.order.activity}
-                      />
+                      <View>
+                        {activity.orders.map((order) => {
+                          return (
+                            <OrderItem
+                              key={`${order.order.id}`}
+                              orderData={order.order}
+                              activityData={activity.activity}
+                            />
+                          );
+                        })}
+                      </View>
                     );
                   })}
                 </View>

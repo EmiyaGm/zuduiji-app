@@ -349,7 +349,7 @@ class User extends Component {
               {loginInfo.account.role !== "USER" && (
                 <AtCard title="我发起的">
                   <View className="at-row">
-                    {/* <View
+                    <View
                       className="at-col at-col-3 statusText"
                       onClick={this.goPublishOrder.bind(this, "wait_team")}
                     >
@@ -357,7 +357,7 @@ class User extends Component {
                         <Image className="statusIcon" src={partyIcon} />
                       </View>
                       <View>组队订单</View>
-                    </View> */}
+                    </View>
                     <View
                       className="at-col at-col-3 statusText"
                       onClick={this.goOrderList.bind(this)}
@@ -369,12 +369,12 @@ class User extends Component {
                     </View>
                     <View
                       className="at-col at-col-3 statusText"
-                      onClick={this.myPublish.bind(this, "")}
+                      onClick={this.goPublishOrder.bind(this, "")}
                     >
                       <View>
                         <Image className="statusIcon" src={allIcon} />
                       </View>
-                      <View>全部活动</View>
+                      <View>全部订单</View>
                     </View>
                   </View>
                 </AtCard>

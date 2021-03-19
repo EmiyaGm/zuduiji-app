@@ -157,7 +157,7 @@ class MyPublish extends Component {
                 <View className="publishList">
                   {dataList.map((data, index) => {
                     return (
-                      <PublishItem key={`${data.id}`} publishData={data} />
+                      <PublishItem key={`${data.activity.id}`} publishData={data.activity} />
                     );
                   })}
                 </View>
