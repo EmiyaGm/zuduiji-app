@@ -40,13 +40,10 @@ class PublishDetail extends Component {
   }
 
   onShareAppMessage(res) {
-    if (res.from === "button") {
-      // 来自页面内转发按钮
-      console.log(res.target);
-    }
     return {
       title: this.state.publishDetail.name,
       path: `/pages/publish-detail/publish-detail?id=${this.state.id}`,
+      imageUrl: this.state.publishDetail.images ? `${HOST_UPLOAD}${this.state.publishDetail.images[0]}` : '',
     };
   }
 

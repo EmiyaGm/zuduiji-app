@@ -137,9 +137,16 @@ export default class PublishItem extends Component {
             >
               详情
             </Button>
-            <Button className="actionButton" openType="share" data-shareModel={publishData}>
-              分享
-            </Button>
+            {publishData.status !== "wait_review" &&
+              publishData.status !== "review_refuse" && (
+                <Button
+                  className="actionButton"
+                  openType="share"
+                  data-shareModel={publishData}
+                >
+                  分享
+                </Button>
+              )}
           </View>
           {publishData.status === "wait_open" && (
             <View

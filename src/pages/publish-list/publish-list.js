@@ -19,13 +19,10 @@ class PublishList extends Component {
 
   onShareAppMessage(res) {
     const shareModel = res.target.dataset.sharemodel;
-    if (res.from === "button") {
-      // 来自页面内转发按钮
-      console.log(res.target);
-    }
     return {
       title: shareModel.name,
       path: `/pages/publish-detail/publish-detail?id=${shareModel.id}`,
+      imageUrl: shareModel.images ? `${HOST_UPLOAD}${shareModel.images[0]}` : ''
     };
   }
 

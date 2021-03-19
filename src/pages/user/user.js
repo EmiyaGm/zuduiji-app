@@ -41,6 +41,7 @@ class User extends Component {
   state = {
     applyInfo: {},
     isOpened: false,
+    isTipOpened: false,
   };
 
   componentDidShow() {
@@ -179,7 +180,23 @@ class User extends Component {
                 if (result) {
                   self.props.dispatchUser(result);
                   if (result.role === "ADMIN") {
-                    self.adminNotice();
+                    Taro.getSetting({
+                      withSubscriptions: true,
+                      success: (res) => {
+                        if (res.subscriptionsSetting) {
+                          const result =
+                            res.subscriptionsSetting.itemSettings || {};
+                          if (
+                            !result[ADMIN_REVIEW_NOTICE] ||
+                            result[ADMIN_REVIEW_NOTICE] !== "accept"
+                          ) {
+                            self.setState({
+                              isTipOpened: true,
+                            });
+                          }
+                        }
+                      },
+                    });
                   }
                   if (!result.phone) {
                     self.setState({ isOpened: true });
@@ -207,10 +224,31 @@ class User extends Component {
   };
 
   adminNotice = () => {
+    const self = this;
     wx.requestSubscribeMessage({
       tmplIds: [ADMIN_REVIEW_NOTICE],
-      success: (rep) => {},
-      fail: () => {},
+      success: (rep) => {
+        if (rep[ADMIN_REVIEW_NOTICE] === "accept") {
+          Taro.showToast({
+            title: "订阅成功",
+            icon: "success",
+          });
+          self.setState({
+            isTipOpened: false,
+          })
+        } else {
+          Taro.showToast({
+            title: "订阅失败",
+            icon: "error",
+          });
+        }
+      },
+      fail: () => {
+        Taro.showToast({
+          title: "订阅失败",
+          icon: "error",
+        });
+      },
     });
   };
 
@@ -281,11 +319,11 @@ class User extends Component {
     Taro.navigateTo({
       url: `/pages/publish-all-order/publish-all-order?type=${type}`,
     });
-  }
+  };
 
   render() {
     const { userInfo, loginInfo } = this.props;
-    const { applyInfo, isOpened } = this.state;
+    const { applyInfo, isOpened, isTipOpened } = this.state;
     const getStatus = {
       pass: "审核通过",
       never: "管理员正在审核中",
@@ -522,6 +560,26 @@ class User extends Component {
               className="bindPhoneButton"
             >
               微信一键绑定
+            </AtButton>
+          </View>
+        </AtActionSheet>
+        <AtActionSheet
+          isOpened={isTipOpened}
+          cancelText="取消"
+          title="订阅审核通知"
+        >
+          <View className="bindPhone">
+            <View className="bindPhoneTip">
+              以便于您能快速收到商户和活动的审核通知，请订阅审核通知
+            </View>
+            <AtButton
+              type="primary"
+              size="normal"
+              round
+              className="bindPhoneButton"
+              onClick={this.adminNotice.bind(this)}
+            >
+              订阅审核通知
             </AtButton>
           </View>
         </AtActionSheet>

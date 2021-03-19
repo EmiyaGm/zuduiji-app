@@ -30,6 +30,9 @@ export default class WithdrawItem extends Component {
     return (
       <View className="withdraw-item">
         <View className="headContent">
+          <View className="typeArea">
+            类型：{withdrawData.type === 'withdraw' ? '提现' : '充值'}
+          </View>
           <View className="nameArea">
             <View className="name">用户名称：{withdrawData.user.nickName}</View>
             <View className="status">
@@ -37,10 +40,10 @@ export default class WithdrawItem extends Component {
             </View>
           </View>
           <View className="moneyArea">
-            <View className="total">总金额：{withdrawData.total / 100}</View>
-            <View className="fee">手续费：{withdrawData.fee / 100}</View>
+            <View className="total">总金额：{withdrawData.total ? withdrawData.total / 100 : 0}</View>
+            <View className="fee">手续费：{withdrawData.fee ? withdrawData.fee / 100 : 0}</View>
             <View className="amount">
-              实际金额：{withdrawData.amount / 100}
+              实际金额：{withdrawData.amount ? withdrawData.amount / 100 : 0}
             </View>
           </View>
         </View>

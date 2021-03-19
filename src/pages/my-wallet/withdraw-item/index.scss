@@ -5,21 +5,21 @@
   margin-bottom: 40px;
   .headContent {
     padding-bottom: 24px;
+    .typeArea {
+      font-size: 32px;
+      padding-bottom: 20px;
+    }
     .nameArea {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-left: 20px;
       font-size: 32px;
-      .name {
-        padding-bottom: 20px;
-      }
+      padding-bottom: 20px;
     }
     .moneyArea {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-left: 20px;
       font-size: 32px;
     }
   }

@@ -20,9 +20,11 @@ import {
   API_WALLET_APPLY,
 } from "@constants/api";
 import WithdrawItem from "./withdraw-item";
+import * as actions from "@actions/user";
 import "./my-wallet.scss";
 
 let i = 1;
+@connect((state) => state.user, { ...actions })
 class MyWallet extends Component {
   config = {
     navigationBarTitleText: "我的钱包",
@@ -87,11 +89,14 @@ class MyWallet extends Component {
   // 监听上拉触底
   onReachBottom() {
     i++;
-    this.setState({
-      showActivity: true,
-    }, () => {
-      this.onLoad();
-    });
+    this.setState(
+      {
+        showActivity: true,
+      },
+      () => {
+        this.onLoad();
+      },
+    );
   }
 
   onLoad = () => {
@@ -103,6 +108,8 @@ class MyWallet extends Component {
           start: self.state.page * self.state.pagesize,
           size: self.state.pagesize,
           status: this.state.tabList[this.state.current].type,
+          userId: self.props.loginInfo.account.id,
+          type: this.state.tabList[this.state.current].type ? 'withdraw' : ''
         },
       ],
       method: "POST",

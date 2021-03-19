@@ -68,6 +68,7 @@ class AdminWithdraw extends Component {
           start: self.state.page * self.state.pagesize,
           size: self.state.pagesize,
           status: this.state.tabList[this.state.current].type,
+          type: 'withdraw'
         },
       ],
       method: "POST",
