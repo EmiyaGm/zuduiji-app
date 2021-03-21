@@ -136,6 +136,7 @@ class OrderConfirm extends Component {
                     icon: "success",
                   });
                   if (res.order && res.order.activityId) {
+                    self.notice();
                     Taro.redirectTo({
                       url: `/pages/apply-success/apply-success?id=${res.order.activityId}&orderId=${res.order.id}`,
                     });

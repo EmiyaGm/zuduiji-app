@@ -5,7 +5,10 @@ import { AtButton, AtList, AtListItem } from "taro-ui";
 import moment from "moment";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
-import { API_ACTIVITY_DETIL, API_ACTIVITY_ADMINREVIEWACTIVITY } from "@constants/api";
+import {
+  API_ACTIVITY_DETIL,
+  API_ACTIVITY_ADMINREVIEWACTIVITY,
+} from "@constants/api";
 import Banner from "./banner";
 import "./admin-publish-detail.scss";
 
@@ -22,7 +25,7 @@ class AdminPublishDetail extends Component {
     images: [],
   };
 
-  componentDidMount() {
+  componentDidShow() {
     const params = this.$router.params;
     if (params.id) {
       this.setState({
@@ -36,7 +39,9 @@ class AdminPublishDetail extends Component {
     return {
       title: this.state.publishDetail.name,
       path: `/pages/publish-detail/publish-detail?id=${this.state.id}`,
-      imageUrl: this.state.publishDetail.images ? `${HOST_UPLOAD}${this.state.publishDetail.images[0]}` : '',
+      imageUrl: this.state.publishDetail.images
+        ? `${HOST_UPLOAD}${this.state.publishDetail.images[0]}`
+        : "",
     };
   }
 
@@ -87,10 +92,10 @@ class AdminPublishDetail extends Component {
       fail: function(res) {
         Taro.hideLoading();
         Taro.showToast({
-          title: '打开失败，请检查网络',
-          icon: 'error'
-        })
-      }
+          title: "打开失败，请检查网络",
+          icon: "error",
+        });
+      },
     });
   }
 
@@ -182,7 +187,7 @@ class AdminPublishDetail extends Component {
                     color: "lightblue",
                   }}
                 >
-                  0
+                  {publishDetail.orderNums ? publishDetail.orderNums : 0}
                 </View>
                 <View>订单数</View>
               </View>
@@ -224,14 +229,16 @@ class AdminPublishDetail extends Component {
                 title="分配规则"
                 extraText={groupRule[this.state.publishDetail.groupRule]}
               />
-              <AtListItem
-                title="序号总表"
-                extraText="查看"
-                onClick={this.openFile.bind(
-                  this,
-                  this.state.publishDetail.numsFile,
-                )}
-              />
+              {groupRule[this.state.publishDetail.groupRule] === "随机序号" && (
+                <AtListItem
+                  title="序号总表"
+                  extraText="查看"
+                  onClick={this.openFile.bind(
+                    this,
+                    this.state.publishDetail.numsFile,
+                  )}
+                />
+              )}
             </AtList>
             <View className="introduceArea">
               <View>活动介绍：</View>

@@ -11,7 +11,7 @@ import "./publish-order-list.scss";
 let i = 1;
 class PublishOrderList extends Component {
   config = {
-    navigationBarTitleText: "队伍订单",
+    navigationBarTitleText: "中奖订单",
     enablePullDownRefresh: true,
     onReachBottomDistance: 50,
   };
@@ -122,7 +122,7 @@ class PublishOrderList extends Component {
               <OrderItem
                 key={`${order.order.id}`}
                 orderData={order.order}
-                activityData={order.order.activity}
+                activityData={order.activity}
               />
             );
           })}

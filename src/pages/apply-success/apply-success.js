@@ -24,7 +24,6 @@ class ApplySuccess extends Component {
         id: params.id,
         orderId: params.orderId,
       });
-      this.notice();
     }
   }
 

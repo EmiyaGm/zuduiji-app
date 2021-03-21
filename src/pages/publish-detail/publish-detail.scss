@@ -20,8 +20,16 @@
         font-size: 36px;
       }
       .noticeArea {
+        margin: 24px;
         padding: 24px;
         font-size: 36px;
+        border: 1px solid #999999;
+        border-radius: 8px;
+        .noticeTitle {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
       }
     }
     .bottomArea {

@@ -43,7 +43,9 @@ class PublishDetail extends Component {
     return {
       title: this.state.publishDetail.name,
       path: `/pages/publish-detail/publish-detail?id=${this.state.id}`,
-      imageUrl: this.state.publishDetail.images ? `${HOST_UPLOAD}${this.state.publishDetail.images[0]}` : '',
+      imageUrl: this.state.publishDetail.images
+        ? `${HOST_UPLOAD}${this.state.publishDetail.images[0]}`
+        : "",
     };
   }
 
@@ -94,10 +96,10 @@ class PublishDetail extends Component {
       fail: function(res) {
         Taro.hideLoading();
         Taro.showToast({
-          title: '打开失败，请检查网络',
-          icon: 'error'
-        })
-      }
+          title: "打开失败，请检查网络",
+          icon: "error",
+        });
+      },
     });
   }
 
@@ -106,6 +108,18 @@ class PublishDetail extends Component {
       url: `/pages/order-confirm/order-confirm?id=${id}`,
     });
   }
+
+  copyText = (text) => {
+    Taro.setClipboardData({
+      data: text,
+      success: () => {
+        Taro.showToast({
+          title: "复制成功",
+          icon: "success",
+        });
+      },
+    });
+  };
 
   render() {
     const groupRule = {
@@ -119,8 +133,8 @@ class PublishDetail extends Component {
       wait_team: "待组队",
       wait_open: "待开奖",
       complete: "已完成",
-      close: "组队未成功，关闭"
-    }
+      close: "组队未成功，关闭",
+    };
     const { loginInfo } = this.props;
     return (
       <View className="publish-detail">
@@ -163,14 +177,16 @@ class PublishDetail extends Component {
                 title="分配规则"
                 extraText={groupRule[this.state.publishDetail.groupRule]}
               />
-              <AtListItem
-                title="序号总表"
-                extraText="查看"
-                onClick={this.openFile.bind(
-                  this,
-                  this.state.publishDetail.numsFile,
-                )}
-              />
+              {groupRule[this.state.publishDetail.groupRule] === "随机序号" && (
+                <AtListItem
+                  title="序号总表"
+                  extraText="查看"
+                  onClick={this.openFile.bind(
+                    this,
+                    this.state.publishDetail.numsFile,
+                  )}
+                />
+              )}
               <AtListItem
                 title="活动状态"
                 extraText={status[this.state.publishDetail.status]}
@@ -182,7 +198,21 @@ class PublishDetail extends Component {
             </View>
             {this.state.publishDetail.noticeContent && (
               <View className="noticeArea">
-                <View>正在开奖：</View>
+                <View className="noticeTitle">
+                  <View>正在开奖：</View>
+                  <View>
+                    <AtButton
+                      type="primary"
+                      size="small"
+                      onClick={this.copyText.bind(
+                        this,
+                        this.state.publishDetail.noticeContent,
+                      )}
+                    >
+                      复制
+                    </AtButton>
+                  </View>
+                </View>
                 {this.state.publishDetail.noticeContent}
               </View>
             )}

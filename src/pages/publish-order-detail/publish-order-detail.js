@@ -135,7 +135,7 @@ class PublishOrderDetail extends Component {
 
   goLogistics = () => {
     Taro.navigateTo({
-      url: "/pages/apply-logistics/apply-logistics",
+      url: `/pages/apply-logistics/apply-logistics?id=${this.state.id}`,
     });
   };
 
@@ -163,7 +163,7 @@ class PublishOrderDetail extends Component {
                 />
               )}
             </View>
-            {this.state.orderDetail === "bingo" && (
+            {this.state.orderDetail.status === "bingo" && (
               <View className="buttonArea">
                 <View className="actionButton">
                   <AtButton

@@ -14,6 +14,7 @@ import "./index.scss";
 export default class PublishItem extends Component {
   static defaultProps = {
     publishData: {},
+    orders: [],
   };
 
   state = {
@@ -70,8 +71,8 @@ export default class PublishItem extends Component {
   };
 
   render() {
-    const { publishData } = this.props;
-    const { isOpenShow, hideButton, isNoticeShow } = this.state;
+    const { publishData, orders } = this.props;
+    const { hideButton } = this.state;
 
     return (
       <View className="publish-item">
@@ -105,7 +106,7 @@ export default class PublishItem extends Component {
                   color: "lightblue",
                 }}
               >
-                {publishData.orderNums ? publishData.orderNums : 0}
+                {orders.length}
               </View>
               <View>订单数</View>
             </View>
