@@ -44,22 +44,19 @@ class MyOrder extends Component {
   }
 
   componentDidShow() {
+    this.onRefresh();
+  }
+
+  componentDidMount() {
     const params = this.$router.params;
     if (params.type) {
       this.state.tabList.map((item, index) => {
         if (item.type === params.type) {
-          this.setState(
-            {
-              current: index,
-            },
-            () => {
-              this.onRefresh();
-            },
-          );
+          this.setState({
+            current: index,
+          });
         }
       });
-    } else {
-      this.onRefresh();
     }
   }
 
@@ -70,11 +67,14 @@ class MyOrder extends Component {
   // 监听上拉触底
   onReachBottom() {
     i++;
-    this.setState({
-      showActivity: true,
-    }, () => {
-      this.onLoad();
-    });
+    this.setState(
+      {
+        showActivity: true,
+      },
+      () => {
+        this.onLoad();
+      },
+    );
   }
 
   onLoad = () => {

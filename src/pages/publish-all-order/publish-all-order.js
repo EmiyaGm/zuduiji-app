@@ -31,22 +31,19 @@ class PublishAllOrder extends Component {
   };
 
   componentDidShow() {
+    this.onRefresh();
+  }
+
+  componentDidMount() {
     const params = this.$router.params;
     if (params.type) {
       this.state.tabList.map((item, index) => {
         if (item.type === params.type) {
-          this.setState(
-            {
-              current: index,
-            },
-            () => {
-              this.onRefresh();
-            },
-          );
+          this.setState({
+            current: index,
+          });
         }
       });
-    } else {
-      this.onRefresh();
     }
   }
 

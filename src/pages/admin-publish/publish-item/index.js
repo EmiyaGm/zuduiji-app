@@ -43,6 +43,7 @@ export default class PublishItem extends Component {
             self.setState({
               hideButton: true,
             });
+            self.props.publishData.status = "wait_team"
           } else {
             Taro.showToast({
               title: "操作失败",

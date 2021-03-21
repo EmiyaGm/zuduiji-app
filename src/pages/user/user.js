@@ -16,8 +16,7 @@ import { ADMIN_REVIEW_NOTICE, BUSINESS_APPLY_NOTICE } from "@utils/noticeTmpl";
 import fetch from "@utils/request";
 import Profile from "./profile";
 import waitSend from "@assets/wait-send.png";
-import waitPay from "@assets/wait-pay.png";
-import waitReceive from "@assets/wait-receive.png";
+import waitOpen from "@assets/wait-open.png";
 import businessIcon from "@assets/businessIcon.png";
 import userIcon from "@assets/userIcon.png";
 import activityIcon from "@assets/activityIcon.png";
@@ -382,6 +381,11 @@ class User extends Component {
                   <View>全部提现</View>
                 </View>
               </View>
+              <View className="at-row noticeArea">
+                <View>
+                  <AtButton type="primary" size="small" onClick={this.adminNotice.bind(this)}>订阅审核通知</AtButton>
+                </View>
+              </View>
             </AtCard>
           )}
           <View className="user__empty" />
@@ -484,13 +488,13 @@ class User extends Component {
                   <View
                     className="at-col at-col-3 statusText"
                     onClick={(e) => {
-                      this.orderList(e, "wait_pay");
+                      this.orderList(e, "wait_open");
                     }}
                   >
                     <View>
-                      <Image className="statusIcon" src={waitPay} />
+                      <Image className="statusIcon" src={waitOpen} />
                     </View>
-                    <View>待支付</View>
+                    <View>待开奖</View>
                   </View>
                   <View
                     className="at-col at-col-3 statusText"

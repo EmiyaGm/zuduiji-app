@@ -22,7 +22,9 @@ class MyPublish extends Component {
     return {
       title: shareModel.name,
       path: `/pages/publish-detail/publish-detail?id=${shareModel.id}`,
-      imageUrl: shareModel.images ? `${HOST_UPLOAD}${shareModel.images[0]}` : ''
+      imageUrl: shareModel.images
+        ? `${HOST_UPLOAD}${shareModel.images[0]}`
+        : "",
     };
   }
 
@@ -44,22 +46,19 @@ class MyPublish extends Component {
   };
 
   componentDidShow() {
+    this.onRefresh();
+  }
+
+  componentDidMount() {
     const params = this.$router.params;
     if (params.type) {
       this.state.tabList.map((item, index) => {
         if (item.type === params.type) {
-          this.setState(
-            {
-              current: index,
-            },
-            () => {
-              this.onRefresh();
-            },
-          );
+          this.setState({
+            current: index,
+          });
         }
       });
-    } else {
-      this.onRefresh();
     }
   }
 
@@ -154,7 +153,11 @@ class MyPublish extends Component {
                 <View className="publishList">
                   {dataList.map((data, index) => {
                     return (
-                      <PublishItem key={`${data.activity.id}`} publishData={data.activity} orders={data.orders}/>
+                      <PublishItem
+                        key={`${data.activity.id}`}
+                        publishData={data.activity}
+                        orders={data.orders}
+                      />
                     );
                   })}
                 </View>
