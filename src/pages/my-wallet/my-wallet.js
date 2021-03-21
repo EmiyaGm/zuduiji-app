@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
+import BigNumber from "bignumber.js";
 import {
   AtActivityIndicator,
   AtButton,
@@ -109,7 +110,7 @@ class MyWallet extends Component {
           size: self.state.pagesize,
           status: this.state.tabList[this.state.current].type,
           userId: self.props.loginInfo.account.id,
-          type: this.state.tabList[this.state.current].type ? 'withdraw' : ''
+          type: this.state.tabList[this.state.current].type ? "withdraw" : "",
         },
       ],
       method: "POST",
@@ -177,6 +178,8 @@ class MyWallet extends Component {
             title: "申请成功",
             icon: "success",
           });
+          self.onRefresh();
+          self.getBalance();
         } else {
           Taro.showToast({
             title: "申请失败",
@@ -194,6 +197,7 @@ class MyWallet extends Component {
 
   render() {
     const { dataList, balanceData, isApplyShow } = this.state;
+    const { cfg } = this.props;
     return (
       <View className="my-wallet">
         <View className="balanceArea">
@@ -217,6 +221,16 @@ class MyWallet extends Component {
           <AtModal isOpened={isApplyShow}>
             <AtModalHeader>请输入提现金额</AtModalHeader>
             <AtModalContent>
+              <View>
+                最大提现金额：
+                {balanceData.balance
+                  ? BigNumber(balanceData.balance).minus(
+                      BigNumber(balanceData.balance).multipliedBy(
+                        cfg.withdrawRate ? cfg.withdrawRate : 0,
+                      ),
+                    ).div(100).toFixed(2, 1)
+                  : 0}
+              </View>
               {isApplyShow && (
                 <AtInput
                   name="logistics"

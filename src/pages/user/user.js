@@ -165,6 +165,9 @@ class User extends Component {
               title: "正在登录",
             });
             self.props.dispatchLogin([res.code]).then((rep) => {
+              if (rep.cfg) {
+                self.props.dispatchCfg(rep.cfg);
+              }
               fetch({
                 url: API_USER_INFO,
                 payload: [
@@ -235,7 +238,7 @@ class User extends Component {
           });
           self.setState({
             isTipOpened: false,
-          })
+          });
         } else {
           Taro.showToast({
             title: "订阅失败",
@@ -499,17 +502,6 @@ class User extends Component {
                       <Image className="statusIcon" src={waitSend} />
                     </View>
                     <View>待发货</View>
-                  </View>
-                  <View
-                    className="at-col at-col-3 statusText"
-                    onClick={(e) => {
-                      this.orderList(e, "send");
-                    }}
-                  >
-                    <View>
-                      <Image className="statusIcon" src={waitReceive} />
-                    </View>
-                    <View>待收货</View>
                   </View>
                   <View
                     className="at-col at-col-3 statusText"

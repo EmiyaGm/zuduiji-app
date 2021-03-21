@@ -1,8 +1,9 @@
-import { USER_INFO, USER_LOGIN, USER_LOGOUT } from "@constants/user";
+import { USER_INFO, USER_LOGIN, USER_LOGOUT, USER_CFG } from "@constants/user";
 
 const INITIAL_STATE = {
   userInfo: {},
   loginInfo: {},
+  cfg: {},
 };
 
 export default function user(state = INITIAL_STATE, action) {
@@ -26,6 +27,14 @@ export default function user(state = INITIAL_STATE, action) {
     case USER_LOGOUT: {
       return {
         ...INITIAL_STATE,
+      };
+    }
+    case USER_CFG: {
+      return {
+        ...state,
+        cfg: {
+          ...action.payload,
+        },
       };
     }
     default:

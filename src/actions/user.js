@@ -1,4 +1,4 @@
-import { USER_INFO, USER_LOGIN, USER_LOGOUT } from "@constants/user";
+import { USER_INFO, USER_LOGIN, USER_LOGOUT, USER_CFG } from "@constants/user";
 import { createAction } from "@utils/redux";
 import { API_USER_LOGIN } from "@constants/api";
 
@@ -25,3 +25,5 @@ export const dispatchLogout = () => ({ type: USER_LOGOUT });
 export const dispatchUser = (payload) => ({ type: USER_INFO, payload });
 
 export const dispatchLoginInfo = (payload) => ({ type: USER_LOGIN, payload });
+
+export const dispatchCfg = (payload) => ({ type: USER_CFG, payload });

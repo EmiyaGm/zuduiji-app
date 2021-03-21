@@ -22,7 +22,7 @@ class PublishOrderDetail extends Component {
     seconds: 0,
   };
 
-  componentDidMount() {
+  componentDidShow() {
     const params = this.$router.params;
     if (params.id) {
       this.setState({
@@ -302,7 +302,13 @@ class PublishOrderDetail extends Component {
               })}
             </View>
             <View className="title">中奖序号：</View>
-            <View className="luckCode"></View>
+            <View className="luckCode">
+              {this.state.orderDetail.luckNums
+                ? this.state.orderDetail.luckNums.map((item, index) => {
+                    return <View className="codeItem">{item}</View>;
+                  })
+                : "暂未开奖"}
+            </View>
           </View>
         </ScrollView>
       </View>

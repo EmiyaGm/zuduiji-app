@@ -98,6 +98,9 @@ class App extends Component {
         self.props.dispatchLoginInfo(result);
         self.props.dispatchUser(result.account);
       }
+      if (result && result.cfg) {
+        self.props.dispatchCfg(result.cfg);
+      }
     });
   }
 

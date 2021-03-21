@@ -35,11 +35,18 @@ class ApplyNums extends Component {
   setLuckNums = () => {
     const self = this;
     if (self.state.value) {
-      const luckNums = self.state.value.split(",");
-      if (luckNums.length > 0) {
+      const luckNums = self.state.value.split("\n");
+      const sendValues = [];
+      luckNums.map(item => {
+        if (item || item === 0) {
+          sendValues.push(item);
+        }
+        return true;
+      })
+      if (sendValues.length > 0) {
         fetch({
           url: API_ACTIVITY_SETLUCKNUMS,
-          payload: [self.state.id, luckNums],
+          payload: [self.state.id, sendValues],
           method: "POST",
           showToast: false,
           autoLogin: false,
@@ -85,7 +92,7 @@ class ApplyNums extends Component {
               value={this.state.value}
               onChange={this.handleChange.bind(this)}
               maxLength={200}
-              placeholder="请输入开奖号码，并用英文逗号 ',' 做分隔"
+              placeholder="请输入开奖号码，并用换行分隔"
             />
           </View>
           <View className="buttonArea">

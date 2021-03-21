@@ -172,7 +172,7 @@ export default class OrderItem extends Component {
             </View>
           </View>
         )}
-        {orderData.status === "send" && (
+        {/* {orderData.status === "send" && (
           <View className="footContent">
             <View className="actionButton">
               <AtButton type="primary" circle={true} size="small">
@@ -180,7 +180,7 @@ export default class OrderItem extends Component {
               </AtButton>
             </View>
           </View>
-        )}
+        )} */}
       </View>
     );
   }

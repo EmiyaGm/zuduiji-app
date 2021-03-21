@@ -136,9 +136,10 @@ class OrderConfirm extends Component {
                     icon: "success",
                   });
                   if (res.order && res.order.activityId) {
-                    self.notice();
-                    Taro.redirectTo({
-                      url: `/pages/apply-success/apply-success?id=${res.order.activityId}&orderId=${res.order.id}`,
+                    self.notice(() => {
+                      Taro.redirectTo({
+                        url: `/pages/apply-success/apply-success?id=${res.order.activityId}&orderId=${res.order.id}`,
+                      });
                     });
                   }
                 },
@@ -228,7 +229,7 @@ class OrderConfirm extends Component {
     });
   };
 
-  notice = () => {
+  notice = (callback) => {
     wx.requestSubscribeMessage({
       tmplIds: [USER_ACTIVITY_NOTICE, USER_ORDER_NOTICE],
       success: (rep) => {
@@ -246,12 +247,14 @@ class OrderConfirm extends Component {
             icon: "error",
           });
         }
+        callback();
       },
       fail: () => {
         Taro.showToast({
           title: "订阅失败",
           icon: "error",
         });
+        callback();
       },
     });
   };
