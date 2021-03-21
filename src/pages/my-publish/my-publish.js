@@ -4,7 +4,7 @@ import { connect } from "@tarojs/redux";
 import { AtActivityIndicator, AtTabs, AtTabsPane } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
-import { API_MY_ACTIVITY } from "@constants/api";
+import { API_ACTIVITY_MAKELISTACTIVITY } from "@constants/api";
 import "./my-publish.scss";
 import PublishItem from "./publish-item";
 
@@ -94,7 +94,7 @@ class MyPublish extends Component {
   onLoad = () => {
     const self = this;
     fetch({
-      url: API_MY_ACTIVITY,
+      url: API_ACTIVITY_MAKELISTACTIVITY,
       payload: [
         self.state.tabList[self.state.current].type,
         self.state.page * self.state.pagesize,

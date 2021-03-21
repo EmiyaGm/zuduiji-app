@@ -49,6 +49,7 @@ export const API_BUSINESS_STATUS = `${host}/business/status`;
 export const API_ACTIVITY_UPLOAD = `${host}/activity/upload`;
 export const API_ACTIVITY_ADD = `${host}/activity/add`;
 export const API_MY_ACTIVITY = `${host}/activity/makeList`;
+export const API_ACTIVITY_MAKELISTACTIVITY = `${host}/activity/makeListActivity`;
 export const API_ACTIVITY_DETIL = `${host}/activity/details`;
 export const API_ACTIVITY_ORDER = `${host}/activity/order`;
 export const API_ACTIVITY_NOTICE = `${host}/activity/notice`;
