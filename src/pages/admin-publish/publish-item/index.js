@@ -110,7 +110,7 @@ export default class PublishItem extends Component {
                   color: "lightblue",
                 }}
               >
-                0
+                {publishData.orderNums ? publishData.orderNums : 0}
               </View>
               <View>订单数</View>
             </View>
