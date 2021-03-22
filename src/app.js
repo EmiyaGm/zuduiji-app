@@ -101,6 +101,9 @@ class App extends Component {
       if (result && result.cfg) {
         self.props.dispatchCfg(result.cfg);
       }
+      if (result && result.nbaTeams) {
+        self.props.dispatchTeams(result.nbaTeams);
+      }
     });
   }
 

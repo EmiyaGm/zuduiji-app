@@ -167,6 +167,9 @@ class User extends Component {
               if (rep.cfg) {
                 self.props.dispatchCfg(rep.cfg);
               }
+              if (rep.nbaTeams) {
+                self.props.dispatchTeams(rep.nbaTeams);
+              }
               fetch({
                 url: API_USER_INFO,
                 payload: [
@@ -383,7 +386,13 @@ class User extends Component {
               </View>
               <View className="at-row noticeArea">
                 <View>
-                  <AtButton type="primary" size="small" onClick={this.adminNotice.bind(this)}>订阅审核通知</AtButton>
+                  <AtButton
+                    type="primary"
+                    size="small"
+                    onClick={this.adminNotice.bind(this)}
+                  >
+                    订阅审核通知
+                  </AtButton>
                 </View>
               </View>
             </AtCard>

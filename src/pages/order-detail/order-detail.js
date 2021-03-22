@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
+import * as actions from "@actions/user";
 import { AtList, AtListItem, AtAvatar, AtCountdown, AtButton } from "taro-ui";
 import fetch from "@utils/request";
 import {
@@ -11,6 +12,7 @@ import { getWindowHeight } from "@utils/style";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./order-detail.scss";
 
+@connect((state) => state.user, { ...actions })
 class OrderDetail extends Component {
   config = {
     navigationBarTitleText: "订单详情",
@@ -204,6 +206,7 @@ class OrderDetail extends Component {
 
   render() {
     const { orderDetail } = this.state;
+    const { nbaTeams } = this.props;
     return (
       <View className="order-detail">
         <ScrollView
@@ -367,22 +370,46 @@ class OrderDetail extends Component {
               </View>
             </View>
           )}
-          <View className="codeArea">
-            <View className="title">已为您分配序号：</View>
-            <View className="myCode">
-              {this.state.activityItems.map((item, index) => {
-                return <View className="codeItem">{item.luckNum}</View>;
-              })}
+          {this.state.publishDetail.groupRule === "random_group" && (
+            <View className="codeArea">
+              <View className="title">已为您分配序号：</View>
+              <View className="myCode">
+                {this.state.activityItems.map((item, index) => {
+                  return (
+                    <View className="codeItem">
+                      {nbaTeams[item.luckNum].name}
+                    </View>
+                  );
+                })}
+              </View>
+              <View className="title">中奖序号：</View>
+              <View className="luckCode">
+                {this.state.orderDetail.luckNums
+                  ? this.state.orderDetail.luckNums.map((item, index) => {
+                      return <View className="codeItem">{nbaTeams[item].name}</View>;
+                    })
+                  : "暂未开奖"}
+              </View>
             </View>
-            <View className="title">中奖序号：</View>
-            <View className="luckCode">
-              {this.state.orderDetail.luckNums
-                ? this.state.orderDetail.luckNums.map((item, index) => {
-                    return <View className="codeItem">{item}</View>;
-                  })
-                : "暂未开奖"}
+          )}
+          {this.state.publishDetail.groupRule !== "random_group" && (
+            <View className="codeArea">
+              <View className="title">已为您分配序号：</View>
+              <View className="myCode">
+                {this.state.activityItems.map((item, index) => {
+                  return <View className="codeItem">{item.luckNum}</View>;
+                })}
+              </View>
+              <View className="title">中奖序号：</View>
+              <View className="luckCode">
+                {this.state.orderDetail.luckNums
+                  ? this.state.orderDetail.luckNums.map((item, index) => {
+                      return <View className="codeItem">{item}</View>;
+                    })
+                  : "暂未开奖"}
+              </View>
             </View>
-          </View>
+          )}
         </ScrollView>
       </View>
     );

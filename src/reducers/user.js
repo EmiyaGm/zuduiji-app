@@ -1,9 +1,10 @@
-import { USER_INFO, USER_LOGIN, USER_LOGOUT, USER_CFG } from "@constants/user";
+import { USER_INFO, USER_LOGIN, USER_LOGOUT, USER_CFG, NBA_TEAMS } from "@constants/user";
 
 const INITIAL_STATE = {
   userInfo: {},
   loginInfo: {},
   cfg: {},
+  nbaTeams: {},
 };
 
 export default function user(state = INITIAL_STATE, action) {
@@ -33,6 +34,14 @@ export default function user(state = INITIAL_STATE, action) {
       return {
         ...state,
         cfg: {
+          ...action.payload,
+        },
+      };
+    }
+    case NBA_TEAMS: {
+      return {
+        ...state,
+        nbaTeams: {
           ...action.payload,
         },
       };
