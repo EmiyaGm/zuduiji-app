@@ -96,6 +96,7 @@
       .myCode {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         .codeItem {
           margin-right: 20px;
           margin-bottom: 20px;
@@ -104,6 +105,7 @@
       .luckCode {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         .codeItem {
           margin-right: 20px;
           margin-bottom: 20px;

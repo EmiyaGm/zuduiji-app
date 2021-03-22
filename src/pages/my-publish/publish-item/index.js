@@ -45,9 +45,9 @@ export default class PublishItem extends Component {
     });
   };
 
-  goNums = (id) => {
+  goNums = (id, type) => {
     Taro.navigateTo({
-      url: `/pages/apply-nums/apply-nums?id=${id}`,
+      url: `/pages/apply-nums/apply-nums?id=${id}&type=${type}`,
     });
   };
 
@@ -160,7 +160,7 @@ export default class PublishItem extends Component {
           {publishData.status === "wait_open" && !hideButton && (
             <View
               className="statuArea"
-              onClick={this.goNums.bind(this, publishData.id)}
+              onClick={this.goNums.bind(this, publishData.id, publishData.groupRule)}
             >
               提交开奖
             </View>

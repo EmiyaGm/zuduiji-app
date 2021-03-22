@@ -168,7 +168,11 @@ class User extends Component {
                 self.props.dispatchCfg(rep.cfg);
               }
               if (rep.nbaTeams) {
-                self.props.dispatchTeams(rep.nbaTeams);
+                const nbaTeams = {};
+                result.nbaTeams.map((nba, index) => {
+                  nbaTeams[nba.id] = nba;
+                });
+                self.props.dispatchTeams(nbaTeams);
               }
               fetch({
                 url: API_USER_INFO,

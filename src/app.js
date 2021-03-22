@@ -102,7 +102,11 @@ class App extends Component {
         self.props.dispatchCfg(result.cfg);
       }
       if (result && result.nbaTeams) {
-        self.props.dispatchTeams(result.nbaTeams);
+        const nbaTeams = {};
+        result.nbaTeams.map((nba, index) => {
+          nbaTeams[nba.id] = nba;
+        })
+        self.props.dispatchTeams(nbaTeams);
       }
     });
   }

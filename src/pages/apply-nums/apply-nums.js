@@ -1,12 +1,14 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
+import { View, ScrollView } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
-import { AtTextarea, AtButton } from "taro-ui";
+import * as actions from "@actions/user";
+import { AtTextarea, AtButton, AtCheckbox } from "taro-ui";
 import { getWindowHeight } from "@utils/style";
 import fetch from "@utils/request";
 import { API_ACTIVITY_SETLUCKNUMS } from "@constants/api";
 import "./apply-nums.scss";
 
+@connect((state) => state.user, { ...actions })
 class ApplyNums extends Component {
   config = {
     navigationBarTitleText: "中奖信息",
@@ -15,13 +17,25 @@ class ApplyNums extends Component {
   state = {
     value: "",
     id: "",
+    type: "",
+    checkedList: [],
+    checkboxOption: [],
   };
 
   componentDidShow() {
     const params = this.$router.params;
-    if (params.id) {
+    console.log(params);
+    if (params.id && params.type) {
+      const checkboxOption = Object.keys(this.props.nbaTeams).map((item) => {
+        return {
+          value: this.props.nbaTeams[item].id,
+          label: this.props.nbaTeams[item].name,
+        };
+      });
       this.setState({
         id: params.id,
+        type: params.type,
+        checkboxOption,
       });
     }
   }
@@ -32,17 +46,24 @@ class ApplyNums extends Component {
     });
   }
 
+  handleCheckBoxChange(value) {
+    this.setState({
+      checkedList: value,
+      value: value.join("\n"),
+    });
+  }
+
   setLuckNums = () => {
     const self = this;
     if (self.state.value) {
       const luckNums = self.state.value.split("\n");
       const sendValues = [];
-      luckNums.map(item => {
+      luckNums.map((item) => {
         if (item || item === 0) {
           sendValues.push(item);
         }
         return true;
-      })
+      });
       if (sendValues.length > 0) {
         fetch({
           url: API_ACTIVITY_SETLUCKNUMS,
@@ -79,6 +100,7 @@ class ApplyNums extends Component {
   };
 
   render() {
+    const { type, checkboxOption, checkedList } = this.state;
     return (
       <View className="apply-nums">
         <ScrollView
@@ -88,12 +110,21 @@ class ApplyNums extends Component {
         >
           <View className="title">中奖号码</View>
           <View>
-            <AtTextarea
-              value={this.state.value}
-              onChange={this.handleChange.bind(this)}
-              maxLength={200}
-              placeholder="请输入开奖号码，并用换行分隔"
-            />
+            {type === "random_group" && (
+              <AtCheckbox
+                options={checkboxOption}
+                selectedList={checkedList}
+                onChange={this.handleCheckBoxChange.bind(this)}
+              />
+            )}
+            {type !== "random_group" && (
+              <AtTextarea
+                value={this.state.value}
+                onChange={this.handleChange.bind(this)}
+                maxLength={200}
+                placeholder="请输入开奖号码，并用换行分隔"
+              />
+            )}
           </View>
           <View className="buttonArea">
             <AtButton type="primary" onClick={this.setLuckNums.bind(this)}>
