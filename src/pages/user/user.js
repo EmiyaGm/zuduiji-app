@@ -169,7 +169,7 @@ class User extends Component {
               }
               if (rep.nbaTeams) {
                 const nbaTeams = {};
-                result.nbaTeams.map((nba, index) => {
+                rep.nbaTeams.map((nba, index) => {
                   nbaTeams[nba.id] = nba;
                 });
                 self.props.dispatchTeams(nbaTeams);
