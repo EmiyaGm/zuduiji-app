@@ -1,5 +1,6 @@
 import Taro from "@tarojs/taro";
 import { API_USER_LOGIN } from "@constants/api";
+var log = require("./log.js");
 
 const CODE_SUCCESS = "200";
 const CODE_AUTH_EXPIRED = "600";
@@ -66,7 +67,8 @@ export default async function fetch(options) {
       return res.data[1];
     })
     .catch((err) => {
-      console.log('-------error-------');
+      console.log("-------error-------");
+      log.error(JSON.stringify(err));
       console.log(err);
       const defaultMsg =
         err.code === CODE_AUTH_EXPIRED ? "登录失效" : "请求异常";
@@ -79,8 +81,8 @@ export default async function fetch(options) {
 
       if (err.code === CODE_AUTH_EXPIRED && autoLogin) {
         Taro.navigateTo({
-          url: '/pages/user/user'
-        })
+          url: "/pages/user/user",
+        });
       }
 
       return Promise.reject({ message: defaultMsg, ...err });
