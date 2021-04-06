@@ -152,84 +152,90 @@ class User extends Component {
     });
   };
 
-  agreeAuth = (e) => {
-    const { errMsg, userInfo } = e.detail ? e.detail : {};
+  agreeAuth = () => {
     const self = this;
-    if (errMsg === "getUserInfo:ok") {
-      self.props.dispatchUser(userInfo);
-      Taro.login({
-        success: function(res) {
-          if (res.code) {
-            Taro.showLoading({
-              title: "正在登录",
-            });
-            self.props.dispatchLogin([res.code]).then((rep) => {
-              if (rep.cfg) {
-                self.props.dispatchCfg(rep.cfg);
-              }
-              if (rep.nbaTeams) {
-                const nbaTeams = {};
-                rep.nbaTeams.map((nba, index) => {
-                  nbaTeams[nba.id] = nba;
+    wx.getUserProfile({
+      desc: '用于完善资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (detail) => {
+        const { errMsg, userInfo } = detail;
+        if (errMsg === "getUserProfile:ok") {
+          self.props.dispatchUser(userInfo);
+          Taro.login({
+            success: function(res) {
+              if (res.code) {
+                Taro.showLoading({
+                  title: "正在登录",
                 });
-                self.props.dispatchTeams(nbaTeams);
-              }
-              fetch({
-                url: API_USER_INFO,
-                payload: [
-                  {
-                    ...e.detail,
-                    sessionKey: rep.account.sessionKey,
-                  },
-                ],
-                method: "POST",
-                showToast: false,
-                autoLogin: false,
-              }).then((result) => {
-                if (result) {
-                  self.props.dispatchUser(result);
-                  if (result.role === "ADMIN") {
-                    Taro.getSetting({
-                      withSubscriptions: true,
-                      success: (res) => {
-                        if (res.subscriptionsSetting) {
-                          const result =
-                            res.subscriptionsSetting.itemSettings || {};
-                          if (
-                            !result[ADMIN_REVIEW_NOTICE] ||
-                            result[ADMIN_REVIEW_NOTICE] !== "accept"
-                          ) {
-                            self.setState({
-                              isTipOpened: true,
-                            });
-                          }
-                        }
-                      },
+                self.props.dispatchLogin([res.code]).then((rep) => {
+                  if (rep.cfg) {
+                    self.props.dispatchCfg(rep.cfg);
+                  }
+                  if (rep.nbaTeams) {
+                    const nbaTeams = {};
+                    rep.nbaTeams.map((nba, index) => {
+                      nbaTeams[nba.id] = nba;
                     });
+                    self.props.dispatchTeams(nbaTeams);
                   }
-                  if (!result.phone) {
-                    self.setState({ isOpened: true });
-                  }
-                  Taro.hideLoading();
-                  Taro.showToast({
-                    title: "登录成功！",
-                    icon: "none",
+                  fetch({
+                    url: API_USER_INFO,
+                    payload: [
+                      {
+                        rawData: JSON.stringify(userInfo),
+                        sessionKey: rep.account.sessionKey,
+                      },
+                    ],
+                    method: "POST",
+                    showToast: false,
+                    autoLogin: false,
+                  }).then((result) => {
+                    if (result) {
+                      self.props.dispatchUser(result);
+                      if (result.role === "ADMIN") {
+                        Taro.getSetting({
+                          withSubscriptions: true,
+                          success: (res) => {
+                            if (res.subscriptionsSetting) {
+                              const result =
+                                res.subscriptionsSetting.itemSettings || {};
+                              if (
+                                !result[ADMIN_REVIEW_NOTICE] ||
+                                result[ADMIN_REVIEW_NOTICE] !== "accept"
+                              ) {
+                                self.setState({
+                                  isTipOpened: true,
+                                });
+                              }
+                            }
+                          },
+                        });
+                      }
+                      if (!result.phone) {
+                        self.setState({ isOpened: true });
+                      }
+                      Taro.hideLoading();
+                      Taro.showToast({
+                        title: "登录成功！",
+                        icon: "none",
+                      });
+                      self.getApplyStatus();
+                    }
                   });
-                  self.getApplyStatus();
-                }
-              });
-            });
-          } else {
-            console.log("登录失败！" + res.errMsg);
-          }
-        },
-      });
-    } else {
-      Taro.showToast({
-        title: "授权失败",
-        icon: "none",
-      });
-    }
+                });
+              } else {
+                console.log("登录失败！" + res.errMsg);
+              }
+            },
+          });
+        } else {
+          Taro.showToast({
+            title: "授权失败",
+            icon: "none",
+          });
+        }
+      }
+    })
+
   };
 
   adminNotice = () => {
@@ -540,8 +546,7 @@ class User extends Component {
               <ButtonItem
                 type="primary"
                 text="立即登录"
-                openType="getUserInfo"
-                onGetUserInfo={this.agreeAuth}
+                onClick={this.agreeAuth.bind(this)}
               />
             </View>
           )}
