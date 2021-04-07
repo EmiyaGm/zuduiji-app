@@ -23,6 +23,7 @@ class AdminPublishDetail extends Component {
     publishDetail: {},
     orders: [],
     images: [],
+    userLuckInfos: [],
   };
 
   componentDidShow() {
