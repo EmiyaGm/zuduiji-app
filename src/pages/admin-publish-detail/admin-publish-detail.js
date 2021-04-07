@@ -1,6 +1,7 @@
 import Taro, { Component, getCurrentInstance } from "@tarojs/taro";
-import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
+import { View, Text, ScrollView, Canvas } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
+import * as actions from "@actions/user";
 import { AtButton, AtList, AtListItem } from "taro-ui";
 import moment from "moment";
 import { getWindowHeight } from "@utils/style";
@@ -12,6 +13,7 @@ import {
 import Banner from "./banner";
 import "./admin-publish-detail.scss";
 
+@connect((state) => state.user, { ...actions })
 class AdminPublishDetail extends Component {
   config = {
     navigationBarTitleText: "组队详情",
@@ -263,9 +265,7 @@ class AdminPublishDetail extends Component {
     return (
       <View className="admin-publish-detail">
         <ScrollView
-          scrollY
           className="admin-publish-detail__wrap"
-          style={{ height: getWindowHeight() }}
         >
           <View className="imagesArea">
             <Banner list={this.state.images} />

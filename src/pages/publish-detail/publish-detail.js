@@ -254,9 +254,7 @@ class PublishDetail extends Component {
     return (
       <View className="publish-detail">
         <ScrollView
-          scrollY
           className="publish-detail__wrap"
-          style={{ height: getWindowHeight() }}
         >
           <View className="imagesArea">
             <Banner list={this.state.images} />
