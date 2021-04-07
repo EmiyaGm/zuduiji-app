@@ -30,11 +30,11 @@ class Publish extends Component {
     files: [],
     introduce: "",
     groupRule: [
-      { name: "随机分组", data: "random_group" },
+      { name: "随机队伍", data: "random_group" },
       { name: "随机编号", data: "random_num" },
       { name: "随机序号", data: "random_list" },
     ],
-    selectorChecked: "随机分组",
+    selectorChecked: "随机队伍",
     groupRuleChecked: "random_group",
     num: "",
     price: "",
@@ -205,7 +205,7 @@ class Publish extends Component {
       name: "",
       files: [],
       introduce: "",
-      selectorChecked: "随机分组",
+      selectorChecked: "随机队伍",
       groupRuleChecked: "random_group",
       num: "",
       price: "",
@@ -412,7 +412,7 @@ class Publish extends Component {
                 onChange={this.handleChange.bind(this, "numMax")}
               />
             )}
-            {this.state.selectorChecked === "随机分组" && (
+            {this.state.selectorChecked === "随机队伍" && (
               <View>
                 <Picker
                   mode="selector"
@@ -425,7 +425,7 @@ class Publish extends Component {
                 </Picker>
               </View>
             )}
-            {this.state.selectorChecked !== "随机分组" && (
+            {this.state.selectorChecked !== "随机队伍" && (
               <AtInput
                 name="num"
                 title="组队数量"

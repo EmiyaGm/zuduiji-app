@@ -64,13 +64,74 @@ class AdminPublishDetail extends Component {
             };
           });
         }
-        self.setState({
-          publishDetail: res.activity,
-          orders: res.orders,
-          images,
-        });
+        self.setState(
+          {
+            publishDetail: res.activity,
+            orders: res.orders,
+            images,
+            userLuckInfos: res.userLuckInfos ? res.userLuckInfos : [],
+          },
+          () => {
+            if (res.userLuckInfos) {
+              this.createImage();
+            }
+          },
+        );
       }
     });
+  }
+
+  createImage() {
+    const selectorQuery = Taro.createSelectorQuery();
+    const canvas = Taro.createCanvasContext("canvas", this.$scope);
+    let width = 0;
+    selectorQuery
+      .in(this.$scope)
+      .select(".canvas")
+      .boundingClientRect()
+      .exec((res) => {
+        const dom = res[0];
+        if (dom && dom.width) {
+          width = dom.width / 2;
+          canvas.setFontSize(16);
+          canvas.setFillStyle("black");
+          canvas.setTextAlign("center");
+          canvas.fillText(this.state.publishDetail.name, width, 20);
+          canvas.fillText(
+            moment(this.state.publishDetail.teamStartTime * 1000).format(
+              "YYYY-MM-DD HH:mm:ss",
+            ),
+            width,
+            40,
+          );
+          canvas.setTextAlign("left");
+          if (this.state.userLuckInfos) {
+            this.state.userLuckInfos.map((item, index) => {
+              canvas.fillText(
+                `${item.luckNum}.${item.nickName}`,
+                0,
+                (index + 3) * 20,
+              );
+            });
+          }
+          if (this.state.publishDetail.groupRule === "random_group") {
+            Object.keys(this.props.nbaTeams).map((item, index) => {
+              canvas.fillText(
+                `${this.props.nbaTeams[item].id}.${this.props.nbaTeams[item].name}`,
+                width,
+                (index + 3) * 20,
+              );
+            });
+          }
+          canvas.setTextAlign("center");
+          canvas.setFontSize(48);
+          canvas.setFillStyle("rgba(188, 188, 188, 0.5)");
+          canvas.fillText("组队鸡", width, 130);
+          canvas.fillText("组队鸡", width, 330);
+          canvas.fillText("组队鸡", width, 530);
+          canvas.draw();
+        }
+      });
   }
 
   openFile(file) {
@@ -132,9 +193,68 @@ class AdminPublishDetail extends Component {
     });
   };
 
+  saveCanvas() {
+    const self = this;
+    Taro.canvasToTempFilePath({
+      canvasId: "canvas",
+      success: function(res) {
+        // 获得图片临时路径
+        const url = res.tempFilePath;
+        Taro.getSetting({
+          complete() {},
+        })
+          .then((res) => {
+            if (res.authSetting["scope.writePhotosAlbum"]) {
+              Taro.saveImageToPhotosAlbum({
+                filePath: url,
+                success: () => {
+                  Taro.showToast({
+                    title: "保存成功",
+                    icon: "success",
+                  });
+                },
+                fail: () => {
+                  Taro.showToast({
+                    title: "保存失败",
+                    icon: "error",
+                  });
+                },
+              });
+            } else {
+              Taro.authorize({
+                scope: "scope.writePhotosAlbum",
+              }).then(() => {
+                Taro.saveImageToPhotosAlbum({
+                  filePath: url,
+                  success: () => {
+                    Taro.showToast({
+                      title: "保存成功",
+                      icon: "success",
+                    });
+                  },
+                  fail: () => {
+                    Taro.showToast({
+                      title: "保存失败",
+                      icon: "error",
+                    });
+                  },
+                });
+              });
+            }
+          })
+          .catch((e) => {
+            Taro.showToast({
+              title: "保存失败",
+              icon: "error",
+            });
+          });
+      },
+    });
+  }
+
   render() {
     const groupRule = {
-      random_group: "随机分组",
+      random_group: "随机队伍",
       random_num: "随机编号",
       random_list: "随机序号",
     };
@@ -244,6 +364,20 @@ class AdminPublishDetail extends Component {
               <View>活动介绍：</View>
               {this.state.publishDetail.introduce}
             </View>
+            {this.state.userLuckInfos.length > 0 && (
+              <View className="numList">
+                <View className="canvasArea">
+                  <Canvas
+                    style="width: 100%; height: 660px;"
+                    canvasId="canvas"
+                    className="canvas"
+                  />
+                </View>
+                <AtButton type="primary" onClick={this.saveCanvas.bind(this)}>
+                  保存图片
+                </AtButton>
+              </View>
+            )}
             {this.state.publishDetail.noticeContent && (
               <View className="noticeArea">
                 <View>正在开奖：</View>
