@@ -73,6 +73,9 @@ class PartySuccess extends Component {
             {this.state.activityItems.map((item, index) => {
               return <View className="numItem">{item.luckNum}</View>;
             })}
+            {
+              this.state.activityItems.length === 0 && (<View>未获得编号</View>)
+            }
           </View>
         </View>
         <View className="orderTip"></View>
