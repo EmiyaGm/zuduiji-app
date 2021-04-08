@@ -369,7 +369,7 @@ class AdminPublishDetail extends Component {
               <View className="numList">
                 <View className="canvasArea">
                   <Canvas
-                    style="width: 100%; height: 660px;"
+                    style={`width: 100%; height: ${this.state.userLuckInfos.length * 20 + 48}px;`}
                     canvasId="canvas"
                     className="canvas"
                   />
