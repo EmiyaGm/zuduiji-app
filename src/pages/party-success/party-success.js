@@ -1,18 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, ScrollView, Picker, Input } from "@tarojs/components";
-import { connect } from "@tarojs/redux";
-import {
-  AtForm,
-  AtInput,
-  AtButton,
-  AtImagePicker,
-  AtList,
-  AtListItem,
-  AtTextarea,
-} from "taro-ui";
-import { getWindowHeight } from "@utils/style";
+import { View } from "@tarojs/components";
 import fetch from "@utils/request";
-import { API_ACTIVITY_ORDERDETAIL, API_ACTIVITY_ORDER } from "@constants/api";
+import { API_ACTIVITY_ORDERDETAIL } from "@constants/api";
 import "./party-success.scss";
 
 class PartySuccess extends Component {
@@ -68,12 +57,21 @@ class PartySuccess extends Component {
       <View className="party-success">
         <View className="successArea">
           <View className="title">你参加的队伍已组队成功</View>
-          <View className="numTitle">已为您分配序号：</View>
-          <View className="numArea">
-            {this.state.activityItems.map((item, index) => {
-              return <View className="numItem">{item.luckNum !== -1 ? item.luckNum : '未获得编号'}</View>;
-            })}
-          </View>
+          {this.state.publishDetail.status === "wait_open" ||
+            this.state.publishDetail.status === "complete" && (
+              <View>
+                <View className="numTitle">已为您分配序号：</View>
+                <View className="numArea">
+                  {this.state.activityItems.map((item, index) => {
+                    return (
+                      <View className="numItem">
+                        {item.luckNum !== "-1" ? item.luckNum : "未获得编号"}
+                      </View>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
         </View>
         <View className="orderTip"></View>
       </View>

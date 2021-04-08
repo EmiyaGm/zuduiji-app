@@ -370,46 +370,58 @@ class OrderDetail extends Component {
               </View>
             </View>
           )}
-          {this.state.publishDetail.groupRule === "random_group" && (
-            <View className="codeArea">
-              <View className="title">已为您分配序号：</View>
-              <View className="myCode">
-                {this.state.activityItems.map((item, index) => {
-                  return (
-                    <View className="codeItem">
-                      {nbaTeams[item.luckNum].name}
-                    </View>
-                  );
-                })}
+          {this.state.publishDetail.groupRule === "random_group" &&
+            (this.state.publishDetail.status === "wait_open" ||
+              this.state.publishDetail.status === "complete") && (
+              <View className="codeArea">
+                <View className="title">已为您分配序号：</View>
+                <View className="myCode">
+                  {this.state.activityItems.map((item, index) => {
+                    return (
+                      <View className="codeItem">
+                        {nbaTeams[item.luckNum].name}
+                      </View>
+                    );
+                  })}
+                </View>
+                <View className="title">中奖序号：</View>
+                <View className="luckCode">
+                  {this.state.orderDetail.luckNums
+                    ? this.state.orderDetail.luckNums.map((item, index) => {
+                        return (
+                          <View className="codeItem">
+                            {nbaTeams[item].name}
+                          </View>
+                        );
+                      })
+                    : "暂未开奖"}
+                </View>
               </View>
-              <View className="title">中奖序号：</View>
-              <View className="luckCode">
-                {this.state.orderDetail.luckNums
-                  ? this.state.orderDetail.luckNums.map((item, index) => {
-                      return <View className="codeItem">{nbaTeams[item].name}</View>;
-                    })
-                  : "暂未开奖"}
+            )}
+          {this.state.publishDetail.groupRule !== "random_group" &&
+            (this.state.publishDetail.status === "wait_open" ||
+              this.state.publishDetail.status === "complete") && (
+              <View className="codeArea">
+                <View className="title">已为您分配序号：</View>
+                <View className="myCode">
+                  {this.state.activityItems.map((item, index) => {
+                    return (
+                      <View className="codeItem">
+                        {item.luckNum !== "-1" ? item.luckNum : "未获得编号"}
+                      </View>
+                    );
+                  })}
+                </View>
+                <View className="title">中奖序号：</View>
+                <View className="luckCode">
+                  {this.state.orderDetail.luckNums
+                    ? this.state.orderDetail.luckNums.map((item, index) => {
+                        return <View className="codeItem">{item}</View>;
+                      })
+                    : "暂未开奖"}
+                </View>
               </View>
-            </View>
-          )}
-          {this.state.publishDetail.groupRule !== "random_group" && (
-            <View className="codeArea">
-              <View className="title">已为您分配序号：</View>
-              <View className="myCode">
-                {this.state.activityItems.map((item, index) => {
-                  return <View className="codeItem">{item.luckNum !== -1 ? item.luckNum : '未获得编号'}</View>;
-                })}
-              </View>
-              <View className="title">中奖序号：</View>
-              <View className="luckCode">
-                {this.state.orderDetail.luckNums
-                  ? this.state.orderDetail.luckNums.map((item, index) => {
-                      return <View className="codeItem">{item}</View>;
-                    })
-                  : "暂未开奖"}
-              </View>
-            </View>
-          )}
+            )}
         </ScrollView>
       </View>
     );
