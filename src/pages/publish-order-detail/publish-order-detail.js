@@ -308,9 +308,6 @@ class PublishOrderDetail extends Component {
                     </View>
                   );
                 })}
-                {
-                  this.state.activityItems.length === 0 && (<View>未获得编号</View>)
-                }
               </View>
               <View className="title">中奖序号：</View>
               <View className="luckCode">
@@ -329,11 +326,8 @@ class PublishOrderDetail extends Component {
               <View className="title">已为您分配序号：</View>
               <View className="myCode">
                 {this.state.activityItems.map((item, index) => {
-                  return <View className="codeItem">{item.luckNum}</View>;
+                  return <View className="codeItem">{item.luckNum !== -1 ? item.luckNum : '未获得编号'}</View>;
                 })}
-                {
-                  this.state.activityItems.length === 0 && (<View>未获得编号</View>)
-                }
               </View>
               <View className="title">中奖序号：</View>
               <View className="luckCode">
