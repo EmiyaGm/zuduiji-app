@@ -32,7 +32,7 @@ class Publish extends Component {
     groupRule: [
       { name: "随机队伍", data: "random_group" },
       { name: "随机编号", data: "random_num" },
-      { name: "随机序号", data: "random_list" },
+      // { name: "随机序号", data: "random_list" },
     ],
     selectorChecked: "随机队伍",
     groupRuleChecked: "random_group",
