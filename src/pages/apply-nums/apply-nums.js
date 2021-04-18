@@ -24,7 +24,6 @@ class ApplyNums extends Component {
 
   componentDidShow() {
     const params = this.$router.params;
-    console.log(params);
     if (params.id && params.type) {
       const checkboxOption = Object.keys(this.props.nbaTeams).map((item) => {
         return {

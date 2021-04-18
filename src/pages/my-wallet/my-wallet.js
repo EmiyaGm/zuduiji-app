@@ -19,6 +19,7 @@ import {
   API_WALLET_BALANCE,
   API_WALLET_LIST,
   API_WALLET_APPLY,
+  API_WALLET_BANK,
 } from "@constants/api";
 import WithdrawItem from "./withdraw-item";
 import * as actions from "@actions/user";
@@ -48,7 +49,12 @@ class MyWallet extends Component {
     balanceData: {},
     amount: 0,
     isApplyShow: false,
+    bankInfo: "",
   };
+
+  componentDidShow() {
+    this.getBank();
+  }
 
   componentDidMount() {
     this.getBalance();
@@ -195,8 +201,37 @@ class MyWallet extends Component {
     }
   };
 
+  goAddBank = () => {
+    Taro.navigateTo({
+      url: "/pages/add-bank/add-bank",
+    });
+  };
+
+  goBankList = () => {
+    Taro.navigateTo({
+      url: "/pages/bank-list/bank-list",
+    });
+  };
+
+  getBank = () => {
+    const self = this;
+    fetch({
+      url: API_WALLET_BANK,
+      payload: [],
+      method: "POST",
+      showToast: false,
+      autoLogin: false,
+    }).then((res) => {
+      if (res && res.open) {
+        self.setState({
+          bankInfo: res,
+        });
+      }
+    });
+  };
+
   render() {
-    const { dataList, balanceData, isApplyShow } = this.state;
+    const { dataList, balanceData, isApplyShow, bankInfo } = this.state;
     const { cfg } = this.props;
     return (
       <View className="my-wallet">
@@ -218,17 +253,30 @@ class MyWallet extends Component {
           <AtButton type="primary" onClick={this.applyShow.bind(this, true)}>
             申请提现
           </AtButton>
+          {bankInfo && (
+            <View className="bindBank" onClick={this.goBankList.bind(this)}>
+              查看银行卡
+            </View>
+          )}
+          {!bankInfo && (
+            <View className="bindBank" onClick={this.goAddBank.bind(this)}>
+              绑定银行卡
+            </View>
+          )}
           <AtModal isOpened={isApplyShow}>
             <AtModalHeader>请输入提现金额</AtModalHeader>
             <AtModalContent>
               <View>
                 最大提现金额：
                 {balanceData.balance
-                  ? BigNumber(balanceData.balance).minus(
-                      BigNumber(balanceData.balance).multipliedBy(
-                        cfg.withdrawRate ? cfg.withdrawRate : 0,
-                      ),
-                    ).div(100).toFixed(2, 1)
+                  ? BigNumber(balanceData.balance)
+                      .minus(
+                        BigNumber(balanceData.balance).multipliedBy(
+                          cfg.withdrawRate ? cfg.withdrawRate : 0,
+                        ),
+                      )
+                      .div(100)
+                      .toFixed(2, 1)
                   : 0}
               </View>
               {isApplyShow && (

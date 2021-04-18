@@ -1,12 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Button } from "@tarojs/components";
+import { View, Button } from "@tarojs/components";
 import {
   AtAvatar,
-  AtModal,
-  AtModalHeader,
-  AtModalContent,
-  AtModalAction,
-  AtInput,
 } from "taro-ui";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./index.scss";

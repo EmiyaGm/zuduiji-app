@@ -177,6 +177,9 @@ class User extends Component {
                     });
                     self.props.dispatchTeams(nbaTeams);
                   }
+                  if (rep.bankNames) {
+                    self.props.dispatchBanks(rep.bankNames);
+                  }
                   fetch({
                     url: API_USER_INFO,
                     payload: [

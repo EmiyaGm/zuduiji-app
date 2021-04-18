@@ -4,6 +4,7 @@ import {
   USER_LOGOUT,
   USER_CFG,
   NBA_TEAMS,
+  BANK_NAMES,
 } from "@constants/user";
 import { createAction } from "@utils/redux";
 import { API_USER_LOGIN } from "@constants/api";
@@ -35,3 +36,5 @@ export const dispatchLoginInfo = (payload) => ({ type: USER_LOGIN, payload });
 export const dispatchCfg = (payload) => ({ type: USER_CFG, payload });
 
 export const dispatchTeams = (payload) => ({ type: NBA_TEAMS, payload });
+
+export const dispatchBanks = (payload) => ({ type: BANK_NAMES, payload });

@@ -50,6 +50,9 @@ class App extends Component {
       "pages/admin-apply-detail/admin-apply-detail",
       "pages/admin-user-detail/admin-user-detail",
       "pages/publish-all-order/publish-all-order",
+      "pages/add-bank/add-bank",
+      "pages/bank-auth/bank-auth",
+      "pages/bank-list/bank-list",
     ],
     window: {
       backgroundTextStyle: "light",
@@ -107,6 +110,9 @@ class App extends Component {
           nbaTeams[nba.id] = nba;
         })
         self.props.dispatchTeams(nbaTeams);
+      }
+      if (result && result.bankNames) {
+        self.props.dispatchBanks(result.bankNames);
       }
     });
   }

@@ -80,3 +80,7 @@ export const API_WALLET_REVIEW = `${host}/wallet/review`;
 export const API_WALLET_LIST = `${host}/wallet/list`;
 export const API_WALLET_BALANCE = `${host}/wallet/balance`;
 export const API_WALLET_APPLY = `${host}/wallet/apply`;
+export const API_WALLET_BANK = `${host}/wallet/bank`;
+export const API_WALLET_BANKBIND = `${host}/wallet/bankBind`;
+export const API_WALLET_BANKBINDCONFIRM = `${host}/wallet/bankBindConfirm`;
+export const API_WALLET_UNBANKBIND = `${host}/wallet/unBankBind`;

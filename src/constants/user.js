@@ -4,3 +4,4 @@ export const USER_LOGOUT = "USER_LOGOUT";
 export const LOGIN_INFO = "LOGIN_INFO";
 export const USER_CFG = "USER_CFG";
 export const NBA_TEAMS = "NBA_TEAMS";
+export const BANK_NAMES = "BANK_NAMES";
