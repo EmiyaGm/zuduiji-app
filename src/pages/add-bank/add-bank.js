@@ -89,23 +89,29 @@ class AddBank extends Component {
       areaCode: pickerValue[1],
       bankCode,
     };
-    fetch({
-      url: API_WALLET_BANKBIND,
-      payload: [sendValues],
-      method: "POST",
-      showToast: false,
-      autoLogin: false,
+    Taro.showModal({
+      title: "银行卡绑定",
+      content: "您确定要绑定此张银行卡吗？",
     }).then((res) => {
-      if (res) {
-        Taro.navigateTo({
-          url: `/pages/bank-auth/bank-auth?sendValues=${JSON.stringify(
-            sendValues,
-          )}`,
-        });
-      } else {
-        Taro.showToast({
-          title: "提交失败",
-          icon: "error",
+      if (res.confirm) {
+        fetch({
+          url: API_WALLET_BANKBIND,
+          payload: [sendValues],
+          method: "POST",
+          showToast: false,
+          autoLogin: false,
+        }).then((res) => {
+          if (res) {
+            Taro.showToast({
+              title: "绑定成功",
+            });
+            Taro.navigateBack({ delta: 1 });
+          } else {
+            Taro.showToast({
+              title: "提交失败",
+              icon: "error",
+            });
+          }
         });
       }
     });

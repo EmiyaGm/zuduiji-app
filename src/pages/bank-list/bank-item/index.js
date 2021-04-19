@@ -60,7 +60,7 @@ export default class BankItem extends Component {
       <View className="bank-item">
         <View className="bankImage"></View>
         <View className="bankInfo">
-          <View className="bankName">xx银行</View>
+          <View className="bankName">{this.props.bankData.bankName}</View>
           <View className="no">{this.showNo(this.props.bankData.no)}</View>
         </View>
         <View className="unbind" onClick={this.unBankBind.bind(this)}>

@@ -226,6 +226,10 @@ class MyWallet extends Component {
         self.setState({
           bankInfo: res,
         });
+      } else {
+        self.setState({
+          bankInfo: "",
+        });
       }
     });
   };
@@ -250,9 +254,11 @@ class MyWallet extends Component {
           </View>
         </View>
         <View className="applyArea">
-          <AtButton type="primary" onClick={this.applyShow.bind(this, true)}>
-            申请提现
-          </AtButton>
+          {bankInfo && (
+            <AtButton type="primary" onClick={this.applyShow.bind(this, true)}>
+              申请提现
+            </AtButton>
+          )}
           {bankInfo && (
             <View className="bindBank" onClick={this.goBankList.bind(this)}>
               查看银行卡
