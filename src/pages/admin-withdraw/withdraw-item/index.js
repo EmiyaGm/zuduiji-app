@@ -50,6 +50,7 @@ export default class WithdrawItem extends Component {
             self.setState({
               hideButton: true,
             });
+            self.props.withdrawData.status = status
           } else {
             Taro.showToast({
               title: "操作失败",
