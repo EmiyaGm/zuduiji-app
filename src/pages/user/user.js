@@ -553,15 +553,15 @@ class User extends Component {
               />
             </View>
           )}
-          <View className="functionArea">
+          {/* <View className="functionArea">
             <AtList>
-              {/* {loginInfo.account && (
+              {loginInfo.account && (
                 <View>
                   <AtListItem title="联系客服" arrow="right" />
                 </View>
-              )} */}
+              )}
             </AtList>
-          </View>
+          </View> */}
         </ScrollView>
         <AtActionSheet isOpened={isOpened} cancelText="取消" title="绑定手机号">
           <View className="bindPhone">

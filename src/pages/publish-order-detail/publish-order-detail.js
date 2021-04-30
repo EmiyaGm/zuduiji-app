@@ -5,6 +5,7 @@ import * as actions from "@actions/user";
 import { AtList, AtListItem, AtAvatar, AtCountdown, AtButton } from "taro-ui";
 import fetch from "@utils/request";
 import { API_ACTIVITY_ORDERDETAIL } from "@constants/api";
+
 import { getWindowHeight } from "@utils/style";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./publish-order-detail.scss";
@@ -153,18 +154,46 @@ class PublishOrderDetail extends Component {
         >
           <View className="statusArea">
             <View className="status">
-              {this.getStatus(this.state.orderDetail.status)}
+              <View>订单信息</View>
+              <View>{this.getStatus(this.state.orderDetail.status)}</View>
             </View>
-            <View className="statusTip1">
-              {this.getStatusTip(this.state.orderDetail.status)}
+            <View className="goodsArea">
+              <View className="cover">
+                <AtAvatar
+                  image={
+                    this.state.publishDetail.images
+                      ? HOST_UPLOAD + this.state.publishDetail.images[0]
+                      : defaultAvatar
+                  }
+                  size="large"
+                ></AtAvatar>
+              </View>
+              <View className="content">
+                <View className="name">{this.state.publishDetail.name}</View>
+                <View className="price">
+                  {this.state.publishDetail.price / 100}
+                  <Text className="number">x1</Text>
+                </View>
+              </View>
             </View>
-            <View className="statusTip2">
-              {this.state.orderDetail.status === "wait_pay" && (
-                <AtCountdown
-                  minutes={this.state.minutes}
-                  seconds={this.state.seconds}
-                />
-              )}
+            <View className="infoArea">
+              <View className="infoItem">
+                <View className="infoTitle">数量</View>
+                <View className="infoContent">
+                  X{this.state.orderDetail.num}
+                </View>
+              </View>
+              <View className="infoItem">
+                <View className="infoTitle">邮费</View>
+                <View className="infoContent">
+                  {this.state.publishDetail.fare
+                    ? `￥ ${this.state.publishDetail.fare / 100}`
+                    : "免运费"}
+                </View>
+              </View>
+              <View className="totalInfo">
+                总价 ￥ {this.state.orderDetail.amount / 100}
+              </View>
             </View>
             {this.state.orderDetail.status === "bingo" && (
               <View className="buttonArea">
@@ -181,7 +210,7 @@ class PublishOrderDetail extends Component {
               </View>
             )}
           </View>
-          <View className="addressArea">
+          {/* <View className="addressArea">
             <View className="addressTitle">
               <View>
                 <View className="at-icon at-icon-map-pin"></View>
@@ -201,27 +230,8 @@ class PublishOrderDetail extends Component {
                 </View>
               </View>
             )}
-          </View>
-          <View className="goodsArea">
-            <View className="cover">
-              <AtAvatar
-                image={
-                  this.state.publishDetail.images
-                    ? HOST_UPLOAD + this.state.publishDetail.images[0]
-                    : defaultAvatar
-                }
-                size="large"
-              ></AtAvatar>
-            </View>
-            <View className="content">
-              <View className="name">{this.state.publishDetail.name}</View>
-              <View className="price">
-                {this.state.publishDetail.price / 100}
-                <Text className="number">x1</Text>
-              </View>
-            </View>
-          </View>
-          <View className="infoArea">
+          </View> */}
+          {/* <View className="infoArea">
             <AtList>
               <AtListItem
                 title="数量"
@@ -248,52 +258,54 @@ class PublishOrderDetail extends Component {
                 extraText={`￥ ${this.state.orderDetail.amount / 100}`}
               />
             </AtList>
-          </View>
-          {this.state.publishDetail.noticeContent && (
-            <View className="noticeContent">
-              <View className="title">直播信息</View>
+          </View> */}
+          {this.state.orderDetail.logistics && (
+            <View className="logisticsContent">
+              <View className="title">
+                <View>物流单号</View>
+                <View
+                  className="copyNotice"
+                  onClick={this.copyText.bind(
+                    this,
+                    this.state.orderDetail.logistics,
+                  )}
+                >
+                  复制单号
+                </View>
+              </View>
               <View className="content">
-                <View className="contentTitle">
-                  <View>直播口令</View>
-                  <View>
-                    <AtButton
-                      type="primary"
-                      size="small"
-                      onClick={this.copyText.bind(
-                        this,
-                        this.state.publishDetail.noticeContent,
-                      )}
-                    >
-                      复制
-                    </AtButton>
+                <View className="contentItem">
+                  <View className="contentTitle">物流公司</View>
+                  <View className="contentArea">
+                    {this.state.orderDetail.logisticsCompany}
                   </View>
                 </View>
-                <View>{this.state.publishDetail.noticeContent}</View>
+                <View className="contentItem">
+                  <View className="contentTitle">快递单号</View>
+                  <View className="contentArea">
+                    {this.state.orderDetail.logistics}
+                  </View>
+                </View>
               </View>
             </View>
           )}
-          {this.state.orderDetail.logistics && (
-            <View className="logisticsContent">
-              <View className="title">物流单号</View>
+          {this.state.publishDetail.noticeContent && (
+            <View className="noticeContent">
+              <View className="title">
+                <View>直播信息</View>
+                <View
+                  className="copyNotice"
+                  onClick={this.copyText.bind(
+                    this,
+                    this.state.publishDetail.noticeContent,
+                  )}
+                >
+                  复制口令
+                </View>
+              </View>
               <View className="content">
-                <View className="contentTitle">
-                  物流公司：{this.state.orderDetail.logisticsCompany}
-                </View>
-                <View className="contentArea">
-                  <View> 快递单号：{this.state.orderDetail.logistics}</View>
-                  <View>
-                    <AtButton
-                      type="primary"
-                      size="small"
-                      onClick={this.copyText.bind(
-                        this,
-                        this.state.orderDetail.logistics,
-                      )}
-                    >
-                      复制
-                    </AtButton>
-                  </View>
-                </View>
+                <View className="contentTitle">直播口令</View>
+                <View>{this.state.publishDetail.noticeContent}</View>
               </View>
             </View>
           )}
@@ -301,7 +313,8 @@ class PublishOrderDetail extends Component {
             (this.state.publishDetail.status === "wait_open" ||
               this.state.publishDetail.status === "complete") && (
               <View className="codeArea">
-                <View className="title">已为您分配序号：</View>
+                <View className="title">奖券信息</View>
+                <View className="subTitle">分配</View>
                 <View className="myCode">
                   {this.state.activityItems.map((item, index) => {
                     return (
@@ -311,7 +324,7 @@ class PublishOrderDetail extends Component {
                     );
                   })}
                 </View>
-                <View className="title">中奖序号：</View>
+                <View className="subTitle">中奖</View>
                 <View className="luckCode">
                   {this.state.orderDetail.luckNums
                     ? this.state.orderDetail.luckNums.map((item, index) => {
@@ -329,7 +342,8 @@ class PublishOrderDetail extends Component {
             (this.state.publishDetail.status === "wait_open" ||
               this.state.publishDetail.status === "complete") && (
               <View className="codeArea">
-                <View className="title">已为您分配序号：</View>
+                <View className="title">奖券信息</View>
+                <View className="subTitle">分配</View>
                 <View className="myCode">
                   {this.state.activityItems.map((item, index) => {
                     return (
@@ -339,7 +353,7 @@ class PublishOrderDetail extends Component {
                     );
                   })}
                 </View>
-                <View className="title">中奖序号：</View>
+                <View className="subTitle">中奖</View>
                 <View className="luckCode">
                   {this.state.orderDetail.luckNums
                     ? this.state.orderDetail.luckNums.map((item, index) => {

@@ -69,7 +69,7 @@ export default class OrderItem extends Component {
             </View>
           </View>
         </View>
-        <View className="middleContent">合计：￥ {orderData.amount / 100}</View>
+        <View className="middleContent">总价：￥ {orderData.amount / 100}</View>
         {/* {orderData.status === "wait_pay" && (
           <View className="footContent">
             <View className="actionButton">

@@ -107,10 +107,11 @@ $avatarSize: 140px;
 }
 
 .user-profile_icons {
-  margin-right: 30px;
+  display: flex;
+  align-items: center;
   .userIcon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 18px;
+    width: 34px;
+    height: 34px;
+    margin-right: 20px;
   }
 }
