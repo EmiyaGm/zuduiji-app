@@ -328,6 +328,7 @@ class PublishDetail extends Component {
             {this.state.userLuckInfos.length > 0 && (
               <View className="numList">
                 <View className="canvasArea">
+                  <View className="canvasTitle">组队信息</View>
                   <Canvas
                     style={`width: 100%; height: ${this.state.userLuckInfos
                       .length *

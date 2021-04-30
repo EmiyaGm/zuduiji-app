@@ -51,11 +51,17 @@
           color: #909090;
         }
       }
-      .numList{
-        padding: 24px;
-        font-size: 32px;
-        .canvasArea{
-          background: white;
+      .numList {
+        margin: 20px;
+        background: white;
+        .canvasArea {
+          margin: 20px;
+          .canvasTitle{
+            font-size: 28px;
+            font-weight: 500;
+            padding-bottom: 20px;
+            padding-top: 20px;
+          }
         }
       }
       .noticeArea {
