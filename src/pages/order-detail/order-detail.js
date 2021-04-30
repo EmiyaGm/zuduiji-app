@@ -82,32 +82,32 @@ class OrderDetail extends Component {
     }
   }
 
-  getStatusTip(status) {
-    let tip1 = "";
-    switch (status) {
-      case "wait_pay":
-        tip1 = "请在15分钟内完成付款，否则将自动取消订单";
-        break;
-      case "wait_open":
-        tip1 = "您已付款，等待商家开奖";
-        break;
-      case "bingo":
-        tip1 = "恭喜您已中奖，等待商家发货";
-        break;
-      case "send":
-        tip1 = "商家已发货，请在收到您的货品后确认收货";
-        break;
-      case "unbingo":
-        tip1 = "该订单已完成，期待您的下一次参与";
-        break;
-      case "cancel":
-        tip1 = "该订单关闭，期待您的下一次参与";
-        break;
-      default:
-        return "";
-    }
-    return tip1;
-  }
+  // getStatusTip(status) {
+  //   let tip1 = "";
+  //   switch (status) {
+  //     case "wait_pay":
+  //       tip1 = "请在15分钟内完成付款，否则将自动取消订单";
+  //       break;
+  //     case "wait_open":
+  //       tip1 = "您已付款，等待商家开奖";
+  //       break;
+  //     case "bingo":
+  //       tip1 = "恭喜您已中奖，等待商家发货";
+  //       break;
+  //     case "send":
+  //       tip1 = "商家已发货，请在收到您的货品后确认收货";
+  //       break;
+  //     case "unbingo":
+  //       tip1 = "该订单已完成，期待您的下一次参与";
+  //       break;
+  //     case "cancel":
+  //       tip1 = "该订单关闭，期待您的下一次参与";
+  //       break;
+  //     default:
+  //       return "";
+  //   }
+  //   return tip1;
+  // }
 
   getCountDown(payTimeOut) {
     const minusTime = payTimeOut * 1000 - new Date().getTime();
@@ -217,7 +217,13 @@ class OrderDetail extends Component {
           <View className="statusArea">
             <View className="status">
               <View>订单信息</View>
-              <View>{this.getStatus(this.state.orderDetail.status)}</View>
+              <View
+                style={
+                  this.state.orderDetail.status === "close" ? "color: red" : ""
+                }
+              >
+                {this.getStatus(this.state.orderDetail.status)}
+              </View>
             </View>
             <View className="goodsArea">
               <View className="cover">

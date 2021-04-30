@@ -22,7 +22,7 @@ export default class OrderItem extends Component {
       case "wait_pay":
         return "待支付";
       case "wait_open":
-        return "待开奖"
+        return "待开奖";
       case "bingo":
         return "待发货";
       case "send":
@@ -41,7 +41,10 @@ export default class OrderItem extends Component {
 
     return (
       <View className="order-item">
-        <View className="statusContent">
+        <View
+          className="statusContent"
+          style={orderData.status === "close" ? "color: red" : ""}
+        >
           {this.getStatus(orderData.status)}
         </View>
         <View

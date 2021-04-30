@@ -43,7 +43,7 @@ export default class PublishItem extends Component {
             self.setState({
               hideButton: true,
             });
-            self.props.publishData.status = "wait_team"
+            self.props.publishData.status = "wait_team";
           } else {
             Taro.showToast({
               title: "操作失败",
@@ -99,7 +99,17 @@ export default class PublishItem extends Component {
               <View className="name">{publishData.name}</View>
               <View className="price">￥ {publishData.price / 100}</View>
             </View>
-            <View className="status">{this.getStatus(publishData.status)}</View>
+            <View
+              className="status"
+              style={
+                publishData.status === "close" ||
+                publishData.status === "review_refuse"
+                  ? "color: red"
+                  : ""
+              }
+            >
+              {this.getStatus(publishData.status)}
+            </View>
           </View>
         </View>
         <View className="middleContent">

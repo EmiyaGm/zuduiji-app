@@ -23,10 +23,10 @@ class PublishAllOrder extends Component {
     showActivity: false,
     dataList: [],
     tabList: [
-      { title: "全部活动的订单", type: "" },
-      { title: "待组队活动的订单", type: "wait_team" },
-      { title: "待开奖活动的订单", type: "wait_open" },
-      { title: "已完成活动的订单", type: "complete" },
+      { title: "全部组队的订单", type: "" },
+      { title: "待组队的订单", type: "wait_team" },
+      { title: "待开奖组队的订单", type: "wait_open" },
+      { title: "已完成组队的订单", type: "complete" },
     ],
     oldType: "",
   };

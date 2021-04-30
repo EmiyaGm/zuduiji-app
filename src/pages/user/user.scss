@@ -74,7 +74,9 @@
 }
 
 .noticeArea {
-  margin-top: 40px;
   justify-content: flex-end;
   align-items: center;
+  position: absolute;
+  top: -92px;
+  right: 0;
 }
