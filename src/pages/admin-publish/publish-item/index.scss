@@ -6,6 +6,26 @@
   font-size: 24px;
   border-radius: 8px;
   margin-bottom: 40px;
+  .statusContent {
+    font-size: 24px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    .statusTitle{
+      display: flex;
+      align-items: center;
+      .userAvatar{
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+      }
+      .nickName{
+        margin-left: 10px;
+      }
+    }
+  }
   .headContent {
     display: flex;
     align-items: center;

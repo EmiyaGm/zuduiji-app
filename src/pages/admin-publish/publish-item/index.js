@@ -80,6 +80,31 @@ export default class PublishItem extends Component {
 
     return (
       <View className="publish-item">
+        <View className="statusContent">
+          <View className="statusTitle">
+            <Image
+              className="userAvatar"
+              src={
+                publishData.userInfo
+                  ? publishData.userInfo.avatarUrl
+                  : defaultAvatar
+              }
+            ></Image>
+            <View className="nickName">
+              {publishData.userInfo ? publishData.userInfo.nickName : ""}
+            </View>
+          </View>
+          <View
+            style={
+              publishData.status === "close" ||
+              publishData.status === "review_refuse"
+                ? "color: red"
+                : ""
+            }
+          >
+            {this.getStatus(publishData.status)}
+          </View>
+        </View>
         <View
           className="headContent"
           onClick={this.goDetail.bind(this, publishData.id)}
@@ -98,17 +123,6 @@ export default class PublishItem extends Component {
             <View>
               <View className="name">{publishData.name}</View>
               <View className="price">￥ {publishData.price / 100}</View>
-            </View>
-            <View
-              className="status"
-              style={
-                publishData.status === "close" ||
-                publishData.status === "review_refuse"
-                  ? "color: red"
-                  : ""
-              }
-            >
-              {this.getStatus(publishData.status)}
             </View>
           </View>
         </View>

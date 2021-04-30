@@ -41,11 +41,23 @@ export default class OrderItem extends Component {
 
     return (
       <View className="order-item">
-        <View
-          className="statusContent"
-          style={orderData.status === "close" ? "color: red" : ""}
-        >
-          {this.getStatus(orderData.status)}
+        <View className="statusContent">
+          <View className="statusTitle">
+            <Image
+              className="userAvatar"
+              src={
+                orderData.userInfo
+                  ? orderData.userInfo.avatarUrl
+                  : defaultAvatar
+              }
+            ></Image>
+            <View className="nickName">
+              {orderData.userInfo ? orderData.userInfo.nickName : ""}
+            </View>
+          </View>
+          <View style={orderData.status === "close" ? "color: red" : ""}>
+            {this.getStatus(orderData.status)}
+          </View>
         </View>
         <View
           className="headContent"
