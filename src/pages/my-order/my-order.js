@@ -30,6 +30,7 @@ class MyOrder extends Component {
       { title: "已完成", type: "unbingo" },
       { title: "已关闭", type: "cancel" },
     ],
+    oldType: "",
   };
 
   handleClick(value) {
@@ -44,7 +45,9 @@ class MyOrder extends Component {
   }
 
   componentDidShow() {
-    this.onRefresh();
+    if (this.state.oldType) {
+      this.onRefresh();
+    }
   }
 
   componentDidMount() {
@@ -57,6 +60,16 @@ class MyOrder extends Component {
           });
         }
       });
+    } else {
+      this.setState(
+        {
+          current: 0,
+          oldType: "all",
+        },
+        () => {
+          this.onRefresh();
+        },
+      );
     }
   }
 

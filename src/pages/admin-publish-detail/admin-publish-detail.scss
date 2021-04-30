@@ -1,31 +1,80 @@
 .admin-publish-detail {
   .admin-publish-detail__wrap {
     .priceArea {
-      font-size: 40px;
-      padding: 24px;
+      font-size: 30px;
+      padding: 20px;
+      margin: 20px;
+      background: white;
       .price {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding-bottom: 24px;
         .fare {
-          font-size: 32px;
           color: #999999;
         }
       }
     }
     .infoArea {
-      .introduceArea {
-        padding: 24px;
-        font-size: 36px;
+      .partyArea {
+        padding: 20px;
+        margin: 20px;
+        background: white;
+        font-size: 24px;
+        .title {
+          font-size: 28px;
+          font-weight: 500;
+          padding-bottom: 20px;
+        }
+        .infoItem {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-bottom: 12px;
+          .infoContent {
+            color: #909090;
+          }
+        }
       }
-      .numList{
+      .introduceArea {
+        padding: 20px;
+        margin: 20px;
+        background: white;
+        font-size: 24px;
+        .title {
+          font-size: 28px;
+          font-weight: 500;
+          padding-bottom: 20px;
+        }
+        .introduceContent {
+          color: #909090;
+        }
+      }
+      .numList {
         padding: 24px;
-        font-size: 32px;
+        .canvasArea {
+          background: white;
+        }
       }
       .noticeArea {
-        padding: 24px;
-        font-size: 36px;
+        margin: 20px;
+        padding: 20px;
+        font-size: 24px;
+        background: white;
+        border-radius: 8px;
+        .noticeTitle {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 28px;
+          font-weight: 500;
+          padding-bottom: 20px;
+          .copyNotice {
+            font-weight: normal;
+            font-size: 24px;
+            color: #6fc9ff;
+          }
+        }
       }
     }
     .actionArea {
@@ -36,9 +85,16 @@
       }
     }
     .orderArea {
-      font-size: 32px;
       text-align: center;
-      padding: 24px;
+      padding: 20px;
+      margin: 20px;
+      background: white;
+      font-size: 24px;
+      .title{
+        text-align: left;
+        font-size: 28px;
+        padding-bottom: 40px;
+      }
     }
     .bottomArea {
       display: flex;

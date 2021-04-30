@@ -9,7 +9,7 @@ import "./apply-logistics.scss";
 
 class ApplyLogistics extends Component {
   config = {
-    navigationBarTitleText: "中奖信息",
+    navigationBarTitleText: "物流信息",
   };
 
   state = {
@@ -79,32 +79,34 @@ class ApplyLogistics extends Component {
           className="apply-logistics__wrap"
           style={{ height: getWindowHeight() }}
         >
-          <View className="title">物流信息</View>
-          <View>
-            <Picker
-              mode="selector"
-              range={this.state.selector}
-              onChange={this.onChange}
-            >
-              <AtList>
-                <AtListItem
-                  title="快递公司"
-                  extraText={this.state.selectorChecked}
-                />
-              </AtList>
-            </Picker>
-            <AtInput
-              title="物流单号"
-              type="text"
-              value={this.state.value}
-              onChange={this.handleChange.bind(this)}
-              placeholder="请输入物流单号"
-            />
-          </View>
-          <View className="buttonArea">
-            <AtButton type="primary" onClick={this.setLogistics.bind(this)}>
-              提交
-            </AtButton>
+          <View className="editArea">
+            <View className="title">物流信息</View>
+            <View>
+              <Picker
+                mode="selector"
+                range={this.state.selector}
+                onChange={this.onChange}
+              >
+                <AtList>
+                  <AtListItem
+                    title="快递公司"
+                    extraText={this.state.selectorChecked}
+                  />
+                </AtList>
+              </Picker>
+              <AtInput
+                title="物流单号"
+                type="text"
+                value={this.state.value}
+                onChange={this.handleChange.bind(this)}
+                placeholder="请输入物流单号"
+              />
+            </View>
+            <View className="buttonArea">
+              <AtButton type="primary" onClick={this.setLogistics.bind(this)}>
+                提交
+              </AtButton>
+            </View>
           </View>
         </ScrollView>
       </View>

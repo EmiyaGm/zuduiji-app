@@ -1,8 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Button } from "@tarojs/components";
-import {
-  AtAvatar,
-} from "taro-ui";
+import { AtAvatar } from "taro-ui";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./index.scss";
 
@@ -130,6 +128,8 @@ export default class PublishItem extends Component {
             <Button
               className="actionButton"
               onClick={this.goDetail.bind(this, publishData.id)}
+              plain
+              round
             >
               详情
             </Button>
@@ -139,27 +139,35 @@ export default class PublishItem extends Component {
                   className="actionButton"
                   openType="share"
                   data-shareModel={publishData}
+                  plain
+                  round
                 >
                   分享
                 </Button>
               )}
           </View>
-          {publishData.status === "wait_open" && (
-            <View
-              className="statuArea"
-              onClick={this.goNotice.bind(this, publishData.id)}
-            >
-              提交直播
-            </View>
-          )}
-          {publishData.status === "wait_open" && !hideButton && (
-            <View
-              className="statuArea"
-              onClick={this.goNums.bind(this, publishData.id, publishData.groupRule)}
-            >
-              提交开奖
-            </View>
-          )}
+          <View className="status">
+            {publishData.status === "wait_open" && (
+              <View
+                className="statusArea"
+                onClick={this.goNotice.bind(this, publishData.id)}
+              >
+                提交直播
+              </View>
+            )}
+            {publishData.status === "wait_open" && !hideButton && (
+              <View
+                className="statusArea"
+                onClick={this.goNums.bind(
+                  this,
+                  publishData.id,
+                  publishData.groupRule,
+                )}
+              >
+                提交开奖
+              </View>
+            )}
+          </View>
         </View>
       </View>
     );

@@ -107,28 +107,30 @@ class ApplyNums extends Component {
           className="apply-nums__wrap"
           style={{ height: getWindowHeight() }}
         >
-          <View className="title">中奖号码</View>
-          <View>
-            {type === "random_group" && (
-              <AtCheckbox
-                options={checkboxOption}
-                selectedList={checkedList}
-                onChange={this.handleCheckBoxChange.bind(this)}
-              />
-            )}
-            {type !== "random_group" && (
-              <AtTextarea
-                value={this.state.value}
-                onChange={this.handleChange.bind(this)}
-                maxLength={200}
-                placeholder="请输入开奖号码，并用换行分隔"
-              />
-            )}
-          </View>
-          <View className="buttonArea">
-            <AtButton type="primary" onClick={this.setLuckNums.bind(this)}>
-              提交
-            </AtButton>
+          <View className="editArea">
+            <View className="title">中奖号码</View>
+            <View>
+              {type === "random_group" && (
+                <AtCheckbox
+                  options={checkboxOption}
+                  selectedList={checkedList}
+                  onChange={this.handleCheckBoxChange.bind(this)}
+                />
+              )}
+              {type !== "random_group" && (
+                <AtTextarea
+                  value={this.state.value}
+                  onChange={this.handleChange.bind(this)}
+                  maxLength={200}
+                  placeholder="请输入开奖号码，并用换行分隔"
+                />
+              )}
+            </View>
+            <View className="buttonArea">
+              <AtButton type="primary" onClick={this.setLuckNums.bind(this)}>
+                提交
+              </AtButton>
+            </View>
           </View>
         </ScrollView>
       </View>

@@ -1,8 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Image } from "@tarojs/components";
-import { AtAvatar, AtButton } from "taro-ui";
-import fetch from "@utils/request";
-import { API_ACCOUNT_SETADMIN, API_ACCOUNT_SETBUSINESS } from "@constants/api";
+import { View } from "@tarojs/components";
+import { AtAvatar, AtIcon } from "taro-ui";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./index.scss";
 
@@ -50,9 +48,12 @@ export default class UserItem extends Component {
             <View className="price">
               <View>{userData.phone}</View>
             </View>
+            <View className="role">{this.getRole(userData.role)}</View>
           </View>
         </View>
-        <View className="middleContent">{this.getRole(userData.role)}</View>
+        <View className="bottomContent">
+          <AtIcon value="chevron-right" color="#909090" size="12"></AtIcon>
+        </View>
       </View>
     );
   }

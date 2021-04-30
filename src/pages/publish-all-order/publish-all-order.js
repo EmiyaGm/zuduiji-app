@@ -28,10 +28,13 @@ class PublishAllOrder extends Component {
       { title: "待开奖活动的订单", type: "wait_open" },
       { title: "已完成活动的订单", type: "complete" },
     ],
+    oldType: "",
   };
 
   componentDidShow() {
-    this.onRefresh();
+    if (this.state.oldType) {
+      this.onRefresh();
+    }
   }
 
   componentDidMount() {
@@ -39,11 +42,27 @@ class PublishAllOrder extends Component {
     if (params.type) {
       this.state.tabList.map((item, index) => {
         if (item.type === params.type) {
-          this.setState({
-            current: index,
-          });
+          this.setState(
+            {
+              current: index,
+              oldType: params.type,
+            },
+            () => {
+              this.onRefresh();
+            },
+          );
         }
       });
+    } else {
+      this.setState(
+        {
+          current: 0,
+          oldType: 'all',
+        },
+        () => {
+          this.onRefresh();
+        },
+      );
     }
   }
 

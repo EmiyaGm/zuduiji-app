@@ -1,12 +1,16 @@
 .apply-nums {
-    .apply-nums__wrap {
+  .apply-nums__wrap {
+    .editArea {
+      padding: 20px;
+      margin: 20px;
+      background: white;
+      font-size: 24px;
       .title {
-        padding: 24px;
-        font-size: 36px;
+        font-size: 28px;
       }
       .buttonArea {
         padding: 24px;
       }
     }
   }
-  
+}

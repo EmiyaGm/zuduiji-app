@@ -1,35 +1,49 @@
 .admin-apply-detail {
   .admin-apply-detail__wrap {
+    font-size: 24px;
     .userInfo {
-      padding: 24px;
+      padding: 20px;
+      margin: 20px;
+      background: white;
       .content {
         display: flex;
         .infoContent {
           margin-left: 40px;
-          font-size: 28px;
+          color: #909090;
+          .name{
+            color: #191919;
+            font-weight: 500;
+            padding-bottom: 20px;
+          }
+        }
+        .role{
+          color: #597EF7;
+          text-align: center;
         }
       }
     }
     .applyInfo {
-      padding: 24px;
+      padding: 20px;
+      margin: 20px;
+      background: white;
       .content {
-        font-size: 28px;
         .passButton {
           margin-bottom: 40px;
         }
       }
     }
     .statusInfo {
-      padding: 24px;
+      padding: 20px;
+      margin: 20px;
+      background: white;
       .content {
-        font-size: 28px;
       }
     }
   }
 }
 
 .title {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 700;
-  padding: 24px 0px;
+  padding-bottom: 20px;
 }

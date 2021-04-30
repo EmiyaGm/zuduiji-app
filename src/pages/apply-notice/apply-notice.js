@@ -71,19 +71,21 @@ class ApplyList extends Component {
           className="apply-notice__wrap"
           style={{ height: getWindowHeight() }}
         >
-          <View className="title">组队直播口令</View>
-          <View>
-            <AtTextarea
-              value={this.state.value}
-              onChange={this.handleChange.bind(this)}
-              maxLength={200}
-              placeholder="请输入组队直播口令"
-            />
-          </View>
-          <View className="buttonArea">
-            <AtButton type="primary" onClick={this.notice.bind(this)}>
-              提交
-            </AtButton>
+          <View className="editArea">
+            <View className="title">组队直播口令</View>
+            <View>
+              <AtTextarea
+                value={this.state.value}
+                onChange={this.handleChange.bind(this)}
+                maxLength={200}
+                placeholder="请输入组队直播口令"
+              />
+            </View>
+            <View className="buttonArea">
+              <AtButton type="primary" onClick={this.notice.bind(this)}>
+                提交
+              </AtButton>
+            </View>
           </View>
         </ScrollView>
       </View>
