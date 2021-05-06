@@ -57,6 +57,9 @@ class MyOrder extends Component {
         if (item.type === params.type) {
           this.setState({
             current: index,
+            oldType: params.type,
+          }, () => {
+            this.onRefresh();
           });
         }
       });
