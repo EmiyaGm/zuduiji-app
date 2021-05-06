@@ -11,7 +11,7 @@ import "./apply-nums.scss";
 @connect((state) => state.user, { ...actions })
 class ApplyNums extends Component {
   config = {
-    navigationBarTitleText: "中奖信息",
+    navigationBarTitleText: "中卡信息",
   };
 
   state = {
@@ -86,13 +86,13 @@ class ApplyNums extends Component {
         });
       } else {
         Taro.showToast({
-          title: "中奖号码不合法",
+          title: "中卡号码不合法",
           icon: "error",
         });
       }
     } else {
       Taro.showToast({
-        title: "请填写中奖号码",
+        title: "请填写中卡号码",
         icon: "error",
       });
     }
@@ -108,7 +108,7 @@ class ApplyNums extends Component {
           style={{ height: getWindowHeight() }}
         >
           <View className="editArea">
-            <View className="title">中奖号码</View>
+            <View className="title">中卡号码</View>
             <View>
               {type === "random_group" && (
                 <AtCheckbox

@@ -324,7 +324,7 @@ class PublishOrderDetail extends Component {
                     );
                   })}
                 </View>
-                <View className="subTitle">中奖</View>
+                <View className="subTitle">中卡</View>
                 <View className="luckCode">
                   {this.state.orderDetail.luckNums
                     ? this.state.orderDetail.luckNums.map((item, index) => {
@@ -353,7 +353,7 @@ class PublishOrderDetail extends Component {
                     );
                   })}
                 </View>
-                <View className="subTitle">中奖</View>
+                <View className="subTitle">中卡</View>
                 <View className="luckCode">
                   {this.state.orderDetail.luckNums
                     ? this.state.orderDetail.luckNums.map((item, index) => {

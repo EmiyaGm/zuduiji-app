@@ -428,7 +428,7 @@ class User extends Component {
                       <View>
                         <Image className="statusIcon" src={luckOrder} />
                       </View>
-                      <View>中奖订单</View>
+                      <View>中卡订单</View>
                     </View>
                     <View
                       className="at-col at-col-3 statusText"

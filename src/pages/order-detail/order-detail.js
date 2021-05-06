@@ -92,7 +92,7 @@ class OrderDetail extends Component {
   //       tip1 = "您已付款，等待商家开奖";
   //       break;
   //     case "bingo":
-  //       tip1 = "恭喜您已中奖，等待商家发货";
+  //       tip1 = "恭喜您已中卡，等待商家发货";
   //       break;
   //     case "send":
   //       tip1 = "商家已发货，请在收到您的货品后确认收货";
@@ -402,7 +402,7 @@ class OrderDetail extends Component {
                     );
                   })}
                 </View>
-                <View className="subTitle">中奖</View>
+                <View className="subTitle">中卡</View>
                 <View className="luckCode">
                   {this.state.orderDetail.luckNums
                     ? this.state.orderDetail.luckNums.map((item, index) => {
@@ -431,7 +431,7 @@ class OrderDetail extends Component {
                     );
                   })}
                 </View>
-                <View className="subTitle">中奖</View>
+                <View className="subTitle">中卡</View>
                 <View className="luckCode">
                   {this.state.orderDetail.luckNums
                     ? this.state.orderDetail.luckNums.map((item, index) => {

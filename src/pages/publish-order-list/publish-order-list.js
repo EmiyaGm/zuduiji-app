@@ -11,7 +11,7 @@ import "./publish-order-list.scss";
 let i = 1;
 class PublishOrderList extends Component {
   config = {
-    navigationBarTitleText: "中奖订单",
+    navigationBarTitleText: "中卡订单",
     enablePullDownRefresh: true,
     onReachBottomDistance: 50,
   };
