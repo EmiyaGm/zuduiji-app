@@ -264,9 +264,7 @@ class AdminPublishDetail extends Component {
     const { publishDetail } = this.state;
     return (
       <View className="admin-publish-detail">
-        <ScrollView
-          className="admin-publish-detail__wrap"
-        >
+        <ScrollView className="admin-publish-detail__wrap">
           <View className="imagesArea">
             <Banner list={this.state.images} />
           </View>
@@ -274,11 +272,6 @@ class AdminPublishDetail extends Component {
             <View className="price">
               <View style={{ color: "red" }}>
                 ￥ {this.state.publishDetail.price / 100}
-              </View>
-              <View className="fare">
-                {this.state.publishDetail.fare
-                  ? `运费：￥ ${this.state.publishDetail.fare / 100}`
-                  : "免运费"}
               </View>
             </View>
             <View className="name">{this.state.publishDetail.name}</View>
@@ -333,43 +326,74 @@ class AdminPublishDetail extends Component {
             </View>
           </View>
           <View className="infoArea">
-            <AtList>
-              <AtListItem
-                title="组队进度"
-                extraText={`${
-                  this.state.publishDetail.joinNum
-                    ? this.state.publishDetail.joinNum
-                    : 0
-                }/${
-                  this.state.publishDetail.num
-                    ? this.state.publishDetail.num
-                    : 0
-                }`}
-              />
-              <AtListItem
-                title="分配规则"
-                extraText={groupRule[this.state.publishDetail.groupRule]}
-              />
+            <View className="partyArea">
+              <View className="title">组队规则</View>
+              <View className="infoItem">
+                <View className="infoTitle">组队进度</View>
+                <View className="infoContent">
+                  {`${
+                    this.state.publishDetail.joinNum
+                      ? this.state.publishDetail.joinNum
+                      : 0
+                  }/${
+                    this.state.publishDetail.num
+                      ? this.state.publishDetail.num
+                      : 0
+                  }`}
+                </View>
+              </View>
+              <View className="infoItem">
+                <View className="infoTitle">组队规则</View>
+                <View className="infoContent">
+                  {groupRule[this.state.publishDetail.groupRule]}
+                </View>
+              </View>
               {groupRule[this.state.publishDetail.groupRule] === "随机序号" && (
-                <AtListItem
-                  title="序号总表"
-                  extraText="查看"
-                  onClick={this.openFile.bind(
-                    this,
-                    this.state.publishDetail.numsFile,
-                  )}
-                />
+                <View className="infoItem">
+                  <View className="infoTitle">序号总表</View>
+                  <View
+                    className="infoContent"
+                    onClick={this.openFile.bind(
+                      this,
+                      this.state.publishDetail.numsFile,
+                    )}
+                    style="color: #6FC9FF"
+                  >
+                    查看
+                    <View className='at-icon at-icon-chevron-right'></View>
+                  </View>
+                </View>
               )}
-            </AtList>
+              <View className="infoItem">
+                <View className="infoTitle">邮费</View>
+                <View className="infoContent">
+                  {this.state.publishDetail.fare
+                    ? `￥ ${this.state.publishDetail.fare / 100}`
+                    : "免运费"}
+                </View>
+              </View>
+              {/* <AtList>
+              <AtListItem
+                title="活动状态"
+                extraText={status[this.state.publishDetail.status]}
+              />
+            </AtList> */}
+            </View>
             <View className="introduceArea">
-              <View>活动介绍：</View>
-              {this.state.publishDetail.introduce}
+              <View className="title">组队介绍</View>
+              <View className="introduceContent">
+                {this.state.publishDetail.introduce}
+              </View>
             </View>
             {this.state.userLuckInfos.length > 0 && (
               <View className="numList">
                 <View className="canvasArea">
+                  <View className="canvasTitle">组队信息</View>
                   <Canvas
-                    style={`width: 100%; height: ${this.state.userLuckInfos.length * 20 + 48}px;`}
+                    style={`width: 100%; height: ${this.state.userLuckInfos
+                      .length *
+                      20 +
+                      48}px;`}
                     canvasId="canvas"
                     className="canvas"
                   />
@@ -381,8 +405,19 @@ class AdminPublishDetail extends Component {
             )}
             {this.state.publishDetail.noticeContent && (
               <View className="noticeArea">
-                <View>正在开奖：</View>
-                {this.state.publishDetail.noticeContent}
+                <View className="noticeTitle">
+                  <View>正在开奖</View>
+                  <View
+                    onClick={this.copyText.bind(
+                      this,
+                      this.state.publishDetail.noticeContent,
+                    )}
+                    className="copyNotice"
+                  >
+                    复制
+                  </View>
+                </View>
+                <View>{this.state.publishDetail.noticeContent}</View>
               </View>
             )}
           </View>

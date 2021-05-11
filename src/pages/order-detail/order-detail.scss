@@ -1,18 +1,47 @@
 .order-detail {
+  font-size: 24px;
   .order-detail__wrap {
     .statusArea {
-      padding: 24px;
+      padding: 20px;
       text-align: center;
+      margin: 20px;
+      background: white;
       .status {
-        font-size: 36px;
-        padding-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 500;
       }
-      .statusTip1 {
-        font-size: 28px;
+      .goodsArea {
+        display: flex;
+        align-items: center;
+        padding: 20px 0px;
+        .content {
+          margin-left: 24px;
+          flex-grow: 1;
+          text-align: left;
+          .price {
+            color: #909090;
+            .number {
+              float: right;
+            }
+          }
+        }
       }
-      .statusTip2 {
-        font-size: 24px;
-        color: #999999;
+      .infoArea {
+        .infoItem {
+          padding: 20px 0px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .infoContent {
+            color: #909090;
+          }
+        }
+        .totalInfo {
+          font-weight: 500;
+          text-align: right;
+        }
       }
       .buttonArea {
         display: flex;
@@ -27,71 +56,76 @@
     .addressArea {
       display: flex;
       align-items: center;
-      font-size: 32px;
       padding: 24px;
       .addressTitle {
         text-align: center;
         margin-right: 24px;
       }
     }
-    .goodsArea {
-      display: flex;
-      align-items: center;
-      padding: 24px;
-      font-size: 32px;
-      .content {
-        margin-left: 24px;
-        flex-grow: 1;
-        .price {
-          font-size: 28px;
-          .number {
-            float: right;
-          }
+    .noticeContent {
+      margin: 20px;
+      padding: 20px;
+      background: white;
+      .title {
+        padding-bottom: 20px;
+        font-weight: 500;
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+        .copyNotice {
+          font-weight: normal;
+          font-size: 24px;
+          color: #5fafff;
         }
       }
-    }
-    .noticeContent {
-      padding: 24px;
-      .title {
-        padding: 24px 0px;
-        font-weight: 700;
-        font-size: 44px;
-      }
       .content {
-        font-size: 28px;
+        display: flex;
+        align-items: center;
         .contentTitle {
-          padding-bottom: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+          margin-right: 20px;
         }
       }
     }
     .logisticsContent {
-      padding: 24px;
+      margin: 20px;
+      padding: 20px;
+      background: white;
       .title {
-        padding: 24px 0px;
-        font-weight: 700;
-        font-size: 44px;
+        font-weight: 500;
+        padding-bottom: 20px;
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+        .copyNotice {
+          font-weight: normal;
+          font-size: 24px;
+          color: #5fafff;
+        }
       }
       .content {
-        font-size: 28px;
-        .contentTitle {
-          padding-bottom: 24px;
-        }
-        .contentArea {
+        .contentItem {
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          .contentTitle {
+            margin-right: 20px;
+          }
+          .contentArea {
+            color: #909090;
+          }
         }
       }
     }
     .codeArea {
-      padding: 24px;
-      font-size: 32px;
+      margin: 20px;
+      padding: 20px;
+      background: white;
       .title {
         font-size: 28px;
-        padding-bottom: 24px;
+        font-weight: 500;
+        padding-bottom: 20px;
+      }
+      .subTitle {
+        color: #909090;
       }
       .myCode {
         display: flex;

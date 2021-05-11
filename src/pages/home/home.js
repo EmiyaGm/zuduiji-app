@@ -12,7 +12,7 @@ import "./home.scss";
 @connect((state) => state.home, { ...actions, dispatchCartNum })
 class Home extends Component {
   config = {
-    navigationBarTitleText: "组队机",
+    navigationBarTitleText: "组队鸡",
   };
 
   state = {

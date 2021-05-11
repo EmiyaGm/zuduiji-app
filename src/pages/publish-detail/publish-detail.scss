@@ -1,8 +1,10 @@
 .publish-detail {
   .publish-detail__wrap {
     .priceArea {
-      font-size: 40px;
-      padding: 24px;
+      font-size: 30px;
+      padding: 20px;
+      margin: 20px;
+      background: white;
       .price {
         display: flex;
         justify-content: space-between;
@@ -15,24 +17,71 @@
       }
     }
     .infoArea {
-      .introduceArea {
-        padding: 24px;
-        font-size: 36px;
+      .partyArea{
+        padding: 20px;
+        margin: 20px;
+        background: white;
+        font-size: 24px;
+        .title{
+          font-size: 28px;
+          font-weight: 500;
+          padding-bottom: 20px;
+        }
+        .infoItem{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-bottom: 12px;
+          .infoContent{
+            color: #909090;
+          }
+        }
       }
-      .numList{
-        padding: 24px;
-        font-size: 32px;
+      .introduceArea {
+        padding: 20px;
+        margin: 20px;
+        background: white;
+        font-size: 24px;
+        .title{
+          font-size: 28px;
+          font-weight: 500;
+          padding-bottom: 20px;
+        }
+        .introduceContent{
+          color: #909090;
+        }
+      }
+      .numList {
+        margin: 20px;
+        background: white;
+        .canvasArea {
+          margin: 20px;
+          .canvasTitle{
+            font-size: 28px;
+            font-weight: 500;
+            padding-bottom: 20px;
+            padding-top: 20px;
+          }
+        }
       }
       .noticeArea {
-        margin: 24px;
-        padding: 24px;
-        font-size: 36px;
-        border: 1px solid #999999;
+        margin: 20px;
+        padding: 20px;
+        font-size: 24px;
+        background: white;
         border-radius: 8px;
         .noticeTitle {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          font-size: 28px;
+          font-weight: 500;
+          padding-bottom: 20px;
+          .copyNotice{
+            font-weight: normal;
+            font-size: 24px;
+            color: #6FC9FF;
+          }
         }
       }
     }

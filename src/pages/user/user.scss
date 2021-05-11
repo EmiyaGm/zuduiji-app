@@ -39,13 +39,14 @@
 }
 
 .statusIcon {
-  width: 90px;
-  height: 90px;
+  width: 44px;
+  height: 44px;
 }
 
 .statusText {
-  font-size: 28px;
+  font-size: 24px;
   text-align: center;
+  color: #666666;
 }
 
 .loginArea {
@@ -73,7 +74,9 @@
 }
 
 .noticeArea {
-  margin-top: 40px;
   justify-content: flex-end;
   align-items: center;
+  position: absolute;
+  top: -92px;
+  right: 0;
 }

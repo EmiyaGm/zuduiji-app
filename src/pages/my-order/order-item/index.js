@@ -123,7 +123,22 @@ export default class OrderItem extends Component {
     return (
       <View className="order-item">
         <View className="statusContent">
-          {this.getStatus(orderData.status)}
+          <View className="statusTitle">
+            <Image
+              className="userAvatar"
+              src={
+                activityData.userInfo
+                  ? activityData.userInfo.avatarUrl
+                  : defaultAvatar
+              }
+            ></Image>
+            <View className="nickName">
+              {activityData.userInfo ? activityData.userInfo.nickName : ""}
+            </View>
+          </View>
+          <View style={orderData.status === "close" ? "color: red" : ""}>
+            {this.getStatus(orderData.status)}
+          </View>
         </View>
         <View
           className="headContent"
@@ -147,7 +162,7 @@ export default class OrderItem extends Component {
             </View>
           </View>
         </View>
-        <View className="middleContent">合计：￥ {orderData.amount / 100}</View>
+        <View className="middleContent">总价：￥ {orderData.amount / 100}</View>
         {orderData.status === "wait_pay" && !hideButton && (
           <View className="footContent">
             <View className="actionButton">

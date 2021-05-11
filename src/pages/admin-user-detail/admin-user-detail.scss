@@ -1,19 +1,41 @@
 .admin-user-detail {
   .admin-user-detail__wrap {
+    font-size: 24px;
     .userInfo {
-      padding: 24px;
+      padding: 20px;
+      margin: 20px;
+      background: white;
+      .title{
+        font-size: 28px;
+      }
       .content {
         display: flex;
         .infoContent {
           margin-left: 40px;
-          font-size: 28px;
+          color: #909090;
+          .name{
+            font-weight: 500;
+            color: #191919;
+            padding-bottom: 20px;
+          }
+          .userId{
+            padding-bottom: 20px;
+          }
+        }
+        .role{
+          text-align: center;
+          color: #597EF7;
         }
       }
     }
     .applyInfo {
-      padding: 24px;
-      .content {
+      padding: 20px;
+      margin: 20px;
+      background: white;
+      .title{
         font-size: 28px;
+      }
+      .content {
         .firstButton {
           margin-bottom: 40px;
         }
@@ -23,7 +45,6 @@
 }
 
 .title {
-  font-size: 36px;
   font-weight: 700;
-  padding: 24px 0px;
+  padding-bottom: 20px;
 }

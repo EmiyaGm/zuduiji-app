@@ -1,11 +1,16 @@
 .apply-notice {
   .apply-notice__wrap {
-    .title {
-      padding: 24px;
-      font-size: 36px;
-    }
-    .buttonArea {
-      padding: 24px;
+    .editArea {
+      padding: 20px;
+      margin: 20px;
+      background: white;
+      font-size: 24px;
+      .title {
+        font-size: 28px;
+      }
+      .buttonArea {
+        padding: 24px;
+      }
     }
   }
 }

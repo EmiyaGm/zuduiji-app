@@ -43,10 +43,13 @@ class MyPublish extends Component {
       { title: "审核未通过", type: "review_refuse" },
       { title: "已关闭", type: "close" },
     ],
+    oldType: ''
   };
 
   componentDidShow() {
-    this.onRefresh();
+    if (this.state.oldType) {
+      this.onRefresh();
+    }
   }
 
   componentDidMount() {
@@ -56,8 +59,18 @@ class MyPublish extends Component {
         if (item.type === params.type) {
           this.setState({
             current: index,
+            oldType: params.type
+          }, () => {
+            this.onRefresh();
           });
         }
+      });
+    } else {
+      this.setState({
+        current: 0,
+        oldType: 'all',
+      }, () => {
+        this.onRefresh();
       });
     }
   }

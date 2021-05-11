@@ -1,6 +1,9 @@
 .withdrawList {
   padding: 24px 24px 0px 24px;
 }
+.my-wallet {
+  font-size: 24px;
+}
 
 .balanceArea {
   text-align: center;
@@ -8,16 +11,20 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
-  padding: 40px;
+  padding: 20px;
+  margin: 20px;
+  background: white;
+  font-size: 32px;
 }
 
 .applyArea {
-  padding: 36px;
+  padding: 20px;
+  margin: 20px;
+  background: white;
 }
 
-.bindBank{
-  font-size: 32px;
+.bindBank {
   text-align: center;
   padding: 12px 0px;
-  color: #2440B3;
+  color: #2440b3;
 }

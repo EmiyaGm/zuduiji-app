@@ -1,33 +1,30 @@
 .withdraw-item {
-  padding: 24px;
-  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
+  padding: 20px;
   border-radius: 8px;
   margin-bottom: 40px;
+  background: white;
+  font-size: 24px;
   .headContent {
     padding-bottom: 24px;
     .typeArea {
-      font-size: 32px;
       padding-bottom: 20px;
     }
     .nameArea {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 32px;
       padding-bottom: 20px;
     }
     .moneyArea {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 32px;
     }
   }
   .footContent {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 32px;
     padding: 24px 0px;
     .actionArea {
       .actionItem {

@@ -155,7 +155,7 @@ class User extends Component {
   agreeAuth = () => {
     const self = this;
     wx.getUserProfile({
-      desc: '用于完善资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      desc: "用于完善资料", // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (detail) => {
         const { errMsg, userInfo } = detail;
         if (errMsg === "getUserProfile:ok") {
@@ -236,9 +236,8 @@ class User extends Component {
             icon: "none",
           });
         }
-      }
-    })
-
+      },
+    });
   };
 
   adminNotice = () => {
@@ -359,7 +358,7 @@ class User extends Component {
           <View className="user__empty" />
           {loginInfo.account && loginInfo.account.role === "ADMIN" && (
             <AtCard extra="" title="平台管理">
-              <View className="at-row">
+              <View className="at-row" style="position: relative">
                 <View
                   className="at-col at-col-3 statusText"
                   onClick={this.adminApply.bind(this)}
@@ -385,7 +384,7 @@ class User extends Component {
                   <View>
                     <Image className="statusIcon" src={activityIcon} />
                   </View>
-                  <View>全部活动</View>
+                  <View>全部组队</View>
                 </View>
                 <View
                   className="at-col at-col-3 statusText"
@@ -396,17 +395,14 @@ class User extends Component {
                   </View>
                   <View>全部提现</View>
                 </View>
-              </View>
-              <View className="at-row noticeArea">
-                <View>
-                  <AtButton
-                    type="primary"
-                    size="small"
-                    onClick={this.adminNotice.bind(this)}
-                  >
-                    订阅审核通知
-                  </AtButton>
-                </View>
+                <AtButton
+                  type="primary"
+                  size="small"
+                  onClick={this.adminNotice.bind(this)}
+                  className="noticeArea"
+                >
+                  订阅审核通知
+                </AtButton>
               </View>
             </AtCard>
           )}
@@ -432,7 +428,7 @@ class User extends Component {
                       <View>
                         <Image className="statusIcon" src={luckOrder} />
                       </View>
-                      <View>中奖订单</View>
+                      <View>中卡订单</View>
                     </View>
                     <View
                       className="at-col at-col-3 statusText"
@@ -553,15 +549,15 @@ class User extends Component {
               />
             </View>
           )}
-          <View className="functionArea">
+          {/* <View className="functionArea">
             <AtList>
-              {/* {loginInfo.account && (
+              {loginInfo.account && (
                 <View>
                   <AtListItem title="联系客服" arrow="right" />
                 </View>
-              )} */}
+              )}
             </AtList>
-          </View>
+          </View> */}
         </ScrollView>
         <AtActionSheet isOpened={isOpened} cancelText="取消" title="绑定手机号">
           <View className="bindPhone">

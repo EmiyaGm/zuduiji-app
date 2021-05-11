@@ -57,7 +57,7 @@ class App extends Component {
     window: {
       backgroundTextStyle: "light",
       navigationBarBackgroundColor: "#fff",
-      navigationBarTitleText: "组队机",
+      navigationBarTitleText: "组队鸡",
       navigationBarTextStyle: "black",
     },
     // tabBar: {

@@ -11,7 +11,7 @@ import "./apply-nums.scss";
 @connect((state) => state.user, { ...actions })
 class ApplyNums extends Component {
   config = {
-    navigationBarTitleText: "中奖信息",
+    navigationBarTitleText: "中卡信息",
   };
 
   state = {
@@ -86,13 +86,13 @@ class ApplyNums extends Component {
         });
       } else {
         Taro.showToast({
-          title: "中奖号码不合法",
+          title: "中卡号码不合法",
           icon: "error",
         });
       }
     } else {
       Taro.showToast({
-        title: "请填写中奖号码",
+        title: "请填写中卡号码",
         icon: "error",
       });
     }
@@ -107,28 +107,30 @@ class ApplyNums extends Component {
           className="apply-nums__wrap"
           style={{ height: getWindowHeight() }}
         >
-          <View className="title">中奖号码</View>
-          <View>
-            {type === "random_group" && (
-              <AtCheckbox
-                options={checkboxOption}
-                selectedList={checkedList}
-                onChange={this.handleCheckBoxChange.bind(this)}
-              />
-            )}
-            {type !== "random_group" && (
-              <AtTextarea
-                value={this.state.value}
-                onChange={this.handleChange.bind(this)}
-                maxLength={200}
-                placeholder="请输入开奖号码，并用换行分隔"
-              />
-            )}
-          </View>
-          <View className="buttonArea">
-            <AtButton type="primary" onClick={this.setLuckNums.bind(this)}>
-              提交
-            </AtButton>
+          <View className="editArea">
+            <View className="title">中卡号码</View>
+            <View>
+              {type === "random_group" && (
+                <AtCheckbox
+                  options={checkboxOption}
+                  selectedList={checkedList}
+                  onChange={this.handleCheckBoxChange.bind(this)}
+                />
+              )}
+              {type !== "random_group" && (
+                <AtTextarea
+                  value={this.state.value}
+                  onChange={this.handleChange.bind(this)}
+                  maxLength={200}
+                  placeholder="请输入开奖号码，并用换行分隔"
+                />
+              )}
+            </View>
+            <View className="buttonArea">
+              <AtButton type="primary" onClick={this.setLuckNums.bind(this)}>
+                提交
+              </AtButton>
+            </View>
           </View>
         </ScrollView>
       </View>

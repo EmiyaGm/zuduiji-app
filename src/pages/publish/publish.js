@@ -469,11 +469,13 @@ class Publish extends Component {
               onChange={this.handleChange.bind(this, "fare")}
             />
           </View>
-          <AtButton formType="submit" type="primary">
-            提交
-          </AtButton>
-          <View className="publish__empty" />
-          <AtButton formType="reset">重置</AtButton>
+          <View className="buttonArea">
+            <AtButton formType="submit" type="primary">
+              提交
+            </AtButton>
+            <View className="publish__empty" />
+            <AtButton formType="reset">重置</AtButton>
+          </View>
         </AtForm>
       </View>
     );

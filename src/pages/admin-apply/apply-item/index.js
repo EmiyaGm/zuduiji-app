@@ -1,8 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Image } from "@tarojs/components";
-import { AtAvatar } from "taro-ui";
-import { API_BUSINESS_REVIEW } from "@constants/api";
-import fetch from "@utils/request";
+import { View } from "@tarojs/components";
+import { AtAvatar, AtIcon } from "taro-ui";
 import defaultAvatar from "@assets/default-avatar.png";
 import "./index.scss";
 
@@ -48,9 +46,19 @@ export default class ApplyItem extends Component {
         <View className="headContent">
           <View className="nameArea">
             <View className="avatar">
-              <AtAvatar image={applyData.account ? applyData.account.avatarUrl : ''}></AtAvatar>
+              <AtAvatar image={applyData.account ? applyData.account.avatarUrl : defaultAvatar}></AtAvatar>
             </View>
             <View className="name">{applyData.account.nickName}</View>
+          </View>
+          <View className="bottomArea">
+            <View style="color: #597EF7">
+              {
+                applyData.business.status === 'never' ? '等待审核' : ''
+              }
+            </View>
+            <View>
+              <AtIcon value='chevron-right' color='#909090' size="12"></AtIcon>
+            </View>
           </View>
         </View>
       </View>

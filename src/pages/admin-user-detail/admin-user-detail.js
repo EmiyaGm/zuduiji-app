@@ -14,7 +14,7 @@ import "./admin-user-detail.scss";
 
 class AdminUserDetail extends Component {
   config = {
-    navigationBarTitleText: "管理商家",
+    navigationBarTitleText: "管理用户",
   };
 
   state = {
@@ -136,8 +136,11 @@ class AdminUserDetail extends Component {
               <View className="infoContent">
                 <View className="name">{data.nickName}</View>
                 <View className="phone">{data.phone}</View>
-                <View className="userId">用户Id：{data.id}</View>
-                <View className="address"></View>
+                <View className="userId">ID：{data.id}</View>
+                <View className="address">
+                  地址：
+                  {data.address ? data.address.provinceName + data.address.cityName + data.address.countyName + data.address.detailInfo : ''}
+                </View>
               </View>
             </View>
           </View>

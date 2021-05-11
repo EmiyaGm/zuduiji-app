@@ -3,12 +3,18 @@
 .publish {
   position: relative;
   .publishForm {
-    padding: 20px;
+    font-size: 28px;
+    background: transparent;
     .formItem {
-      margin-bottom: 20px;
+      padding: 20px;
+      margin: 20px;
+      background: white;
       .formTitle {
-        padding: 20px 0px;
+        font-weight: 500;
       }
+    }
+    .buttonArea{
+      padding: 20px;
     }
   }
 }

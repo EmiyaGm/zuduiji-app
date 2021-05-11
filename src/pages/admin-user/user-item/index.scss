@@ -1,36 +1,25 @@
 .user-item {
-  padding: 24px;
-  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin: 20px;
+  background: white;
   border-radius: 8px;
   margin-bottom: 40px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   .headContent {
     display: flex;
     align-items: center;
-    padding-bottom: 24px;
-    .coverArea {
-    }
     .nameArea {
       margin-left: 20px;
-      font-size: 32px;
       flex-grow: 1;
       .name {
         padding-bottom: 20px;
       }
-    }
-  }
-  .middleContent {
-    text-align: right;
-    color: red;
-    font-size: 32px;
-    padding-bottom: 20px;
-  }
-  .footContent {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    .actionButton {
-      width: 160px;
-      margin-right: 20px;
+      .role {
+        color: red;
+      }
     }
   }
 }

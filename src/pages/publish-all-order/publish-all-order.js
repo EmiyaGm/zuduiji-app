@@ -23,15 +23,18 @@ class PublishAllOrder extends Component {
     showActivity: false,
     dataList: [],
     tabList: [
-      { title: "全部活动的订单", type: "" },
-      { title: "待组队活动的订单", type: "wait_team" },
-      { title: "待开奖活动的订单", type: "wait_open" },
-      { title: "已完成活动的订单", type: "complete" },
+      { title: "全部组队的订单", type: "" },
+      { title: "待组队的订单", type: "wait_team" },
+      { title: "待开奖组队的订单", type: "wait_open" },
+      { title: "已完成组队的订单", type: "complete" },
     ],
+    oldType: "",
   };
 
   componentDidShow() {
-    this.onRefresh();
+    if (this.state.oldType) {
+      this.onRefresh();
+    }
   }
 
   componentDidMount() {
@@ -39,11 +42,27 @@ class PublishAllOrder extends Component {
     if (params.type) {
       this.state.tabList.map((item, index) => {
         if (item.type === params.type) {
-          this.setState({
-            current: index,
-          });
+          this.setState(
+            {
+              current: index,
+              oldType: params.type,
+            },
+            () => {
+              this.onRefresh();
+            },
+          );
         }
       });
+    } else {
+      this.setState(
+        {
+          current: 0,
+          oldType: 'all',
+        },
+        () => {
+          this.onRefresh();
+        },
+      );
     }
   }
 

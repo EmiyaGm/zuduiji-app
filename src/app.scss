@@ -1,2 +1,16 @@
-@import '@styles/reset.scss';
+@import "@styles/reset.scss";
 @import "~taro-ui/dist/style/index.scss";
+.at-card {
+  border-color: #eeeeee;
+}
+.at-card__header {
+  border-color: #eeeeee;
+}
+.at-card__header-title {
+  font-size: 28px;
+  color: #333333;
+}
+
+page {
+  background: #f3f5f7;
+}

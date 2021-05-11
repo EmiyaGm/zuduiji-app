@@ -1,11 +1,27 @@
 .order-item {
   padding: 24px;
-  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
   border-radius: 8px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+  background: white;
   .statusContent {
-    font-size: 32px;
-    text-align: right;
+    font-size: 24px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    .statusTitle {
+      display: flex;
+      align-items: center;
+      .userAvatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+      }
+      .nickName {
+        margin-left: 10px;
+      }
+    }
   }
   .headContent {
     display: flex;
@@ -15,23 +31,24 @@
     }
     .nameArea {
       margin-left: 20px;
-      font-size: 32px;
+      font-size: 24px;
       flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       .name {
         padding-bottom: 20px;
       }
       .price {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        color: #909090;
       }
     }
   }
   .middleContent {
     text-align: right;
-    color: red;
-    font-size: 32px;
+    font-size: 24px;
     padding-bottom: 20px;
+    font-weight: 500;
   }
   .footContent {
     display: flex;

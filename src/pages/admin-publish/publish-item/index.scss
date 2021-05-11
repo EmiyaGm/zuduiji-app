@@ -1,9 +1,31 @@
 @import "~taro-ui/dist/style/components/flex.scss";
 .publish-item {
-  padding: 24px;
-  box-shadow: 10px 10px 15px rgba(0,0,0,0.5);
+  padding: 20px;
+  margin: 20px;
+  background: white;
+  font-size: 24px;
   border-radius: 8px;
   margin-bottom: 40px;
+  .statusContent {
+    font-size: 24px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    .statusTitle{
+      display: flex;
+      align-items: center;
+      .userAvatar{
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+      }
+      .nickName{
+        margin-left: 10px;
+      }
+    }
+  }
   .headContent {
     display: flex;
     align-items: center;
@@ -12,7 +34,6 @@
     }
     .nameArea {
       margin-left: 20px;
-      font-size: 32px;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -20,20 +41,21 @@
       .name {
         padding-bottom: 20px;
       }
+      .price{
+        color: #909090;
+      }
     }
   }
   .middleContent {
-    font-size: 32px;
     text-align: center;
-    padding: 24px;
-    border-bottom: 1px solid #999999;
-    border-top: 1px solid #999999;
+    padding: 20px;
+    border-bottom: 1px solid #eeeeee;
+    border-top: 1px solid #eeeeee;
   }
   .footContent {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 32px;
     padding: 24px 0px;
     .actionArea {
       .actionItem {
