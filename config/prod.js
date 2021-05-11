@@ -1,8 +1,8 @@
 const isH5 = process.env.CLIENT_ENV === 'h5'
 
-const HOST = '"https://zuduiji.simoncode.top"'
+const HOST = '"https://51panini.com"'
 
-const HOST_UPLOAD = '"https://zuduiji.simoncode.top/upload/"'
+const HOST_UPLOAD = '"https://51panini.com/upload/"'
 
 module.exports = {
   env: {
